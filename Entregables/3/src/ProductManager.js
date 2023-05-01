@@ -54,7 +54,7 @@ class ProductManager {
     if (product) {
       return product;
     } else {
-      throw new Error(`Product with id ${id} not found`);
+      throw new Error(`El producto de id ${id} no se encontró.`);
     }
   }; 
 
