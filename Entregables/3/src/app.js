@@ -2,7 +2,7 @@ const express = require('express');
 const ProductManager = require('./ProductManager');
 const app = express();
 const port = 8080;
-const productManager = new ProductManager("./products.json");
+const productManager = new ProductManager('./src/products.json');
 
 //TRAIGO TODOS LOS PROD (en caso de tener limite, trae solo la cantidad indicada)
 app.get('/products', async (req, res) => {

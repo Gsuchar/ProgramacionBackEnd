@@ -86,5 +86,5 @@ class ProductManager {
     return deletedProduct;
   };
 }
-//const products = new ProductManager("./products.json");
+const products = new ProductManager("./products.json");
 module.exports = ProductManager;
