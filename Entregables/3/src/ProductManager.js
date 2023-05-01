@@ -6,7 +6,7 @@ class ProductManager {
     this.products = this.getProducts();
     const lastProductId = this.products.length > 0 ? this.products[products.length - 1].id : 0;
     ProductManager.productGlobalID = lastProductId;
-  }
+  };
   static productGlobalID = 0;
 
   async getProducts() {
@@ -14,10 +14,26 @@ class ProductManager {
       const data = await fs.readFile(this.filePath, "utf-8");
       return JSON.parse(data);
     } catch (err) {
+      //Inicializa vacio
       return [];
     }
   };
 
+  async getProductById(id) {
+    try {
+      const products = await this.getProducts();
+      const product = products.find((product) => product.id == id);
+      if (product) {
+        return product;
+      } else {
+        throw new Error(`El producto de id ${id} no se encontró.`);
+      }
+    } catch (err) {
+        throw new Error(`Error al buscar producto id: ${err}`);
+    }
+  };
+
+  //-----FALTAN TRY/CATCH, PROX DES ARREGLAR
   async addProduct(title, description, price, thumbnail, stock, code) {
     const products = await this.getProducts();
     const controlCode = products.some((product) => product.code === code);
@@ -48,16 +64,7 @@ class ProductManager {
     return newProduct;
   };
 
-  async getProductById(id) {
-    const products = await this.getProducts();
-    const product = products.find((product) => product.id == id);
-    if (product) {
-      return product;
-    } else {
-      throw new Error(`El producto de id ${id} no se encontró.`);
-    }
-  }; 
-
+  //-----FALTAN LOS TRY/CATCH, PROX DES ARREGLAR
   async updateProduct(id, fieldsToUpdate) {
     const products = await this.getProducts();
     const index = products.findIndex((product) => product.id === id);
@@ -74,6 +81,7 @@ class ProductManager {
     return prodModified;
   };
 
+  //-----FALTAN LOS TRY/CATCH, PROX DES ARREGLAR
   async deleteProduct(id) {
     const products = await this.getProducts();
     const index = products.findIndex((product) => product.id === id);
