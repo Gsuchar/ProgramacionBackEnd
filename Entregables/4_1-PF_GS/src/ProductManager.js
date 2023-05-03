@@ -49,56 +49,57 @@ class ProductManager {
       throw new Error(`Error al buscar producto id: ${err}`);
     };
   };
-
-  //-----FALTAN TRY/CATCH, PROX DES ARREGLAR
+ 
   async addProduct(title, description, price, thumbnail, stock, code) {
-    const products = await this.getProducts();
-    const controlCode = products.some((product) => product.code == code);
-    if (controlCode) {
-      console.log("El producto que desea ingresar ya existe");
-      return null;
-    }
-
-    let newProduct = {
-      id: ProductManager.productGlobalID + 1,
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-    };
-
-    while (products.some((product) => product.id == newProduct.id)) {
-      newProduct.id = ProductManager.productGlobalID + 1;
+    try {    
+      const products = await this.getProducts();
+      const controlCode = products.some((product) => product.code == code);
+      if (controlCode) {
+        console.log("El producto que desea ingresar ya existe");
+        return null;
+      };
+      let newProduct = {
+        id: ProductManager.productGlobalID + 1,
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+      };
+      while (products.some((product) => product.id == newProduct.id)) {
+        newProduct.id = ProductManager.productGlobalID + 1;
+        ProductManager.productGlobalID++;
+      };
       ProductManager.productGlobalID++;
-    }
-
-    ProductManager.productGlobalID++;
-    products.push(newProduct);
-    await fs.writeFile(this.filePath, JSON.stringify(products));
-    console.log(`El producto de id ${newProduct.id}, nombre ${newProduct.title}. fue ingresado correctamente.`);
-    return newProduct;
+      products.push(newProduct);
+      await fs.writeFile(this.filePath, JSON.stringify(products));
+      console.log(`El producto de id ${newProduct.id}, nombre ${newProduct.title}. fue ingresado correctamente.`);
+      return newProduct;
+    }catch (err) {
+      throw new Error(`Error al agregar producto.`);
+    };    
   };
-
-  //-----FALTAN LOS TRY/CATCH, PROX DES ARREGLAR
+  
   async updateProduct(id, fieldsToUpdate) {
-    const products = await this.getProducts();
-    const index = products.findIndex((product) => product.id == id);
-    if (index === -1) {
-      return null;
+    try {
+      const products = await this.getProducts();
+      const index = products.findIndex((product) => product.id == id);
+      if (index === -1) {
+        return null;
+      };
+      const prodModified = {
+        ...products[index],
+        ...fieldsToUpdate,
+        id: products[index].id,
+      };
+      products.splice(index, 1, prodModified);
+      await fs.writeFile(this.filePath, JSON.stringify(products));
+      return prodModified;     
+    } catch (error) {
+        throw new Error(`Error al modificar producto.`);
     }
-    const prodModified = {
-      ...products[index],
-      ...fieldsToUpdate,
-      id: products[index].id,
-    };
-    products.splice(index, 1, prodModified);
-    await fs.writeFile(this.filePath, JSON.stringify(products));
-    return prodModified;
   };
-
-
-}
+};
 const products = new ProductManager("./products.json");
 module.exports = ProductManager;
