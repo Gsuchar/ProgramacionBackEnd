@@ -1,3 +1,5 @@
+const { nextTick } = require("process");
+
 const fs = require("fs").promises;
 
 class ProductManager {
@@ -15,7 +17,7 @@ class ProductManager {
       return JSON.parse(data);
     } catch (err) {
       //Inicializa vacio
-      return [];
+      return [666];
     }
   };
 
@@ -38,19 +40,20 @@ class ProductManager {
       const products = await this.getProducts();
       const index = products.findIndex((product) => product.id == id);
       if (index == -1) {
-        return console.log(`No existe producto para el id ${id}.`);
+        throw new Error(`No existe producto para el id ${id}.`);
       }
       const deletedProduct = products.splice(index, 1)[0];
-      fs.promises.readFile
+      //fs.promises.readFile
       await fs.writeFile(this.filePath, JSON.stringify(products, 2));
-      console.log(`El Producto de ID ${id} fue borrado.`);
+      //console.log(`El Producto de ID ${id} fue borrado.`);
       return deletedProduct;      
     }catch (err) {
       throw new Error(`Error al buscar producto id: ${err}`);
     };
   };
+  
  
-  async addProduct(title, description, price, thumbnail, stock, code) {
+  async addProduct(title, description, code, price, stock, category, thumbnail) {
     try {    
       const products = await this.getProducts();
       const controlCode = products.some((product) => product.code == code);
@@ -62,11 +65,29 @@ class ProductManager {
         id: ProductManager.productGlobalID + 1,
         title,
         description,
-        price,
-        thumbnail,
         code,
+        price,
+        status: true,
         stock,
+        category,
+        thumbnail        
       };
+      //validaciones de datos, en caso que sea Falsy muestra excepción con un mensaje de error.
+      newProduct.title ? Next() : (() => { throw new Error("Debe ingresar un titulo de Producto.") })();
+      newProduct.description ? Next() : (() => { throw new Error("Debe ingresar una descripción de Producto.") })();
+      newProduct.code ? Next() : (() => { throw new Error("Debe ingresar un codigo de Producto.") })();
+      newProduct.price ? Next() : (() => { throw new Error("Debe ingresar un precio de Producto.") })();
+      newProduct.stock ? Next() : (() => { throw new Error("Debe ingresar el stock de Producto.") })();
+      newProduct.category ? Next() : (() => { throw new Error("Debe ingresar la categoria de Producto.") })();
+      newProduct.thumbnail == undefined || null ? "No definido. ": Next();
+      //newProduct.title != "" || undefined || null ? Next() :console.log("Debe ingresar un titulo de Producto.");   
+      //newProduct.description == "" || undefined || null ? console.log("Debe ingresar una descripcion de Producto."): Next();
+      //newProduct.code == "" || undefined || null ? console.log("Debe ingresar un codigo de Producto."): Next();
+      //newProduct.price == "" || undefined || null ? console.log("Debe ingresar un precio de Producto."): Next();
+      //newProduct.stock == "" || undefined || null ? console.log("Debe ingresar el stock de Producto."): Next();
+      //newProduct.category == "" || undefined || null ? console.log("Debe ingresar la categoria de Producto."): Next();
+      //newProduct.thumbnail == undefined || null ? " ": Next();
+      
       while (products.some((product) => product.id == newProduct.id)) {
         newProduct.id = ProductManager.productGlobalID + 1;
         ProductManager.productGlobalID++;
@@ -86,7 +107,7 @@ class ProductManager {
       const products = await this.getProducts();
       const index = products.findIndex((product) => product.id == id);
       if (index === -1) {
-        return null;
+        throw new Error(`Error al modificar producto.`);
       };
       const prodModified = {
         ...products[index],
@@ -96,7 +117,7 @@ class ProductManager {
       products.splice(index, 1, prodModified);
       await fs.writeFile(this.filePath, JSON.stringify(products));
       return prodModified;     
-    } catch (error) {
+    } catch (err) {
         throw new Error(`Error al modificar producto.`);
     }
   };
