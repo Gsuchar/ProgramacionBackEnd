@@ -12,8 +12,7 @@ export class ProductManager {
     try {
       const data = await fs.readFile(this.filePath, "utf-8");
       const products = JSON.parse(data);
-      //const lastProductId = products.length > 0 ? products[products.length - 1].id : 0;
-      const lastProductId = products.length > 0 ? Number(products[products.length - 1].id) : 0;
+      const lastProductId = products.length > 0 ? products[products.length - 1].id : 0;
       ProductManager.productGlobalID = lastProductId;
       return products;
     } catch (err) {
