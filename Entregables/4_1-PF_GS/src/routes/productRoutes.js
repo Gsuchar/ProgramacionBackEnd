@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { ProductManager } from "../ProductManager.js";
 const routerProd = Router();
-const productManager = new ProductManager('../products.json');
-
+const productManager = new ProductManager('./src/products.json');
 
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
 routerProd.get('/api/products', async (req, res) => {
@@ -53,7 +52,7 @@ routerProd.post('/api/products', async (req, res) => {
 });
 
 // BORRO PRODUCTO SEGÚN ID INDICADO
-routerProd.delete('/api/products/:pid', async (req, res) => {
+routerProd.post('/api/products/:pid', async (req, res) => {
   const pid = req.params.pid;
   try {
     const product = await productManager.deleteProduct(pid);

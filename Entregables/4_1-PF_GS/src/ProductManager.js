@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 export class ProductManager {
   constructor(filePath) {
-    this.filePath = filePath;
+    this.filePath = filePath;    
     this.products = this.getProducts();
     const lastProductId = this.products.length > 0 ? this.products[this.products.length - 1].id : 0;
     ProductManager.productGlobalID = lastProductId;
@@ -10,14 +10,13 @@ export class ProductManager {
 
   async getProducts() {
     try {
-      const data = await fs.readFile(this.filePath, "utf-8");
+      const data = await fs.readFile(this.filePath, "utf-8");      
       const products = JSON.parse(data);
       const lastProductId = products.length > 0 ? products[products.length - 1].id : 0;
       ProductManager.productGlobalID = lastProductId;
       return products;
     } catch (err) {
-      //Inicializa vacio
-      return ['Error reading products file'];
+        return ['Error leyendo archivo de productos.'];
     }
 };
 
@@ -59,7 +58,8 @@ export class ProductManager {
         throw ("Ya existe el codigo del producto que desea ingresar.");
       };
       let newProduct = {
-        id: ProductManager.productGlobalID + 1,        
+        id: ProductManager.productGlobalID + 1, 
+        //validacion, correcto asigna valor, incorrecto manda mensaje error       
         title: newProd.title != "" ? newProd.title : (() => { throw ("Debe ingresar un titulo de Producto.") })(),
         description : newProd.description || (() => { throw ("Debe ingresar una descripción de Producto.") })(),
         code: newProd.code ? newProd.code : (() => { throw ("Debe ingresar un codigo de Producto.") })(),
@@ -92,6 +92,7 @@ export class ProductManager {
         };
         const productToUpdate = { ...products[index], ...fieldsToUpdate };
         const updatedProduct = { ...productToUpdate };
+        //validacion de update
         for (const field in fieldsToUpdate) {
             switch (field) {
                 case "title":
@@ -123,11 +124,10 @@ export class ProductManager {
         throw (`No se pudo modificar producto con ID ${id}. ${err}`);
     };
   };
-
 //LLAVE FIN PRODUCT MANAGER
 };
-//const products = new ProductManager("./products.json");
-export default new ProductManager("./products.json");
-//module.exports = ProductManager;/si es por require
+
+export default new ProductManager('./src/products.json');
+
 
 
