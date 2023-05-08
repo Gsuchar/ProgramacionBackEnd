@@ -1,58 +1,41 @@
-const express = require('express');
-const ProductManager = require('./ProductManager');
+// const express = require('express');
+// const ProductManager = require('./ProductManager');
+// const app = express();
+// const port = 8080;
+// app.use(express.json()); // agregamos el middleware para parsear el cuerpo de la solicitud
+// const productManager = new ProductManager('./src/products.json');
+
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
+
+// app.use('/api/products', routerProd);
+
+// const express = require('express');
+// const ProductManager = require('./ProductManager');
+// const routerProd = require('./routes/productRoutes.js');
+// const app = express();
+// const port = 8080;
+// app.use(express.json());
+// const productManager = new ProductManager('./src/products.json');
+
+// app.use('/api/products', routerProd);
+
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
+import express from 'express';
+//import ProductManager from '../src/ProductManager.js';
+import routerProd from './routes/productRoutes.js';
+
 const app = express();
 const port = 8080;
-const productManager = new ProductManager('./src/products.json');
+
+app.use(express.json());
+//const productManager = new ProductManager('./src/products.json');
+
+app.use('/api/products', routerProd);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-//TRAIGO TODOS LOS PROD (en caso de tener limite, trae solo la cantidad indicada)
-app.get('/products', async (req, res) => {
-  const limit = req.query.limit;
-  try{
-    const products = await productManager.getProducts();  
-    if (limit) {
-      res.status(200).json(products.slice(0, limit));
-    } else {
-      res.status(404).json(products);
-    };
-  }catch(err){
-    res.status(500).json({ error: err });
-  };
-});
-
-//TRAIGO PRODUCTO SEGUN EL ID INDICADO EN URL
-app.get('/products/:pid', async (req, res) => {
-  const pid = req.params.pid;
-  try {
-    const product = await productManager.getProductById(pid);
-    res.status(200).json(product);
-  } catch (err) {
-    res.status(404).json({ error: err });
-  };
-});
-
-//BORRO PRODUCTO SEGUN ID INDICADO
-app.post('/products/:pid', async (req, res) => {
-  const pid = req.params.pid;
-  try {
-    const product = await productManager.deleteProduct(pid);
-    res.status(200).json(product);
-  } catch (err) {
-    res.status(404).json({ error: "132" });
-  };
-});
-//BORRO PRODUCTO SEGUN ID INDICADO
-// app.post('/products/:pid', async (req, res) => {
-//   const pid = req.params.pid;
-//   try {
-//     const product = await productManager.updateProduct(pid);
-//     res.status(200).json(product);
-//   } catch (err) {
-//     res.status(404).json({ error: err });
-//   };
-// });
-
-
