@@ -126,7 +126,7 @@ export class ProductManager {
 
 //LLAVE FIN PRODUCT MANAGER
 };
-const products = new ProductManager("./products.json");
+//const products = new ProductManager("./products.json");
 export default new ProductManager("./products.json");
 //module.exports = ProductManager;/si es por require
 
