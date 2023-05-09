@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ProductManager } from "../ProductManager.js";
 const routerProd = Router();
-const productManager = new ProductManager('./src/products.json');
+const productManager = new ProductManager('./src/dataFiles/products.json');
 
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
 routerProd.get('/api/products', async (req, res) => {
