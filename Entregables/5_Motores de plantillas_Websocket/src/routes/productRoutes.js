@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { ProductManager } from "../ProductManager.js";
+import { uploader } from '../utils.js';
 
 const routerProd = Router();
 const productManager = new ProductManager('./src/dataFiles/products.json');
@@ -15,7 +16,7 @@ routerProd.get('/api/products', async (req, res) => {
       res.status(200).json(products);
     };
   } catch (err) {
-    res.status(500).json({ error: `${err}` });
+    res.status(500).json({ Error: `${err}` });
   };
 });
 
@@ -26,7 +27,7 @@ routerProd.get('/api/products/:pid', async (req, res) => {
     const product = await productManager.getProductById(pid);
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).json({ error: `No se encontró el producto con ID ${pid}.` });
+    res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
   };
 });
 
@@ -38,17 +39,17 @@ routerProd.put('/api/products/:pid', async (req, res) => {
     const product = await productManager.updateProduct(pid, fieldsToUpdate);
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).json({ error: `${err}` });
+    res.status(404).json({ Error: `${err}` });
   };
 });
 
 // AGREGO PRODUCTO
 routerProd.post('/api/products', async (req, res) => {
-  try {
+  try {       
     const product = await productManager.addProduct(req.body);
     res.status(201).json(product);
   } catch (err) {
-    res.status(400).json({ error: `${err}` });
+    res.status(400).json({ Error: `${err}` });
   };
 });
 
@@ -59,7 +60,36 @@ routerProd.post('/api/products/:pid', async (req, res) => {
     const product = await productManager.deleteProduct(pid);
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).json({ error: `${err}` });
+    res.status(404).json({ Error: `${err}` });
+  };
+});
+
+//--------DESAFIO 5----------//
+//  PLANTILLA PRODUCTOS 
+routerProd.get('/html/products', async (req, res) => {
+  const limit = req.query.limit;
+  try {
+    const products = await productManager.getProducts();
+
+    if (limit) {
+      //res.status(200).json(products.slice(0, limit));
+      //res.status(200).render(templateHtmlProds, products, limit);
+      
+    } else {
+      res.status(200).json(products);
+    };
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  };
+});
+
+// AGREGO PRODUCTO form
+routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
+  try {       
+    const product = await productManager.addProduct(req.file);
+    res.status(201).json(product);
+  } catch (err) {
+    res.status(400).json({ Error: `${err}` });
   };
 });
 

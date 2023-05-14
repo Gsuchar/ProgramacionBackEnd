@@ -52,28 +52,30 @@ export class ProductManager {
   //NEW PRODS
   async addProduct(newProd) {
     try {        
-      const products = await this.getProducts();
+      const products = await this.getProducts();      
       const controlCode = products.some((product) => product.code == newProd.code);
       if (controlCode) {
         throw ("Ya existe el codigo del producto que desea ingresar.");
-      };
+      };console.log(newProd);
       let newProduct = {
-        id: ProductManager.productGlobalID + 1, 
-        //validacion, correcto asigna valor, incorrecto manda mensaje error       
-        title: newProd.title != "" ? newProd.title : (() => { throw ("Debe ingresar un titulo de Producto.") })(),
-        description : newProd.description || (() => { throw ("Debe ingresar una descripción de Producto.") })(),
-        code: newProd.code ? newProd.code : (() => { throw ("Debe ingresar un codigo de Producto.") })(),
-        price: newProd.price ? newProd.price : (() => { throw ("Debe ingresar un precio de Producto.") })(),
+        id: ProductManager.productGlobalID + 1,
+        title: newProd.title ? newProd.title : (() => { throw ("Debe ingresar un titulo de Producto.") })(),        
+        description : newProd.description ? newProd.description : (() => { throw ("Debe ingresar una descripción de Producto.") })(),
+        //&& /^\d+$/.test(newProd.param) La expresión regular /^\d+$/ comprueba si el string contiene solo dígitos => .test devuelve FALSE y rompe
+        code: newProd.code && /^\d+$/.test(newProd.code) ? parseInt(newProd.code) : (() => { throw ("Debe ingresar un codigo valido de Producto.") })(),
+        price: newProd.price && /^\d+$/.test(newProd.price) ? parseInt(newProd.price) : (() => { throw ("Debe ingresar un precio valido de Producto.") })(),
         status: true,
-        stock: newProd.stock ? newProd.stock : (() => { throw ("Debe ingresar el stock de Producto.") })(),
+        stock: newProd.stock && /^\d+$/.test(newProd.stock) ? parseInt(newProd.stock) : (() => { throw ("Debe ingresar el stock valido de Producto.") })(),
         category: newProd.category ? newProd.category : (() => { throw ("Debe ingresar la categoria de Producto.") })(),
         thumbnail: !newProd.thumbnail ? "Sin Definir" :  newProd.thumbnail   
-      };              
+      };
+                   
       while (products.some((product) => product.id == newProduct.id)) {
         newProduct.id = ProductManager.productGlobalID + 1;
         ProductManager.productGlobalID++;
       };
       ProductManager.productGlobalID++;
+      console.log(newProduct); 
       products.push(newProduct);
       await fs.writeFile(this.filePath, JSON.stringify(products));      
       return newProduct;
