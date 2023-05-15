@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ProductManager } from "../ProductManager.js";
 import { uploader } from '../utils.js';
+import path from 'path';
 
 const routerProd = Router();
 const productManager = new ProductManager('./src/dataFiles/products.json');
@@ -84,13 +85,25 @@ routerProd.get('/html/products', async (req, res) => {
 });
 
 // AGREGO PRODUCTO form
+// routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
+//   try {       
+//     const product = await productManager.addProduct(req.file);
+//     res.status(201).json(product);
+//   } catch (err) {
+//     res.status(400).json({ Error: `${err}` });
+//   };
+// });
 routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
-  try {       
-    const product = await productManager.addProduct(req.file);
+  try {
+    const productData = JSON.parse(req.body.productData);
+    const imageFilename = req.file ? req.file.filename : null;
+    const imageFilePath = imageFilename ? path.join('images', 'products', imageFilename) : null;
+    const product = await productManager.addProduct({ ...productData, image: imageFilePath });
     res.status(201).json(product);
   } catch (err) {
     res.status(400).json({ Error: `${err}` });
-  };
+  }
 });
+
 
 export default routerProd;
