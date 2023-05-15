@@ -4,7 +4,7 @@ import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import { __dirname } from "./utils.js";
 import path from "path";
-import { viewsRouters } from "./routes/viewsRoutes.js";
+import viewsRoutes  from './routes/viewsRoutes.js';
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import http from 'http';
@@ -64,7 +64,7 @@ app.use('/', productRoutes);
 app.use('/', cartRoutes);
 
 //HTML RENDER SERVER SIDE
-app.use("/", viewsRouters);
+app.use("/", viewsRoutes);
 //app.use("/users", usersHtmlRouter);
 
 app.get("*", (req, res) => {
