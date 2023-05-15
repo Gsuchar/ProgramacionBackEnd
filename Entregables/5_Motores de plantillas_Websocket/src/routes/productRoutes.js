@@ -66,41 +66,21 @@ routerProd.post('/api/products/:pid', async (req, res) => {
 });
 
 //--------DESAFIO 5----------//
-//  PLANTILLA PRODUCTOS 
-routerProd.get('/html/products', async (req, res) => {
-  const limit = req.query.limit;
-  try {
-    const products = await productManager.getProducts();
+//AGREGA PROD X data-form
 
-    if (limit) {
-      //res.status(200).json(products.slice(0, limit));
-      //res.status(200).render(templateHtmlProds, products, limit);
-      
-    } else {
-      res.status(200).json(products);
-    };
-  } catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  };
-});
-
-// AGREGO PRODUCTO form
-// routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
-//   try {       
-//     const product = await productManager.addProduct(req.file);
-//     res.status(201).json(product);
-//   } catch (err) {
-//     res.status(400).json({ Error: `${err}` });
-//   };
-// });
 routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
   try {
-    const productData = JSON.parse(req.body.productData);
-    const imageFilename = req.file ? req.file.filename : null;
-    const imageFilePath = imageFilename ? path.join('images', 'products', imageFilename) : null;
-    const product = await productManager.addProduct({ ...productData, image: imageFilePath });
+    const productData = {
+      title: req.body.title,
+      description: req.body.description,
+      code: req.body.code,
+      price: req.body.price,
+      stock: req.body.stock,
+      category: req.body.category,
+    };    
+    const product = await productManager.addProduct(productData, req.file);
     res.status(201).json(product);
-  } catch (err) {
+  }catch (err) {
     res.status(400).json({ Error: `${err}` });
   }
 });
