@@ -5,7 +5,10 @@ import cartRoutes from './routes/cartRoutes.js';
 import { __dirname } from "./utils.js";
 import path from "path";
 import { viewsRouters } from "./routes/viewsRoutes.js";
+import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import http from 'http';
+
 
 
 // const app = express();
@@ -20,11 +23,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 //app.use(express.static(path.join(__dirname, "public")));
+const httpServer = http.createServer(app);
 const socketServer = new Server(httpServer);
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
+
+// const httpServer = app.listen(port, () => {
+//   console.log(`Example app listening on http://localhost:${port}`);
+// });
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
 //HANDLERS SOCKET
 socketServer.on("connection", (socket) => {
   console.log("Un cliente se ha conectado: " + socket.id);
@@ -53,7 +65,7 @@ app.use('/', cartRoutes);
 
 //HTML RENDER SERVER SIDE
 app.use("/", viewsRouters);
-app.use("/users", usersHtmlRouter);
+//app.use("/users", usersHtmlRouter);
 
 app.get("*", (req, res) => {
   return res.status(404).json({
@@ -63,10 +75,3 @@ app.get("*", (req, res) => {
   });
 });
 
-const httpServer = app.listen(port, () => {
-  console.log(`Example app listening on http://localhost:${port}`);
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});

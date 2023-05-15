@@ -67,7 +67,6 @@ routerProd.post('/api/products/:pid', async (req, res) => {
 
 //--------DESAFIO 5----------//
 //AGREGA PROD X data-form
-
 routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
   try {
     const productData = {
@@ -85,5 +84,12 @@ routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
   }
 });
 
+routerProd.get("/html/products", (req, res) => {
+  return res.status(200).json({
+    status: "success",
+    msg: "listado de usuarios",
+    data: products,
+  });
+});
 
 export default routerProd;
