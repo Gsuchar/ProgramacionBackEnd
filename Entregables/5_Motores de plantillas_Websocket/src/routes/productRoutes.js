@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ProductManager } from "../ProductManager.js";
 import { uploader } from '../utils.js';
-import path from 'path';
+//import path from 'path';
 
 const routerProd = Router();
 const productManager = new ProductManager('./src/dataFiles/products.json');
@@ -84,12 +84,25 @@ routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
   }
 });
 
-routerProd.get("/html/products", (req, res) => {
-  return res.status(200).json({
-    status: "success",
-    msg: "listado de usuarios",
-    data: products,
-  });
+routerProd.get("/html/products", async (req, res) => {
+  const limit = req.query.limit;
+  try {
+    const products = await productManager.getProducts();
+    if (limit) {
+      res.status(200).render("home", { products });//json(products.slice(0, limit));
+    } else {
+      res.status(200).render("home", { products });//.json(products);
+    };
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  };
+  
+  
+  // return res.status(200).json({
+  //   status: "success",
+  //   msg: "listado de usuarios",
+  //   data: products,
+  // });
 });
 
 export default routerProd;
