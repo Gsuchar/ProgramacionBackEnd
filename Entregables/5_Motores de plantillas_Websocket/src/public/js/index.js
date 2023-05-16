@@ -1,20 +1,54 @@
 const socket = io();
+import { ProductManager } from "../../ProductManager.js";
 
-// setInterval(() => {
-//   socket.emit("msg_front_to_back", {
-//     msg: Date.now() + " hola desde el front_INDEX",
-//   });
-// }, 3000);
+const productManager = new ProductManager('./src/dataFiles/products.json');
 
-//ACA RECIBO LOS DATOS DEL BACK
-socket.on("msg_back_to_front", (data) => {
-  console.log(JSON.stringify(data));
+const formProducts = document.getElementById("form-products");
+const inputTitle = document.getElementById("form-title");
+const inputDescript = document.getElementById("form-description");
+const inputPrice = document.getElementById("form-price");
+const inputCode = document.getElementById("form-code");
+const inputStock = document.getElementById("form-stock");
+const inputCategory = document.getElementById("form-category");
+const inputThumbnail = document.getElementById("form-thumbnail");
+
+//SERVER DATA
+socket.on("products", (data) => {
+  renderProducts(data);
 });
 
-// socket.on("msg_back_to_todos_menos_socket", (data) => {
-//   console.log(JSON.stringify(data));
-// });
+// const renderProducts = (products) => {
+//   fetch("/realTimeProducts")
+//     .then((result) => result.text())
+//     .then((serverTemplate) => {
+//       const template = Handlebars.compile(serverTemplate);
+//       const html = template({ products });
+//       document.getElementById("productList").innerHTML = html;
+//     });
+// };
+const renderProducts = async (products) => {
+  try {
+    const response = await fetch("/realTimeProducts");
+    const serverTemplate = await response.text();
+    const template = Handlebars.compile(serverTemplate);
+    const html = template({ products });
+    document.getElementById("productList").innerHTML = html;
+  } catch (error) {
+    console.error("Error fetching server template:", error);
+  }
+};
 
-// socket.on("msg_back_todos", (data) => {
-//   console.log(JSON.stringify(data));
-// });
+formProducts.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const newProduct = {
+    title: inputTitle.value,
+    description: inputDescript.value,
+    price: +inputPrice.value,
+    thumbnail: inputThumbnail.value,
+    code: inputCode.value,
+    stock: +inputStock.value,
+    category: inputCategory.value,
+  };
+  productManager.addProduct(newProd);
+  socket.emit("new-product", newProduct);
+});
