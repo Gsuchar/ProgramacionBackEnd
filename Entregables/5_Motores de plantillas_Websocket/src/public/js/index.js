@@ -14,15 +14,6 @@ socket.on("products", (data) => {
   renderProducts(data);
 });
 
-// const renderProducts = (products) => {
-//   fetch("/realTimeProducts")
-//     .then((result) => result.text())
-//     .then((serverTemplate) => {
-//       const template = Handlebars.compile(serverTemplate);
-//       const html = template({ products });
-//       document.getElementById("productList").innerHTML = html;
-//     });
-// };
 const renderProducts = async (products) => {
   try {
     const response = await fetch("/realTimeProducts");
@@ -45,7 +36,6 @@ formProducts.addEventListener("submit", (e) => {
     code: inputCode.value,
     stock: +inputStock.value,
     category: inputCategory.value,
-  };
-  //productManager.addProduct(newProd);
+  };  
   socket.emit("new-product", newProduct);
 });

@@ -31,10 +31,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 
-// httpServer.listen(port, () => {
-//   console.log(`Server corriendo en puerto: ${port}`);
-// });
-
 //HANDLERS SOCKET
 socketServer.on("connection", (socket) => {
   console.log("Un cliente se ha conectado: " + socket.id);
@@ -42,16 +38,13 @@ socketServer.on("connection", (socket) => {
   socket.on("new-product", async (newProd) => {
     try {
       await productManager.addProduct({ ...newProd });
-
-    // Actualizando lista despues de agregar producto nuevo
+      //ACTUALIZO LISTA A MOSTRAR
       const productsList = await productManager.getProducts();
-      //const products = await productManager.getProducts();
       socketServer.emit("products", { productsList });
-
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+      res.status(500).json({ Error: `${err}` });
     }
-
   });
 });
 
@@ -62,6 +55,8 @@ app.use('/', cartRoutes);
 //HTML RENDER SERVER SIDE
 app.use("/", viewsRoutes);
 
+
+//PARA MOSTRAR ERROR CUANDO NO ENCUENTRA URL
 app.get("*", (req, res) => {
   return res.status(404).json({
     status: "error",
