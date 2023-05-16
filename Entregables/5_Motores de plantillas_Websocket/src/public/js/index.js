@@ -1,7 +1,4 @@
 const socket = io();
-import { ProductManager } from "../../ProductManager.js";
-
-const productManager = new ProductManager('./src/dataFiles/products.json');
 
 const formProducts = document.getElementById("form-products");
 const inputTitle = document.getElementById("form-title");
@@ -49,6 +46,6 @@ formProducts.addEventListener("submit", (e) => {
     stock: +inputStock.value,
     category: inputCategory.value,
   };
-  productManager.addProduct(newProd);
+  //productManager.addProduct(newProd);
   socket.emit("new-product", newProduct);
 });

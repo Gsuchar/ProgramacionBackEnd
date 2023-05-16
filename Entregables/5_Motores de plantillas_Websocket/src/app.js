@@ -7,6 +7,8 @@ import viewsRoutes  from './routes/viewsRoutes.js';
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import http from 'http';
+import { ProductManager } from "./ProductManager.js";
+const productManager = new ProductManager('./src/dataFiles/products.json');
 
 
 const app = express();
@@ -39,12 +41,12 @@ socketServer.on("connection", (socket) => {
 
   socket.on("new-product", async (newProd) => {
     try {
-      await data.addProduct({ ...newProd });
+      await productManager.addProduct({ ...newProd });
 
     // Actualizando lista despues de agregar producto nuevo
-      const productsList = await data.getProducts();
-
-    io.emit("products", { productsList });
+      const productsList = await productManager.getProducts();
+      //const products = await productManager.getProducts();
+      socketServer.emit("products", { productsList });
 
     } catch (error) {
       console.log(error);
