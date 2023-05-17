@@ -1,13 +1,13 @@
 const socket = io();
 
-const formProducts = document.getElementById("form-products");
-const title = document.getElementById("form-title");
-const description = document.getElementById("form-description");
-const price = document.getElementById("form-price");
-const inputCode = document.getElementById("form-code");
-const stock = document.getElementById("form-stock");
-const category = document.getElementById("form-category");
-const thumbnail = document.getElementById("form-thumbnail");
+const formProducts = document.getElementById("formProducts");
+const title = document.getElementById("formTitle");
+const description = document.getElementById("formDescription");
+const price = document.getElementById("formPrice");
+const inputCode = document.getElementById("formCode");
+const stock = document.getElementById("formStock");
+const category = document.getElementById("formCategory");
+const thumbnail = document.getElementById("formThumbnail");
 
 //SERVER DATA
 socket.on("products", (data) => {
