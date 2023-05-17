@@ -38,10 +38,9 @@ socketServer.on("connection", (socket) => {
   socket.on("new-product", async (newProd) => {
     try {
       await productManager.addProduct({ ...newProd });
-      //ACTUALIZO LISTA A MOSTRAR
       const productsList = await productManager.getProducts();
       socketServer.emit("products", { productsList });
-      console.log(`Se ingreso el producto de id ${newProd.id}, ${newProd.title}` );
+      console.log(`Se ingreso el producto ${newProd.title} correctamente` );
     } catch (err) {
       console.log({ Error: `${err}` });
       
@@ -51,10 +50,9 @@ socketServer.on("connection", (socket) => {
   socket.on("delete-product", async (productId) => {
     try {
         await productManager.deleteProduct(productId);
-        //ACTUALIZO LISTA A MOSTRAR
         const productsUpdt = await productManager.getProducts();
-        console.log(productsUpdt);
-        socketServer.emit("products", productsUpdt);        
+        socketServer.emit("products", {productsUpdt});
+        console.log(`Producto id ${productId} borrado correctamente` );        
     } catch (err) {
       console.log({ Error: `${err}` });      
     }
