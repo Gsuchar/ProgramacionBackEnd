@@ -4,7 +4,7 @@ const formProducts = document.getElementById("formProducts");
 const title = document.getElementById("formTitle");
 const description = document.getElementById("formDescription");
 const price = document.getElementById("formPrice");
-const inputCode = document.getElementById("formCode");
+const code = document.getElementById("formCode");
 const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
 const thumbnail = document.getElementById("formThumbnail");
@@ -30,15 +30,16 @@ function deleteProduct(productId) {
 };
 
 formProducts.addEventListener("submit", (e) => {
-  e.preventDefault();
+  e.preventDefault();  
   const newProd = {
     title: title.value,
     description: description.value,
-    price: +price.value,
-    thumbnail: thumbnail.value,
-    code: inputCode.value,
+    price: +price.value,    
+    code: code.value,
     stock: +stock.value,
     category: category.value,
+    thumbnail: thumbnail.value,
   };  
   socket.emit("new-product", newProd);
+
 });
