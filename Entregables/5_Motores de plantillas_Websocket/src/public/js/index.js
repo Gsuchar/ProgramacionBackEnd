@@ -8,6 +8,7 @@ const inputCode = document.getElementById("form-code");
 const inputStock = document.getElementById("form-stock");
 const inputCategory = document.getElementById("form-category");
 const inputThumbnail = document.getElementById("form-thumbnail");
+const btnDelete = document.getElementById('delBtn');
 
 //SERVER DATA
 socket.on("products", (data) => {
@@ -39,3 +40,12 @@ formProducts.addEventListener("submit", (e) => {
   };  
   socket.emit("new-product", newProduct);
 });
+
+// function deleteProd(){
+//   const button = document.getElementById(`btn_${id}`);
+//   button.onclick = function() {
+//     // Aquí puedes agregar el código que deseas ejecutar cuando se hace clic en el botón
+//     console.log( button);
+//   };
+//   //return socket.emit("products", data)
+// };
