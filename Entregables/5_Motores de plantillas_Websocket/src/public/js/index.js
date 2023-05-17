@@ -49,3 +49,20 @@ formProducts.addEventListener("submit", (e) => {
 //   };
 //   //return socket.emit("products", data)
 // };
+
+// socket.on('delete-product', async (productId) => {
+//   await deleteProduct(productId);
+//   const products = await getProducts();
+//   socket.emit('products', products);
+// });
+
+// const deleteProduct = async (productId) => {
+//   try {
+//     const response = await fetch(`/realtimeproducts/${productId}`, { method: 'DELETE' });
+//     const data = await response.json();
+//     console.log('LALA'+data)
+//     return data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };

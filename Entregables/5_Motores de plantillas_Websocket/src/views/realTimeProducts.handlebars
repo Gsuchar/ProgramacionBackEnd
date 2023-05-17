@@ -134,3 +134,15 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script> 
 {{!-- <script src="./js/index.js" type="module"></script> --}}
+<script>
+  // Agregar un controlador de eventos a cada botón 'Borrar'
+  const deleteButton = document.querySelectorAll('.btn_del');
+  deleteButton.forEach(button => {
+    button.addEventListener('click', () => {
+      // Obtener el ID del producto a eliminar
+      const productId = button.id.split('_')[1];      
+      // Enviar un mensaje al servidor para eliminar el producto
+      socket.emit('delete-product', productId);
+    });
+  });
+</script>

@@ -42,8 +42,20 @@ socketServer.on("connection", (socket) => {
       const productsList = await productManager.getProducts();
       socketServer.emit("products", { productsList });
     } catch (error) {
-      //console.log(error);
-      res.status(500).json({ Error: `${err}` });
+      console.log(error);
+      //status(500).json({ Error: `BBBBB${err}` });
+    }
+  });
+
+  socket.on("delete-product", async (productId) => {
+    try {
+        await productManager.deleteProduct(productId);
+        const productsUpdt = await productManager.getProducts();
+        console.log(productsUpdt);
+        socketServer.emit("products", productsUpdt);
+    } catch (error) {
+      console.log(error);
+      //res.status(500).json({ Error: `AA${err}` });
     }
   });
 });
