@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import { __dirname } from "./utils.js";
@@ -41,23 +41,25 @@ socketServer.on("connection", (socket) => {
       //ACTUALIZO LISTA A MOSTRAR
       const productsList = await productManager.getProducts();
       socketServer.emit("products", { productsList });
-    } catch (error) {
-      console.log(error);
-      //status(500).json({ Error: `BBBBB${err}` });
+      console.log(`Se ingreso el producto de id ${newProd.id}, ${newProd.title}` );
+    } catch (err) {
+      console.log({ Error: `${err}` });
+      
     }
   });
 
   socket.on("delete-product", async (productId) => {
     try {
         await productManager.deleteProduct(productId);
+        //ACTUALIZO LISTA A MOSTRAR
         const productsUpdt = await productManager.getProducts();
         console.log(productsUpdt);
-        socketServer.emit("products", productsUpdt);
-    } catch (error) {
-      console.log(error);
-      //res.status(500).json({ Error: `AA${err}` });
+        socketServer.emit("products", productsUpdt);        
+    } catch (err) {
+      console.log({ Error: `${err}` });      
     }
   });
+
 });
 
 

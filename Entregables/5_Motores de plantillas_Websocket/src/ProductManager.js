@@ -126,6 +126,7 @@ export class ProductManager {
         throw (`No se pudo modificar producto con ID ${id}. ${err}`);
     };
   };
+  
 //LLAVE FIN PRODUCT MANAGER
 };
 
