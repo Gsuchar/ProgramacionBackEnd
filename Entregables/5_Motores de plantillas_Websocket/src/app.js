@@ -1,4 +1,4 @@
-import express, { response } from 'express';
+import express from 'express';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import { __dirname } from "./utils.js";
