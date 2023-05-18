@@ -38,6 +38,7 @@ formProducts.addEventListener("submit", (e) => {
     thumbnail: thumbnail.value,
   };  
   socket.emit("new-product", newProd);
+  formProducts.reset();
 
 });
 
