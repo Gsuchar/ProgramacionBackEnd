@@ -25,9 +25,6 @@ const renderProducts = async (products) => {
     console.error("Error fetching server template:", error);
   }
 };
-function deleteProduct(productId) {
-  socket.emit('delete-product', productId);
-};
 
 formProducts.addEventListener("submit", (e) => {
   e.preventDefault();  
@@ -43,3 +40,7 @@ formProducts.addEventListener("submit", (e) => {
   socket.emit("new-product", newProd);
 
 });
+
+function deleteProduct(productId) {
+  socket.emit('delete-product', productId);
+};
