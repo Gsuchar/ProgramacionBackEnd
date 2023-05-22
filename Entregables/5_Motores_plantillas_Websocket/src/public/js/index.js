@@ -9,24 +9,24 @@ const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
 const thumbnail = document.getElementById("formThumbnail");
 
-//SERVER DATA
-socket.on("products", (data) => {
-  renderProducts(data);
+//SERVER DATA --- ARREGLO POR ENTREGABLE 5
+socket.on("products", (productsList) => {
+  console.log(productsList);
+  document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
+    return acc + "<tr>" +
+     "<th scope='row'>"+ item.id +
+     "</th>" + "<td>" + item.title + "</td>" +
+     "</th>" + "<td>" + item.description + "</td>" +
+     "</th>" + "<td>" + item.price + "</td>" +
+     "</th>" + "<td>" + item.code + "</td>" +
+     "</th>" + "<td>" + item.stock + "</td>" +
+     "</th>" + "<td>" + item.category + "</td>" +
+     "</th>" + "<td>" + item.thumbnail + "</td>" +
+     '<td>'+'<input type="submit" value="Borrar"  class="btn btn-danger " onclick="deleteProduct('+ item.id +')"/>' +
+      '</td>'+
+     "</tr>";
+  }, "");
 });
-
-const renderProducts = async (products) => {
-  try {
-    const response = await fetch("/realTimeProducts");
-    const serverTemplate = await response.text();
-    const template = Handlebars.compile(serverTemplate);
-    const html = template({ products });
-    document.getElementById("productList").innerHTML = html;
-    //Arreglo cerdo para evitar el bug de cargar 2veces un 2do producto
-    window.location.reload();
-  } catch (error) {
-    console.error("Error fetching server template:", error);
-  }
-};
 
 formProducts.addEventListener("submit", (e) => {
   e.preventDefault();  

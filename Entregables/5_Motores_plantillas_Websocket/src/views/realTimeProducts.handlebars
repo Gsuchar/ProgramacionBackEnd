@@ -16,7 +16,7 @@
             <th scope="col">Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="dinamic-product-list">
           {{#each products}}
             <tr>
               <th scope="row">{{this.id}}</th>
@@ -81,6 +81,5 @@
     </div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script> 

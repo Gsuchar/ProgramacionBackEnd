@@ -3,13 +3,12 @@ import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import { __dirname } from "./utils.js";
 import path from "path";
-import viewsRoutes  from './routes/viewsRoutes.js';
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import http from 'http';
 import { ProductManager } from "./ProductManager.js";
-const productManager = new ProductManager('./src/dataFiles/products.json');
 
+const productManager = new ProductManager('./src/dataFiles/products.json');
 
 const app = express();
 const port = 8080;
@@ -39,10 +38,11 @@ socketServer.on("connection", (socket) => {
     try {
       await productManager.addProduct({ ...newProd });
       const productsList = await productManager.getProducts();
-      socketServer.emit("products", { productsList });
+      socketServer.emit("products", productsList );
+      //console.log(productsList);
       console.log(`Se ingreso el producto ${newProd.title} correctamente` );
     } catch (err) {
-      console.log({ Error: `${err}` });
+      console.log({ Err11or: `${err}` });
       
     }
   });
@@ -51,21 +51,18 @@ socketServer.on("connection", (socket) => {
     try {
         await productManager.deleteProduct(productId);
         const productsUpdt = await productManager.getProducts();
-        socketServer.emit("products", {productsUpdt});
+        socketServer.emit("products", productsUpdt);
         console.log(`Producto id ${productId} borrado correctamente` );        
     } catch (err) {
       console.log({ Error: `${err}` });      
     }
   });
-
 });
 
 
-//API REST JSON
+//Routes
 app.use('/', productRoutes);
 app.use('/', cartRoutes);
-//HTML RENDER SERVER SIDE
-app.use("/", viewsRoutes);
 
 
 //PARA MOSTRAR ERROR CUANDO NO ENCUENTRA URL

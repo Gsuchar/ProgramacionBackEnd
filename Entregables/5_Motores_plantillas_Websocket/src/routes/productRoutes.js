@@ -5,6 +5,8 @@ import { uploader } from '../utils.js';
 const routerProd = Router();
 const productManager = new ProductManager('./src/dataFiles/products.json');
 
+
+//***********INICIO ROUTER API**************/
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
 routerProd.get('/api/products', async (req, res) => {
   const limit = req.query.limit;
@@ -63,7 +65,7 @@ routerProd.post('/api/products/:pid', async (req, res) => {
     res.status(404).json({ Error: `${err}` });
   };
 });
-
+//***********FIN ROUTER API**************/
 
 //--------DESAFIO 5----------//
 //AGREGA PROD X data-form
@@ -99,6 +101,17 @@ routerProd.get("/html/products", async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   }
 });
+
+///////////////WEBSOCKET////////////////
+routerProd.get("/realtimeproducts", async (req, res) => {  
+  try {
+    const products = await productManager.getProducts(); 
+    res.status(200).render('realtimeproducts', { products : products });
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  }
+});
+
 
 
   
