@@ -21,6 +21,8 @@ const renderProducts = async (products) => {
     const template = Handlebars.compile(serverTemplate);
     const html = template({ products });
     document.getElementById("productList").innerHTML = html;
+    //Arreglo cerdo para evitar el bug de cargar 2veces un 2do producto
+    window.location.reload();
   } catch (error) {
     console.error("Error fetching server template:", error);
   }
@@ -39,6 +41,7 @@ formProducts.addEventListener("submit", (e) => {
   };  
   socket.emit("new-product", newProd);
   formProducts.reset();
+  
 
 });
 
