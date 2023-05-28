@@ -121,33 +121,7 @@ routerProd.get("/mongo-products", async (req, res) => {
       res.status(500).json({ Error: `${err}` });
     }
 });
-
-// routerProd.post("/mongo-newproduct", async (req, res) => {
-  
-//   try {
-//     const newProd =  { title, description, price, code, stock, category, thumbnail } = req.body.products;;
-//     // if (!title || !description || !price || !code || !stock|| !category || !thumbnail) {
-//     //   console.log(
-//     //     "validation error: DEDASO MAL AL AGREGAR PROD"
-//     //   );
-//     //   return res.status(400).json({
-//     //     status: "error",
-//     //     msg: "DEDASO MAL AL AGREGAR PROD",
-//     //     data: {},
-//     //   });
-//     // }
-//     const prodToCreat = await ProductModel.create({ title, description, price, code, stock, category, thumbnail, status: true });
-//     console.log(prodToCreat);
-//     return res.status(201).json({ products: prodToCreat });
-//   } catch (e) {
-//     console.log(e);
-//     return res.status(500).json({
-//       status: "error",
-//       msg: "something went w1rong :(",
-//       data: {},
-//     });
-//   }
-// });
+//PRODUCTO NUEVO
 routerProd.post("/mongo-newproduct", async (req, res) => {
   try {
     const { title, description, price, code, stock, category, thumbnail } = req.body.products;
