@@ -7,11 +7,28 @@ import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import http from 'http';
 import { ProductManager } from "./ProductManager.js";
+import { connect } from "mongoose";
 
 const productManager = new ProductManager('./src/dataFiles/products.json');
 
 const app = express();
 const port = 8080;
+
+//DB
+export async function connectMongo() {
+  try {
+    await connect(
+      "mongodb+srv://Gsuchar:1J0pqk2HPyyEZZl4@progbackend.muru6sp.mongodb.net/"
+    );
+    console.log("plug to mongo!");
+  } catch (e) {
+    console.log(e);
+    throw "can not connect to the db";
+  }
+};
+connectMongo();
+
+
 //MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -56,7 +56,7 @@ export class ProductManager {
       const controlCode = products.some((product) => product.code == newProd.code);
       if (controlCode) {
         throw ("Ya existe el codigo del producto que desea ingresar.");
-      };console.log(newProd);
+      };
       let newProduct = {
         id: ProductManager.productGlobalID + 1,
         title: newProd.title ? newProd.title : (() => { throw ("Debe ingresar un titulo de Producto.") })(),        
