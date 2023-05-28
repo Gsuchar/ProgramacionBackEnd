@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { CartManager } from "../CartManager.js";
+import { CartManager } from "../dao/CartManager.js";
 const routerCart = Router();
-const cartManager = new CartManager('./src/dataFiles/carts.json');
+const cartManager = new CartManager('../dao/dataFiles/carts.json');
 
 // TRAIGO TODOS LOS CARRITOS (en caso de tener límite, trae solo la cantidad indicada), no iba pero ya me queda
 routerCart.get('/api/carts', async (req, res) => {

@@ -6,10 +6,10 @@ import path from "path";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import http from 'http';
-import { ProductManager } from "./ProductManager.js";
+import { ProductManager } from "./dao/ProductManager.js";
 import { connect } from "mongoose";
 
-const productManager = new ProductManager('./src/dataFiles/products.json');
+const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 
 const app = express();
 const port = 8080;
@@ -57,7 +57,7 @@ socketServer.on("connection", (socket) => {
       const productsList = await productManager.getProducts();
       socketServer.emit("products", productsList );
       //console.log(productsList);
-      console.log(`Se ingreso el producto ${newProd.title} correctamente` );
+      //console.log(`Se ingreso el producto ${newProd.title} correctamente` );
     } catch (err) {
       console.log({ Err11or: `${err}` });
       
@@ -69,7 +69,7 @@ socketServer.on("connection", (socket) => {
         await productManager.deleteProduct(productId);
         const productsUpdt = await productManager.getProducts();
         socketServer.emit("products", productsUpdt);
-        console.log(`Producto id ${productId} borrado correctamente` );        
+        //console.log(`Producto id ${productId} borrado correctamente` );        
     } catch (err) {
       console.log({ Error: `${err}` });      
     }

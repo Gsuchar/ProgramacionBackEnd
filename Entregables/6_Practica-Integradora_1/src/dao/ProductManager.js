@@ -75,7 +75,7 @@ export class ProductManager {
         ProductManager.productGlobalID++;
       };
       ProductManager.productGlobalID++;
-      console.log(newProduct); 
+      //console.log(newProduct); 
       products.push(newProduct);
       await fs.writeFile(this.filePath, JSON.stringify(products));      
       return newProduct;
@@ -130,7 +130,7 @@ export class ProductManager {
 //LLAVE FIN PRODUCT MANAGER
 };
 
-export default new ProductManager('./src/products.json');
+export default new ProductManager();
 
 
 

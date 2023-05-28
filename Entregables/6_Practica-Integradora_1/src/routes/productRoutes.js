@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { ProductManager } from "../ProductManager.js";
+import { ProductManager } from "../dao/ProductManager.js";
 import { uploader } from '../utils.js';
-import { ProductModel } from "../models/productModel.js";
+import { ProductModel } from "../dao/models/productModel.js";
 
 
 const routerProd = Router();
-const productManager = new ProductManager('./src/dataFiles/products.json');
+const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 
 
 //--------------ROUTER API--------------/
@@ -126,7 +126,7 @@ routerProd.post("/mongo-newproduct", async (req, res) => {
   try {
     const { title, description, price, code, stock, category, thumbnail } = req.body.products;
     const prodToCreate = await ProductModel.create({ title, description, price, code, stock, category, thumbnail, status: true });
-    console.log(prodToCreate);
+    //console.log(prodToCreate);
     return res.status(201).json({ products: prodToCreate });
   } catch (e) {
     console.log(e);

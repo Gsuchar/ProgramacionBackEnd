@@ -11,7 +11,7 @@ const thumbnail = document.getElementById("formThumbnail");
 
 //SERVER DATA --- ARREGLO POR ENTREGABLE 5
 socket.on("products", (productsList) => {
-  console.log(productsList);
+  //console.log(productsList);
   document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
     return acc + "<tr>" +
      "<th scope='row'>"+ item.id +
