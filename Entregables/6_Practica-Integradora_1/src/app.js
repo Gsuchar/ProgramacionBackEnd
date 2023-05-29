@@ -1,6 +1,7 @@
 import express from 'express';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
 import { __dirname } from "./utils.js";
 import path from "path";
 import handlebars from "express-handlebars";
@@ -50,7 +51,7 @@ app.set("view engine", "handlebars");
 //HANDLERS SOCKET
 socketServer.on("connection", (socket) => {
   console.log("Un cliente se ha conectado: " + socket.id);
-
+  /******** PRODUCTS **********/
   socket.on("new-product", async (newProd) => {
     try {
       await productManager.addProduct({ ...newProd });
@@ -74,12 +75,26 @@ socketServer.on("connection", (socket) => {
       console.log({ Error: `${err}` });      
     }
   });
+
+  /****** FIN PRODUCTS *****/
+
+
+  let messages=[];
+  socket.on("message111", men => {
+    try {
+      messages.push(men);
+      socket.emit('messageLogs', messages )               
+    } catch (err) {
+      console.log({ Error: `${err}` });      
+    }
+  });
 });
 
 
 //Routes
 app.use('/', productRoutes);
 app.use('/', cartRoutes);
+app.use('/', chatRoutes);
 
 
 //PARA MOSTRAR ERROR CUANDO NO ENCUENTRA URL
