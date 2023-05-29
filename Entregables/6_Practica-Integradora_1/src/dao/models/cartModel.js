@@ -1,8 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const schema = new Schema({   
-   //idProduct: { type: Number, required: true, max: 100 },
-    products: { type: Array, required: true },
+   
+    //products: { type: Array },
+    products: [Array],
+
 });
 
 export const CartModel = model("carts", schema);
