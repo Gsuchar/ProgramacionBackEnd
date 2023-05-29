@@ -48,6 +48,11 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 
+//Routes
+app.use('/', productRoutes);
+app.use('/', cartRoutes);
+app.use('/', chatRoutes);
+
 //HANDLERS SOCKET
 socketServer.on("connection", (socket) => {
   console.log("Un cliente se ha conectado: " + socket.id);
@@ -60,7 +65,7 @@ socketServer.on("connection", (socket) => {
       //console.log(productsList);
       //console.log(`Se ingreso el producto ${newProd.title} correctamente` );
     } catch (err) {
-      console.log({ Err11or: `${err}` });
+      console.log({ Error: `${err}` });
       
     }
   });
@@ -79,22 +84,20 @@ socketServer.on("connection", (socket) => {
   /****** FIN PRODUCTS *****/
 
 
-  let messages=[];
-  socket.on("message111", men => {
+  /** CHAT */ 
+  socket.on("message", (men) => {
     try {
-      messages.push(men);
-      socket.emit('messageLogs', messages )               
+      mens.push(men);
+      socketServer.emit('messageLogs', mens )               
     } catch (err) {
       console.log({ Error: `${err}` });      
     }
   });
+  /** FIN CHAT */
 });
+//Variable global para mensajes del chat
+let mens=[]; 
 
-
-//Routes
-app.use('/', productRoutes);
-app.use('/', cartRoutes);
-app.use('/', chatRoutes);
 
 
 //PARA MOSTRAR ERROR CUANDO NO ENCUENTRA URL

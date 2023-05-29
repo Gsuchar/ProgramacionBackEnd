@@ -1,12 +1,13 @@
 const socket = io();
 
-async function main() {
+let user="";
+async function UserChat() {
   const { value: email } = await Swal.fire({
     title: "Ingresa tu E-mail.",
     input: "text",
     inputLabel: "E-mail",
     inputValue: "",
-    showCancelButton: true,
+    showCancelButton: false,
     inputValidator: (value) => {
       if (!value) {
         return "Debes ingresar un E-mail valido!";
@@ -20,30 +21,30 @@ async function main() {
   } else {
     Swal.fire(`E-mail no ingresado`);
   }
-}
-
-main();
+};
+UserChat();
 
 const chatBox = document.getElementById("chatbox");
 
 chatBox.addEventListener("keyup", ({ key }) => {
+  let mess = { msg: chatBox.value, user: user };
   if (key == "Enter") {
-    socket.emit("message111", {
-      msg: chatBox.value,
-      user: email,
-    });
+    socket.emit("message", mess );
     chatBox.value = "";
   }
 });
 
-socket.on("messageLogs", (men) => {
+socket.on("messageLogs", (mens) => {
   let log = document.getElementById('messageLogs');
+  //console.log(mens)
   let messages = "";
-  men.forEach(element => {
-    messages = element+ `${element.user} dice: ${element.message}</br>`     
-    
+  mens.forEach(mens => {
+    messages +=  "<div>";
+    messages +=  `<b>${mens.user}:</b></br> ${mens.msg}</br>`;
+    messages +=  "</div>";        
   });
   log.innerHTML = messages ;
+  //log.innerHTML = JSON.stringify(mens)
 
 
   //console.log(productsList);
