@@ -34,18 +34,31 @@ chatBox.addEventListener("keyup", ({ key }) => {
   }
 });
 
-socket.on("messageLogs", (mens) => {
+socket.on("messageLogs", (messages) => {
   let log = document.getElementById('messageLogs');
-  //console.log(mens)
-  let messages = "";
-  mens.forEach(mens => {
-    messages +=  "<div>";
-    messages +=  `<b>${mens.user}:</b></br> ${mens.msg}</br>`;
-    messages +=  "</div>";        
+  let messagesHTML = "";
+
+  messages.forEach((message) => {
+    messagesHTML += "<div>";
+    messagesHTML += `<b>${message.user}:</b><br>${message.msg}<br>`;
+    messagesHTML += "</div>";
   });
-  log.innerHTML = messages ;
- 
+
+  log.innerHTML = messagesHTML;
 });
+
+// socket.on("messageLogs", (mens) => {
+//   let log = document.getElementById('messageLogs');
+//   //console.log(mens)
+//   let messages = "";
+//   mens.forEach(mens => {
+//     messages +=  "<div>";
+//     messages +=  `<b>${mens.user}:</b></br> ${mens.msg}</br>`;
+//     messages +=  "</div>";        
+//   });
+//   log.innerHTML = messages ;
+ 
+// });
 
 
 

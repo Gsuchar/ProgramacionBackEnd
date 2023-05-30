@@ -7,7 +7,7 @@ const schema = new Schema({
     ////////////////////////////////////////////////////////////////////////
     //{user:correoDelUsuario, message: mensaje del usuario}
     user: String,
-    message: String
+    msg: String
 });
 
 export const MessageModel = model("messages", schema);

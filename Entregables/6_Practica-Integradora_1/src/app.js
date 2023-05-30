@@ -9,6 +9,7 @@ import { Server } from "socket.io";
 import http from 'http';
 import { ProductManager } from "./dao/ProductManager.js";
 import { connectMongo } from "./utils.js";
+import { MessageModel } from './dao/models/messageModel.js';
 
 const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 
@@ -76,15 +77,20 @@ socketServer.on("connection", (socket) => {
 
 
   /** CHAT */ 
-  socket.on("message", (men) => {
+  socket.on("message", async (msg) => {
     try {
       //unshift es parecido a push
-      mens.unshift(men);
-      socketServer.emit('messageLogs', mens )               
-    } catch (err) {
-      console.log({ Error: `${err}` });      
-    }
-  });
+      //mens.unshift(men);
+      // Guardar el mensaje en la base de datos
+    await MessageModel.create(msg);
+
+    // Emitir los mensajes actualizados a todos los clientes
+    const msgs = await MessageModel.find();
+    socketServer.emit('messageLogs', msgs);
+  } catch (err) {
+    console.log({ Error: `${err}` });
+  }
+});
   /** FIN CHAT */
 });
 //Variable global para mensajes del chat
