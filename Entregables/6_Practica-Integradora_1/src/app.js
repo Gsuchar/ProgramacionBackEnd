@@ -78,7 +78,8 @@ socketServer.on("connection", (socket) => {
   /** CHAT */ 
   socket.on("message", (men) => {
     try {
-      mens.push(men);
+      //unshift es parecido a push
+      mens.unshift(men);
       socketServer.emit('messageLogs', mens )               
     } catch (err) {
       console.log({ Error: `${err}` });      

@@ -1,9 +1,8 @@
+
 import { Schema, model } from "mongoose";
 
 const schema = new Schema({   
-   
-    //products: { type: Array },
-    products: Array,
+   products: [{idProduct: { type: String }, quantity: { type: Number } }]
 
 });
 
