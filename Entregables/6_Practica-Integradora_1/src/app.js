@@ -8,25 +8,14 @@ import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import http from 'http';
 import { ProductManager } from "./dao/ProductManager.js";
-import { connect } from "mongoose";
+import { connectMongo } from "./utils.js";
 
 const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 
 const app = express();
 const port = 8080;
 
-//DB
-export async function connectMongo() {
-  try {
-    await connect(
-      "mongodb+srv://Gsuchar:1J0pqk2HPyyEZZl4@progbackend.muru6sp.mongodb.net/"
-    );
-    console.log("plug to mongo!");
-  } catch (e) {
-    console.log(e);
-    throw "can not connect to the db";
-  }
-};
+//mongo db
 connectMongo();
 
 
@@ -36,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 const httpServer = http.createServer(app);
 const socketServer = new Server(httpServer);
+//global mensajes
+let mens=[]; 
 
 //ESCUCHA HTTPSERVER
 httpServer.listen(port, () => {
@@ -54,6 +45,7 @@ app.use('/', cartRoutes);
 app.use('/', chatRoutes);
 
 //HANDLERS SOCKET
+
 socketServer.on("connection", (socket) => {
   console.log("Un cliente se ha conectado: " + socket.id);
   /******** PRODUCTS **********/
@@ -80,7 +72,6 @@ socketServer.on("connection", (socket) => {
       console.log({ Error: `${err}` });      
     }
   });
-
   /****** FIN PRODUCTS *****/
 
 
@@ -96,7 +87,7 @@ socketServer.on("connection", (socket) => {
   /** FIN CHAT */
 });
 //Variable global para mensajes del chat
-let mens=[]; 
+
 
 
 

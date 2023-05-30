@@ -117,7 +117,7 @@ routerProd.get("/mongo-products", async (req, res) => {
   try {
     const products = await ProductModel.find(); 
     res.status(200).json( { products : products });
-  } catch (error) {
+  } catch (err) {
       res.status(500).json({ Error: `${err}` });
     }
 });

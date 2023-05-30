@@ -44,24 +44,7 @@ socket.on("messageLogs", (mens) => {
     messages +=  "</div>";        
   });
   log.innerHTML = messages ;
-  //log.innerHTML = JSON.stringify(mens)
-
-
-  //console.log(productsList);
-  // document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
-  //   return acc + "<tr>" +
-  //    "<th scope='row'>"+ item.id +
-  //    "</th>" + "<td>" + item.title + "</td>" +
-  //    "</th>" + "<td>" + item.description + "</td>" +
-  //    "</th>" + "<td>" + item.price + "</td>" +
-  //    "</th>" + "<td>" + item.code + "</td>" +
-  //    "</th>" + "<td>" + item.stock + "</td>" +
-  //    "</th>" + "<td>" + item.category + "</td>" +
-  //    "</th>" + "<td>" + item.thumbnail + "</td>" +
-  //    '<td>'+'<input type="submit" value="Borrar"  class="btn btn-danger " onclick="deleteProduct('+ item.id +')"/>' +
-  //     '</td>'+
-  //    "</tr>";
-  // }, "");
+ 
 });
 
 
