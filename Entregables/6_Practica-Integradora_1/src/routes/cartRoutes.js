@@ -70,7 +70,6 @@ routerCart.get("/mongo-carts", async (req, res) => {
       res.status(500).json({ Error: `${err}` });
     }
 });
-
 //CARTS NUEVO
 routerCart.post("/mongo-newcart", async (req, res) => {
   try {
