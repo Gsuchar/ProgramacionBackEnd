@@ -15,7 +15,6 @@ const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 
 const app = express();
 const port = 8080;
-
 //mongo db
 connectMongo();
 
@@ -74,7 +73,6 @@ socketServer.on("connection", (socket) => {
     }
   });
   /****** FIN PRODUCTS *****/
-
 
   /** CHAT */ 
   socket.on("message", async (msg) => {
