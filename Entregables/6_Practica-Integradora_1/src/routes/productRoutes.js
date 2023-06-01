@@ -128,13 +128,8 @@ routerProd.post("/mongo-newproduct", async (req, res) => {
     const prodToCreate = await ProductModel.create({ title, description, price, code, stock, category, thumbnail, status: true });
     //console.log(prodToCreate);
     return res.status(201).json({ products: prodToCreate });
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({
-      status: "error",
-      msg: "Something went wrong :(",
-      data: {},
-    });
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
   }
 });
 
