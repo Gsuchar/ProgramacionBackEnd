@@ -14,13 +14,13 @@ import { connectMongo, socketServerHandler } from "./utils.js";
 const app = express();
 const port = 8080;
 
-// Connect to MongoDB
+// Connect a MongoDB/Atlas
 connectMongo();
 
-// Create HTTP server
+// Crea HTTP server
 const httpServer = http.createServer(app);
 
-// Listen to HTTP server
+// Anuncia puerto
 httpServer.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
@@ -28,12 +28,12 @@ httpServer.listen(port, () => {
 // Socket server handler
 socketServerHandler(httpServer);
 
-// MIDDLEWARES
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// ENGINE HANDLEBARS
+// Engine Handlebars para views
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
@@ -43,8 +43,7 @@ app.use('/', productRoutes);
 app.use('/', cartRoutes);
 app.use('/', chatRoutes);
 
-
-// Handle 404 Not Found
+// Epic link Facil - 404 Not Found
 app.get("*", (req, res) => {
   return res.status(404).json({status: "error", msg: "Not found", data: {} });
 });

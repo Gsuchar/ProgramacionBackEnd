@@ -37,7 +37,7 @@ export async function connectMongo() {
     console.log(e);
     throw "Unable to connect to the database";
   }
-}
+};
 
 
 /***************************************************************************/
@@ -50,9 +50,9 @@ export function socketServerHandler(httpServer) {
   const socketServer = new Server(httpServer);
   const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 
-  // Listen for connections
+  // Escucha/anuncia conexiones de clientes
   socketServer.on("connection", (socket) => {
-    console.log("A client has connected: " + socket.id);
+    console.log("A client-socket has connected: " + socket.id);
 
     /******** PRODUCTS **********/
     socket.on("new-product", async (newProd) => {
@@ -60,8 +60,6 @@ export function socketServerHandler(httpServer) {
         await productManager.addProduct({ ...newProd });
         const productsList = await productManager.getProducts();
         socketServer.emit("products", productsList);
-        //console.log(productsList);
-        //console.log(`Product ${newProd.title} added successfully`);
       } catch (err) {
         console.log({ Error: `${err}` });
       }
@@ -72,28 +70,24 @@ export function socketServerHandler(httpServer) {
         await productManager.deleteProduct(productId);
         const productsUpdt = await productManager.getProducts();
         socketServer.emit("products", productsUpdt);
-        //console.log(`Product with ID ${productId} deleted successfully`);
       } catch (err) {
         console.log({ Error: `${err}` });
       }
     });
     /****** END PRODUCTS *****/
 
-    /** CHAT */
+    /****** CHAT **********/
     socket.on("message", async (msg) => {
       try {
-        //unshift is similar to push
-        //mens.unshift(men);
-        // Save the message in the database
+        //Guarda en BD
         await MessageModel.create(msg);
-
-        // Emit updated messages to all clients
+        // Emit mensajes actualizados a todos los clientes
         const msgs = await MessageModel.find();
         socketServer.emit('messageLogs', msgs);
       } catch (err) {
         console.log({ Error: `${err}` });
       }
     });
-    /** END CHAT */
+    /******* END CHAT ********/
   });
 }
