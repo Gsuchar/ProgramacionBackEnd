@@ -122,7 +122,7 @@ routerProd.get("/mongo-products", async (req, res) => {
     }
 });
 //PRODUCTO NUEVO
-routerProd.post("/mongo-newproduct", async (req, res) => {
+routerProd.post("/mongo-product-new", async (req, res) => {
   try {
     const { title, description, price, code, stock, category, thumbnail } = req.body.products;
     const prodToCreate = await ProductModel.create({ title, description, price, code, stock, category, thumbnail, status: true });
@@ -133,6 +133,42 @@ routerProd.post("/mongo-newproduct", async (req, res) => {
   }
 });
 
+// UPDATE PRODUCT
+routerProd.put("/mongo-product-update/:id", async (req, res) => {
+  const { id } = req.params;
+  const productId = ObjectId(id); // Convierte el id en un objeto ObjectId
+  const { title, description, price, code, stock, category, thumbnail } = req.body.products;
+  try {
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      productId,
+      { title, description, price, code, stock, category, thumbnail },
+      { new: true } // Esto asegura que se devuelva el documento actualizado
+    );
+    //console.log(updatedProduct);
+    return res.status(201).json(updatedProduct);
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  }
+});
+
+//DELETE PRODUCT
+
+import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId; // ObjectId con ayuda de mongoose
+routerProd.delete("/mongo-product-delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const productId = ObjectId(id); // Convierte el id en un objeto ObjectId
+    const deleted = await ProductModel.findByIdAndDelete({ _id: productId });
+    return res.status(200).json({
+      status: "success",
+      msg: "product deleted",
+      data: {deleted},
+    });
+  }catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  }
+});
 
 
 //-------FIN ROUTER MONGO----------//

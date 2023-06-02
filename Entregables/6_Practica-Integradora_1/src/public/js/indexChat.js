@@ -25,7 +25,6 @@ async function UserChat() {
 UserChat();
 
 const chatBox = document.getElementById("chatbox");
-
 chatBox.addEventListener("keyup", ({ key }) => {
   let mess = { msg: chatBox.value, user: user };
   if (key == "Enter") {
@@ -46,6 +45,22 @@ socket.on("messageLogs", (messages) => {
 
   log.innerHTML = messagesHTML;
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // socket.on("messageLogs", (mens) => {
 //   let log = document.getElementById('messageLogs');
