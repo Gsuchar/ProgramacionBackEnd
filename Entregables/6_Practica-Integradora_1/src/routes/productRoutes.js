@@ -1,13 +1,79 @@
 import { Router } from 'express';
 import { ProductManager } from "../dao/ProductManager.js";
 import { uploader } from '../utils.js';
-import { ProductModel } from "../dao/models/productModel.js";
+import {ProductService} from "../services/productService.js"
 
 
 const routerProd = Router();
 const productManager = new ProductManager('./src/dao/dataFiles/products.json');
+const productService = new ProductService;
 
+//-------ROUTER MONGO----------//
+// TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
+routerProd.get("/mongo-products", async (req, res) => {  
+  try {
+    const limit = req.query.limit;
+    const products = await productService.getProducts(limit); 
+    res.status(200).json( { products : products });
+  } catch (err) {
+      res.status(500).json({ Error: `${err}` });
+    }
+});
 
+// TRAIGO PRODUCTO SEGÚN EL ID INDICADO EN URL
+routerProd.get('/mongo-products/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await productService.getProductById(id);
+    res.status(200).json(product);
+  } catch (err) {
+      res.status(404).json({ Error: `No se encontró el producto con ID ${id}.` });
+  };
+});
+// PRODUCTO NUEVO
+routerProd.post("/mongo-products-new", async (req, res) => {
+  try {
+    const { title, description, price, code, stock, category, thumbnail } = req.body.products;
+    const prodToCreate = await productService.addProduct({ title, description,  code, price, status: true, stock, category, thumbnail });    
+    return res.status(201).json({ products: prodToCreate });
+  } catch (err) {
+      res.status(500).json({ Error: `${err}` });
+  }
+});
+
+// UPDATE PRODUCTO
+routerProd.put("/mongo-products-update/:id", async (req, res) => {
+  const { id } = req.params;
+  const fieldsToUpdate = req.body.products;
+  try {
+    const product = await productService.updateProduct(id, fieldsToUpdate);
+    res.status(200).json(product);
+  } catch (err) {
+      res.status(500).json({ Error: `${err}` });
+  }
+});
+
+// DELETE PRODUCTO
+routerProd.delete("/mongo-products-delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted =  await productService.deleteProduct(id)
+    return res.status(200).json(deleted);
+  }catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  }
+});
+
+//-------FIN ROUTER MONGO----------//
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+//*********************ANTERIOR FILESYSTEM*********************//
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 //--------------ROUTER API--------------/
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
 routerProd.get('/api/products', async (req, res) => {
@@ -23,6 +89,7 @@ routerProd.get('/api/products', async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   };
 });
+
 // TRAIGO PRODUCTO SEGÚN EL ID INDICADO EN URL
 routerProd.get('/api/products/:pid', async (req, res) => {
   const pid = req.params.pid;
@@ -33,6 +100,7 @@ routerProd.get('/api/products/:pid', async (req, res) => {
     res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
   };
 });
+
 // MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
 routerProd.put('/api/products/:pid', async (req, res) => {
   const pid = req.params.pid;
@@ -44,6 +112,7 @@ routerProd.put('/api/products/:pid', async (req, res) => {
     res.status(404).json({ Error: `${err}` });
   };
 });
+
 // AGREGO PRODUCTO
 routerProd.post('/api/products', async (req, res) => {
   try {       
@@ -53,6 +122,7 @@ routerProd.post('/api/products', async (req, res) => {
     res.status(400).json({ Error: `${err}` });
   };
 });
+
 // BORRO PRODUCTO SEGÚN ID INDICADO
 routerProd.post('/api/products/:pid', async (req, res) => {
   const pid = req.params.pid;
@@ -64,8 +134,9 @@ routerProd.post('/api/products/:pid', async (req, res) => {
   };
 });
 //----------FIN ROUTER API-------------//
+/////////////////////////////////////////////////////////////////////////////////////////
 //--------ROUTER HANDLEBARS Y WEBSOCKET----------//
-/*-Postman Test-*/
+// POR POSTMAN FORM
 routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
   try {
     const productData = {
@@ -82,7 +153,7 @@ routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
     res.status(400).json({ Error: `${err}` });
   }
 });
-/*- Vista Simple html-*/
+// VISTA SIMPLE HTML -NO DINAMICA-
 routerProd.get("/html/products", async (req, res) => {
   const limit = req.query.limit;
   try {
@@ -97,7 +168,7 @@ routerProd.get("/html/products", async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   }
 });
-/*--WEBSOCKET--*/
+// VISTA WEBSOCKET -DINAMICA-
 routerProd.get("/realtimeproducts", async (req, res) => {  
   try {
     const products = await productManager.getProducts(); 
@@ -106,71 +177,16 @@ routerProd.get("/realtimeproducts", async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   }
 });
-
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
-
-//CAMBIA DE FILESYSTEM A UNA BD REAL
-
-//-------ROUTER MONGO----------//
-// TODOS LOS PRODUCTOS
-routerProd.get("/mongo-products", async (req, res) => {  
-  try {
-    const products = await ProductModel.find(); 
-    res.status(200).json( { products : products });
-  } catch (err) {
-      res.status(500).json({ Error: `${err}` });
-    }
-});
-//PRODUCTO NUEVO
-routerProd.post("/mongo-product-new", async (req, res) => {
-  try {
-    const { title, description, price, code, stock, category, thumbnail } = req.body.products;
-    const prodToCreate = await ProductModel.create({ title, description, price, code, stock, category, thumbnail, status: true });
-    //console.log(prodToCreate);
-    return res.status(201).json({ products: prodToCreate });
-  } catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
-
-// UPDATE PRODUCT
-routerProd.put("/mongo-product-update/:id", async (req, res) => {
-  const { id } = req.params;
-  const productId = ObjectId(id); // Convierte el id en un objeto ObjectId
-  const { title, description, price, code, stock, category, thumbnail } = req.body.products;
-  try {
-    const updatedProduct = await ProductModel.findByIdAndUpdate(
-      productId,
-      { title, description, price, code, stock, category, thumbnail },
-      { new: true } // Esto asegura que se devuelva el documento actualizado
-    );
-    //console.log(updatedProduct);
-    return res.status(201).json(updatedProduct);
-  } catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
-
-//DELETE PRODUCT
-
-import mongoose from 'mongoose';
-const ObjectId = mongoose.Types.ObjectId; // ObjectId con ayuda de mongoose
-routerProd.delete("/mongo-product-delete/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const productId = ObjectId(id); // Convierte el id en un objeto ObjectId
-    const deleted = await ProductModel.findByIdAndDelete({ _id: productId });
-    return res.status(200).json({
-      status: "success",
-      msg: "product deleted",
-      data: {deleted},
-    });
-  }catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
+/////////////////////////////////////////////////////////////////////////////////////////
 
 
-//-------FIN ROUTER MONGO----------//
+
   
 export default routerProd;
+
+
+
+
+//import mongoose from 'mongoose';
+//const ObjectId = mongoose.Types.ObjectId; // ObjectId con ayuda de mongoose
