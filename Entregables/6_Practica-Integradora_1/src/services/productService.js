@@ -1,8 +1,7 @@
 import { ProductModel } from '../dao/models/productModel.js';
-import mongoose from 'mongoose';
-export class ProductService {
 
-    // Todos los productos con limite en caso que se indique
+export class ProductService {
+    // TRAIGO TODOS LOS PRODUCTOS
     async getProducts(limit) {          
         try {
             const products = await ProductModel.find().limit(limit); 
@@ -12,7 +11,7 @@ export class ProductService {
         }
     };
 
-    // Trae producto por Id
+    // TRAIGO PRODUCTO SEGÚN EL ID
     async getProductById(id) {
         try {
           const product = await ProductModel.find({ _id: id }); 
@@ -25,18 +24,9 @@ export class ProductService {
             throw (`Error al buscar producto. ${err}`);
             //throw (err);
         }
-      };
-
-    async deleteProduct(id) {
-        try {        
-            const deletedProduct = await ProductModel.findByIdAndDelete({ _id: id });
-            return deletedProduct;      
-        }catch (err) {
-            throw (`Fallo al encontrar producto. ${err}`);
-        };
     };
-      
-    //NEW PRODS
+
+    // PRODUCTO NUEVO
     async addProduct(newProd) {
         try {        
             const products = await this.getProducts();      
@@ -63,7 +53,7 @@ export class ProductService {
         };    
     };
 
-    //UPDATE PRODS
+    // MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
     async updateProduct(id, fieldsToUpdate) {
         try {            
             const productToUpdate = { ...fieldsToUpdate };           
@@ -105,8 +95,16 @@ export class ProductService {
             throw (`No se pudo modificar producto con ID ${id}. ${err}`);
         };
     };
+
+    // DELETE PRODUCTO
+    async deleteProduct(id) {
+        try {        
+            const deletedProduct = await ProductModel.findByIdAndDelete({ _id: id });
+            return deletedProduct;      
+        }catch (err) {
+            throw (`Fallo al encontrar producto. ${err}`);
+        };
+    };
     
-
-
-
+    //LLAVE FIN PRODUCT SERVICE
 }

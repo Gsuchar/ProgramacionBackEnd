@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+
 export class ProductManager {
   constructor(filePath) {
     this.filePath = filePath;    
@@ -7,7 +8,7 @@ export class ProductManager {
     ProductManager.productGlobalID = lastProductId;
   };
   static productGlobalID = 0;
-
+  // TRAIGO TODOS LOS PRODUCTOS
   async getProducts() {
     try {
       const data = await fs.readFile(this.filePath, "utf-8");      
@@ -18,8 +19,8 @@ export class ProductManager {
     } catch (err) {
         return ['Error leyendo archivo de productos.'];
     }
-};
-
+  };
+  // TRAIGO PRODUCTO SEGÚN EL ID
   async getProductById(id) {
     try {
       const products = await this.getProducts();
@@ -33,23 +34,8 @@ export class ProductManager {
         throw (`Error al buscar producto. ${err}`);
     }
   };
-    
-  async deleteProduct(id) {
-    try {
-      const products = await this.getProducts();
-      const index = products.findIndex((product) => product.id == id);
-      if (index == -1) {
-        throw (`No existe producto para el id ${id}.`);
-      }
-      const deletedProduct = products.splice(index, 1)[0];      
-      await fs.writeFile(this.filePath, JSON.stringify(products, 2));      
-      return deletedProduct;      
-    }catch (err) {
-      throw (`Fallo al encontrar producto. ${err}`);
-    };
-  };  
  
-  //NEW PRODS
+  // PRODUCTO NUEVO
   async addProduct(newProd) {
     try {        
       const products = await this.getProducts();      
@@ -84,7 +70,7 @@ export class ProductManager {
     };    
   };
   
-  //UPDATE PRODS
+  // MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
   async updateProduct(id, fieldsToUpdate) {
     try {
         const products = await this.getProducts();
@@ -127,6 +113,22 @@ export class ProductManager {
     };
   };
   
+  // DELETE PRODUCTO    
+  async deleteProduct(id) {
+    try {
+      const products = await this.getProducts();
+      const index = products.findIndex((product) => product.id == id);
+      if (index == -1) {
+        throw (`No existe producto para el id ${id}.`);
+      }
+      const deletedProduct = products.splice(index, 1)[0];      
+      await fs.writeFile(this.filePath, JSON.stringify(products, 2));      
+      return deletedProduct;      
+    }catch (err) {
+      throw (`Fallo al encontrar producto. ${err}`);
+    };
+  };
+
 //LLAVE FIN PRODUCT MANAGER
 };
 

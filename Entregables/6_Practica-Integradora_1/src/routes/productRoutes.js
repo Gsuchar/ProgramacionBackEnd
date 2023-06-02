@@ -10,6 +10,8 @@ const productService = new ProductService;
 
 //-------ROUTER MONGO----------//
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
+// TODOS > http://localhost:8080/mongo-products
+// Limite 2 > http://localhost:8080/mongo-products?limit=2 
 routerProd.get("/mongo-products", async (req, res) => {  
   try {
     const limit = req.query.limit;
@@ -41,7 +43,7 @@ routerProd.post("/mongo-products-new", async (req, res) => {
   }
 });
 
-// UPDATE PRODUCTO
+// MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
 routerProd.put("/mongo-products-update/:id", async (req, res) => {
   const { id } = req.params;
   const fieldsToUpdate = req.body.products;
@@ -113,7 +115,7 @@ routerProd.put('/api/products/:pid', async (req, res) => {
   };
 });
 
-// AGREGO PRODUCTO
+// PRODUCTO NUEVO
 routerProd.post('/api/products', async (req, res) => {
   try {       
     const product = await productManager.addProduct(req.body);
@@ -123,7 +125,7 @@ routerProd.post('/api/products', async (req, res) => {
   };
 });
 
-// BORRO PRODUCTO SEGÚN ID INDICADO
+// DELETE PRODUCTO
 routerProd.post('/api/products/:pid', async (req, res) => {
   const pid = req.params.pid;
   try {
@@ -179,9 +181,6 @@ routerProd.get("/realtimeproducts", async (req, res) => {
 });
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
   
 export default routerProd;
 
