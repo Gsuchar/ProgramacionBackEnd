@@ -79,4 +79,4 @@ export class CartService {
 
 
  //LAVE FIN CART SERVICE    
-}
+};

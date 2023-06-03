@@ -123,7 +123,7 @@ export class CartManager {
 //LLAVE FIN CART MANAGER
 };
 
-export default new CartManager('./src/dataFiles/carts.json');
+export default new CartManager();
 
 
 

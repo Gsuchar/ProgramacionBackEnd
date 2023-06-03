@@ -8,4 +8,3 @@ const schema = new Schema({
 },{versionKey:false});//{versionKey:false} saca __v: que es para versiones por moongose
 
 export const CartModel = model("carts", schema);
-

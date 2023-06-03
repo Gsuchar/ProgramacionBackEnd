@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { CartManager } from "../dao/CartManager.js";
-//import { CartModel } from "../dao/models/cartModel.js";
 import { CartService } from '../services/cartService.js';
 
 const routerCart = Router();
@@ -136,8 +135,6 @@ routerCart.post('/api/carts/:cid', async (req, res) => {
 
 //----------FIN ROUTER API-------------//
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 export default routerCart;

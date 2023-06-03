@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const schema = new Schema({
-   
+const schema = new Schema({   
     // code: { type: Number/*, required: true, max: 100, unique: true */},
     // category: { type: String/*,required: true, max: 100 */},
     ////////////////////////////////////////////////////////////////////////

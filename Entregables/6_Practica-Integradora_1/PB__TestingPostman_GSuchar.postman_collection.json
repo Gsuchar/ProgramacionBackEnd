@@ -76,10 +76,6 @@
 					]
 				},
 				{
-					"name": "Websockets",
-					"item": []
-				},
-				{
 					"name": "API",
 					"item": [
 						{
@@ -592,7 +588,7 @@
 							"response": []
 						},
 						{
-							"name": "POST_NewCart Copy",
+							"name": "POST_NewCart",
 							"request": {
 								"method": "POST",
 								"header": [],

@@ -133,6 +133,3 @@ export class ProductManager {
 };
 
 export default new ProductManager();
-
-
-
