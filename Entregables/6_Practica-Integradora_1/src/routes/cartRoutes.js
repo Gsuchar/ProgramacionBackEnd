@@ -40,7 +40,7 @@ routerCart.post('/mongo-carts-new', async (req, res) => {
   };
 });
 
-// AGREGA UN PRODUCTO A UN CARRITO EXISTENTE SEGÚN ID DE CARRITO Y ID DE PRODUCTO
+// AGREGA UN PRODUCTO A UN CARRITO EXISTENTE SEGÚN ID DE CARRITO E ID DE PRODUCTO
 routerCart.post('/mongo-carts/:cid/product/:pid', async (req, res) => {
   const cid = req.params.cid;
   const pid = req.params.pid;

@@ -46,7 +46,7 @@ routerProd.post("/mongo-products-new", async (req, res) => {
 // MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
 routerProd.put("/mongo-products-update/:pid", async (req, res) => {
   const { pid } = req.params;
-  const fieldsToUpdate = req.body.products;
+  const fieldsToUpdate = req.body;
   try {
     const product = await productService.updateProduct(pid, fieldsToUpdate);
     res.status(200).json(product);
