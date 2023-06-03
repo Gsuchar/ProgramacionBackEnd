@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+//-----
 
 export class ProductManager {
   constructor(filePath) {

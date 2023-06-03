@@ -847,7 +847,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts/647aecf531e87793b7ffc27d/product/6477d0e0d89bb16387531993",
+									"raw": "http://localhost:8080/mongo-carts/647b7809175520e58d28fe66/product/6477d0e0d89bb16387531993",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -855,7 +855,7 @@
 									"port": "8080",
 									"path": [
 										"mongo-carts",
-										"647aecf531e87793b7ffc27d",
+										"647b7809175520e58d28fe66",
 										"product",
 										"6477d0e0d89bb16387531993"
 									]
@@ -887,6 +887,37 @@
 									"path": [
 										"mongo-carts-delete",
 										"647adfee761a9fb0304bdf34--PONER CARTID REAL"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST_Borrar Prod from Cart",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/mongo-carts-delete/647b7809175520e58d28fe66/product/6477d0e0d89bb16387531992",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"mongo-carts-delete",
+										"647b7809175520e58d28fe66",
+										"product",
+										"6477d0e0d89bb16387531992"
 									]
 								}
 							},

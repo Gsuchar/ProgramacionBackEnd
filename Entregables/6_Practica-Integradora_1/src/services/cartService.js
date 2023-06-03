@@ -1,5 +1,6 @@
 import { CartModel } from '../dao/models/cartModel.js';
 import { ProductModel } from '../dao/models/productModel.js';
+//-----
 
 export class CartService {
 
@@ -77,6 +78,28 @@ export class CartService {
     };
   };
 
+  // BORRO PRODUCTO/QUANTITY DEL CARRITO
+  async deleteProductFromCart(cartId, productId) {
+    try {
+      const productToCart = await ProductModel.findById(productId);
+      productToCart ? productToCart : (() => { throw ("No existe el producto en la base de datos, verifique.") })();
+      const cart = await CartModel.findById(cartId); 
+      cart ?  cart : (() => { throw (`No se encontró carrito con ID ${cartId}.`) })();
+      // Busca productId en cart          
+      const productIndex = cart.products.findIndex((p) => p.idProduct.toString() === productId);
+      productIndex === -1 ? "" : cart.products[productIndex].quantity--;
+      // De llegar a 0 quantity borra el producto del carrito
+      cart.products[productIndex].quantity == 0 ? cart.products.splice(productIndex, 1) : "" ;
+      const updatedCart = await CartModel.findByIdAndUpdate(
+        { _id: cartId },
+        cart,
+        { new: true }
+      );            
+      return updatedCart;
+    } catch (err) {
+        throw `${err}`;
+    }
+  };
 
  //LAVE FIN CART SERVICE    
 };

@@ -51,6 +51,18 @@ routerCart.post('/mongo-carts/:cid/product/:pid', async (req, res) => {
   };
 });
 
+// BORRO PRODUCTO/QUANTITY DEL CARRITO
+routerCart.delete('/mongo-carts-delete/:cid/product/:pid', async (req, res) => {  
+  try {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const cart = await cartService.deleteProductFromCart(cid, pid);
+    res.status(200).json(cart);
+  } catch (err) {
+    res.status(404).json({ Error: `${err}` });
+  };
+});
+
 // BORRO CARRITO SEGÚN ID INDICADO, no iba pero ya me queda
 routerCart.delete('/mongo-carts-delete/:cid', async (req, res) => {  
   try {
