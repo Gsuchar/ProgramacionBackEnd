@@ -252,10 +252,15 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": " {\r\n    \"title\": \"MODIFIQUE TITULO PRODUCTO 3\",\r\n    \"description\": \"3333333333\",\r\n    \"code\": \"3333\",\r\n    \"price\": 33\r\n    \r\n}"
+									"raw": " {\r\n    \"title\": \"MODIFICO TITULO\",\r\n    \"description\": \"Tambien, code y price...modifica en funcion de los parametros q recibe\",\r\n    \"code\": \"22\",\r\n    \"price\": 2\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products/3",
+									"raw": "http://localhost:8080/api/products/11",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -264,7 +269,7 @@
 									"path": [
 										"api",
 										"products",
-										"3"
+										"11"
 									]
 								}
 							},
@@ -433,7 +438,7 @@
 							"response": []
 						},
 						{
-							"name": "POST_Update Cart Copy",
+							"name": "PUT_Update Prod",
 							"event": [
 								{
 									"listen": "test",
@@ -450,7 +455,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"CAMBIA_(tile / descipcion / code)\",\r\n    \"description\": \"PORIA MODIFICAR CUALQUUIER PARAMETRO SEGUN ENVIO\",\r\n    \"code\": 666\r\n    \r\n}",
+									"raw": " {\r\n    \"title\": \"MODIFICO TITULO\",\r\n    \"description\": \"Tambien, code y price...modifica en funcion de los parametros q recibe\",\r\n    \"code\": 666,\r\n    \"price\": 666\r\n    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -846,7 +851,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts/647aa95487a0186c0012cf80/product/6477d0e0d89bb16387531993",
+									"raw": "http://localhost:8080/mongo-carts/647aecf531e87793b7ffc27d/product/6477d0e0d89bb16387531993",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -854,7 +859,7 @@
 									"port": "8080",
 									"path": [
 										"mongo-carts",
-										"647aa95487a0186c0012cf80",
+										"647aecf531e87793b7ffc27d",
 										"product",
 										"6477d0e0d89bb16387531993"
 									]

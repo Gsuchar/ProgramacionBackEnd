@@ -19,6 +19,6 @@ const schema = new Schema({
     stock: Number,   
     category: String,
     thumbnail:  String
-});
+},{versionKey:false});//{versionKey:false} saca __v: que es para versiones por moongose
 
 export const ProductModel = model("products", schema);
