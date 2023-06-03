@@ -23,13 +23,13 @@ routerProd.get("/mongo-products", async (req, res) => {
 });
 
 // TRAIGO PRODUCTO SEGÚN EL ID INDICADO EN URL
-routerProd.get('/mongo-products/:id', async (req, res) => {
-  const id = req.params.id;
+routerProd.get('/mongo-products/:pid', async (req, res) => {
+  const pid = req.params.pid;
   try {
-    const product = await productService.getProductById(id);
+    const product = await productService.getProductById(pid);
     res.status(200).json(product);
   } catch (err) {
-      res.status(404).json({ Error: `No se encontró el producto con ID ${id}.` });
+      res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
   };
 });
 // PRODUCTO NUEVO
@@ -44,11 +44,11 @@ routerProd.post("/mongo-products-new", async (req, res) => {
 });
 
 // MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
-routerProd.put("/mongo-products-update/:id", async (req, res) => {
-  const { id } = req.params;
+routerProd.put("/mongo-products-update/:pid", async (req, res) => {
+  const { pid } = req.params;
   const fieldsToUpdate = req.body.products;
   try {
-    const product = await productService.updateProduct(id, fieldsToUpdate);
+    const product = await productService.updateProduct(pid, fieldsToUpdate);
     res.status(200).json(product);
   } catch (err) {
       res.status(500).json({ Error: `${err}` });
@@ -56,10 +56,10 @@ routerProd.put("/mongo-products-update/:id", async (req, res) => {
 });
 
 // DELETE PRODUCTO
-routerProd.delete("/mongo-products-delete/:id", async (req, res) => {
+routerProd.delete("/mongo-products-delete/:pid", async (req, res) => {
   try {
-    const { id } = req.params;
-    const deleted =  await productService.deleteProduct(id)
+    const { pid } = req.params;
+    const deleted =  await productService.deleteProduct(pid)
     return res.status(200).json(deleted);
   }catch (err) {
     res.status(500).json({ Error: `${err}` });
