@@ -162,9 +162,9 @@ routerProd.get("/html/products", async (req, res) => {
     const products = await productManager.getProducts();
     if (limit) {
       const prodsLimit = products.slice(0, limit);
-      res.status(200).render("home", { products: prodsLimit });
+      res.status(200).render("productsHtml", { products: prodsLimit });
     } else {
-      res.status(200).render("home", { products });
+      res.status(200).render("productsHtml", { products });
     }
   } catch (err) {
     res.status(500).json({ Error: `${err}` });
