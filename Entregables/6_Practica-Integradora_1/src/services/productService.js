@@ -1,11 +1,11 @@
 import { ProductModel } from '../dao/models/productModel.js';
 
 export class ProductService {
-    // TRAIGO TODOS LOS PRODUCTOS
+// TRAIGO TODOS LOS PRODUCTOS
     async getProducts(limit) {          
         try {
             const products = await ProductModel.find().limit(limit); 
-            return products
+            return products;
         } catch (err) {           
             return { Error: `${err}` };
         }
@@ -57,8 +57,7 @@ export class ProductService {
     async updateProduct(id, fieldsToUpdate) {
         try {            
             const productToUpdate = { ...fieldsToUpdate };           
-            //console.log("productToUpdate====>"+JSON.stringify(productToUpdate, null, 2))
-            // Recorre los posibles campos, asigna si cumple la validacion, si no manda mensaje con el error
+            // Recorre los posibles campos, asigna los campos enviados si cumplen la validacion, si no manda mensaje con error
             for (const field in fieldsToUpdate) {
                 switch (field) {
                     case "title":
@@ -82,12 +81,11 @@ export class ProductService {
                     default:
                         break;
                 }
-            };
-            
+            };            
             const prodUpdated = await ProductModel.findByIdAndUpdate(
                 { _id: id },
                 productToUpdate,
-                { new: true } // Esto asegura que se devuelva el documento actualizado
+                { new: true } // Esto asegura que se devuelva el documento actualizado (Mongo)
               );
             //console.log("prodUpdated====>"+JSON.stringify(prodUpdated, null, 2))
             return prodUpdated;
