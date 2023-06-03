@@ -1,4 +1,5 @@
 import { CartModel } from '../dao/models/cartModel.js';
+import { ProductModel } from '../dao/models/productModel.js';
 
 export class CartService {
   
@@ -39,8 +40,10 @@ export class CartService {
       // //AGREGA PRODUCTOS AL CART
       async addProductToCart(cartId, productId) {
         try {
+          const productToCart = await ProductModel.findById(productId)
+          productToCart ? productToCart : (() => { throw ("No existe el producto en la base de datos, verifique.") })();
           const cart = await CartModel.findById(cartId) 
-          cart ?  cart :  ()=> {throw `No se encontró carrito con ID ${cartId}.`};
+          cart ?  cart : (() => { throw (`No se encontró carrito con ID ${cartId}.`) })();
           // Busca productId en cart          
           const productIndex = cart.products.findIndex((p) => p.idProduct.toString() === productId);
           productIndex === -1 ? cart.products.push({ idProduct: productId, quantity: 1 }): cart.products[productIndex].quantity++;          
