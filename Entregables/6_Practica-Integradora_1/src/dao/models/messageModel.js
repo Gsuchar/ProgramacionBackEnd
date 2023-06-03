@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
-
-const schema = new Schema({   
+import mongoose from "mongoose";
+console.log(mongoose.version);
+const schema = new mongoose.Schema({   
     // code: { type: Number/*, required: true, max: 100, unique: true */},
     // category: { type: String/*,required: true, max: 100 */},
     ////////////////////////////////////////////////////////////////////////
@@ -9,4 +9,4 @@ const schema = new Schema({
     msg: String
 },{versionKey:false});//{versionKey:false} saca __v: que es para versiones por moongose
 
-export const MessageModel = model("messages", schema);
+export const MessageModel = mongoose.model("messages", schema);
