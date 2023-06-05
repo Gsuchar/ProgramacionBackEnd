@@ -42,7 +42,7 @@ app.use('/', productRoutes);
 app.use('/', cartRoutes);
 app.use('/', chatRoutes);
 
-// Epic link Facil - 404 Not Found
+// Epic link Fail - 404 Not Found
 app.get("*", (req, res) => {
   return res.status(404).json({status: "Epic error", msg: "Not found :( ", data: {} });
 });
