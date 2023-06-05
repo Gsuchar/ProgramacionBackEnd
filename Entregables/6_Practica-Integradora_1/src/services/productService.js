@@ -2,6 +2,7 @@ import { ProductModel } from '../dao/models/productModel.js';
 //-----
 
 export class ProductService {
+    
 // TRAIGO TODOS LOS PRODUCTOS
     async getProducts(limit) {          
         try {
@@ -15,12 +16,9 @@ export class ProductService {
     // TRAIGO PRODUCTO SEGÚN EL ID
     async getProductById(id) {
         try {
-          const product = await ProductModel.find({ _id: id }); 
-          if (product) {
-            return product;
-          } else {
-            throw (`El producto de id ${id} no se encontró.`);
-          }
+          const product = await ProductModel.find({ _id: id });
+          product ? product :  (() => { throw (`El producto de id ${id} no se encontró.`) })();
+          return product;
         } catch (err) {
             throw (`Error al buscar producto. ${err}`);
             //throw (err);

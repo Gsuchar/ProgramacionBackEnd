@@ -85,10 +85,10 @@ routerProd.get('/api/products', async (req, res) => {
     if (limit) {
       res.status(200).json(products.slice(0, limit));
     } else {
-      res.status(200).json(products);
+        res.status(200).json(products);
     };
   } catch (err) {
-    res.status(500).json({ Error: `${err}` });
+      res.status(500).json({ Error: `${err}` });
   };
 });
 
@@ -99,7 +99,7 @@ routerProd.get('/api/products/:pid', async (req, res) => {
     const product = await productManager.getProductById(pid);
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
+      res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
   };
 });
 
@@ -111,7 +111,7 @@ routerProd.put('/api/products/:pid', async (req, res) => {
     const product = await productManager.updateProduct(pid, fieldsToUpdate);
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).json({ Error: `${err}` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 
@@ -121,7 +121,7 @@ routerProd.post('/api/products', async (req, res) => {
     const product = await productManager.addProduct(req.body);
     res.status(201).json(product);
   } catch (err) {
-    res.status(400).json({ Error: `${err}` });
+      res.status(400).json({ Error: `${err}` });
   };
 });
 
@@ -132,7 +132,7 @@ routerProd.post('/api/products/:pid', async (req, res) => {
     const product = await productManager.deleteProduct(pid);
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).json({ Error: `${err}` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 //----------FIN ROUTER API-------------//

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-console.log(mongoose.version);
+//console.log(mongoose.version);
+//Probando schema mongoose.Schema
 const schema = new mongoose.Schema({   
-    // code: { type: Number/*, required: true, max: 100, unique: true */},
-    // category: { type: String/*,required: true, max: 100 */},
+    // user: { type: Number/*, required: true, max: 100, unique: true */},
+    // msg: { type: String/*,required: true, max: 100 */},
     ////////////////////////////////////////////////////////////////////////
-    //{user:correoDelUsuario, message: mensaje del usuario}
     user: String,
     msg: String
 },{versionKey:false});//{versionKey:false} saca __v: que es para versiones por moongose

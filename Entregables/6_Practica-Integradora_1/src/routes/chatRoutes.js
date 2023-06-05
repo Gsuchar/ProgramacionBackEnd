@@ -6,7 +6,7 @@ routerChat.get("/chat", async (req, res) => {
     try {      
       res.status(200).render('chat', { });
     } catch (err) {
-      res.status(500).json({ Error: `${err}` });
+        res.status(500).json({ Error: `${err}` });
     };
   });
 

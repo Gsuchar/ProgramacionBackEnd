@@ -44,5 +44,5 @@ app.use('/', chatRoutes);
 
 // Epic link Facil - 404 Not Found
 app.get("*", (req, res) => {
-  return res.status(404).json({status: "error", msg: "Epic Not found", data: {} });
+  return res.status(404).json({status: "Epic error", msg: "Not found :( ", data: {} });
 });

@@ -10,7 +10,7 @@ export class CartService {
       //console.log(carts)
       return carts;
     } catch (err) {
-        return ['Error al obtener carts.' + ` ${err}`];
+        throw ['Error al obtener carts.' + ` ${err}`];
     }
   };
     

@@ -25,7 +25,7 @@ routerCart.get('/mongo-carts/:cid', async (req, res) => {
     const cart = await cartService.getProductsByCartId(cid);
     res.status(200).json(cart);
   } catch (err) {
-    res.status(404).json({ Error: `${err}` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 
@@ -35,7 +35,7 @@ routerCart.post('/mongo-carts-new', async (req, res) => {
     const cart = await cartService.addCart();//REVISAR, DUDAS POR COMO ARMA products:[]
     res.status(201).json(cart);
   } catch (err) {
-    res.status(400).json({ Error: `${err}` });
+      res.status(400).json({ Error: `${err}` });
   };
 });
 
@@ -47,7 +47,7 @@ routerCart.post('/mongo-carts/:cid/product/:pid', async (req, res) => {
     const cart = await cartService.addProductToCart(cid, pid);
     res.status(200).json(cart);
   } catch (err) {
-    res.status(404).json({ Error: `${err}` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 
@@ -59,7 +59,7 @@ routerCart.delete('/mongo-carts-delete/:cid/product/:pid', async (req, res) => {
     const cart = await cartService.deleteProductFromCart(cid, pid);
     res.status(200).json(cart);
   } catch (err) {
-    res.status(404).json({ Error: `${err}` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 
@@ -70,7 +70,7 @@ routerCart.delete('/mongo-carts-delete/:cid', async (req, res) => {
     const cart = await cartService.deleteCart(cid);
     res.status(200).json(cart);
   } catch (err) {
-    res.status(404).json({ Error: `${err}` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 
