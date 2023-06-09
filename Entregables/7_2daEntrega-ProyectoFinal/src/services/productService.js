@@ -3,10 +3,22 @@ import { ProductModel } from '../dao/models/productModel.js';
 
 export class ProductService {
     
-// TRAIGO TODOS LOS PRODUCTOS
+    // TRAIGO TODOS LOS PRODUCTOS
     async getProducts(limit) {          
         try {
             const products = await ProductModel.find().limit(limit); 
+            return products;
+        } catch (err) {           
+            return { Error: `${err}` };
+        }
+    };
+
+    // TRAIGO PAGINADOS LOS PRODUCTOS
+    async getProductsPaginate(limit) {          
+        try {
+            //const products = await ProductModel.find().limit(limit); 
+            //PRIMER {} = filtro por atributo/valor, vacio trae todo *** SEGUNDO {} = Limite y page inicial
+            const products = await ProductModel.paginate({ },{limit: 0, page: 1}) 
             return products;
         } catch (err) {           
             return { Error: `${err}` };

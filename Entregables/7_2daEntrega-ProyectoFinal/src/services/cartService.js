@@ -60,7 +60,7 @@ export class CartService {
   //TRAIGO LOS PRODS DEL CART SEGUN CARTID
   async getProductsByCartId(cartId) {
     try {
-      const cart = await CartModel.findById(cartId);
+      const cart = await CartModel.findById(cartId).populate('products.idProduct');//POPULATE_2da ENTREGA PF
       const products = cart.products;
       return { products };
     } catch (err) {

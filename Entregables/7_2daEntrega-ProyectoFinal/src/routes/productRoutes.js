@@ -15,7 +15,8 @@ const productService = new ProductService;
 routerProd.get("/mongo-products", async (req, res) => {  
   try {
     const limit = req.query.limit;
-    const products = await productService.getProducts(limit); 
+    //const products = await productService.getProducts(limit); 
+    const products = await productService.getProductsPaginate(limit); 
     res.status(200).json( { products : products });
   } catch (err) {
       res.status(500).json({ Error: `${err}` });
