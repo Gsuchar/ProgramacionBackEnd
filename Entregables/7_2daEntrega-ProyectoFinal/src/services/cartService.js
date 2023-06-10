@@ -77,6 +77,16 @@ export class CartService {
       throw (`Fallo al encontrar carrito. ${err}`);
     };
   };
+  // VACIO CART SEGUN ID 
+  async emptyCart(cid) {
+    try {
+      const resetCart = products = []
+      const emptyCart = await CartModel.findOneAndUpdate({ _id: cid }, resetCart);      
+      return emptyCart;      
+    }catch (err) {
+      throw (`Fallo al encontrar carrito. ${err}`);
+    };
+  };
 
   // BORRO PRODUCTO/QUANTITY DEL CARRITO
   async deleteProductFromCart(cartId, productId) {

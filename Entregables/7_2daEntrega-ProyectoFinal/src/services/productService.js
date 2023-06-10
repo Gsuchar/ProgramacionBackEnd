@@ -6,7 +6,7 @@ export class ProductService {
     // TRAIGO TODOS LOS PRODUCTOS
     async getProducts(limit) {          
         try {
-            const products = await ProductModel.find().limit(limit); 
+            const products = await ProductModel.find().limit(limit).lean(); 
             return products;
         } catch (err) {           
             return { Error: `${err}` };
@@ -14,11 +14,16 @@ export class ProductService {
     };
 
     // TRAIGO PAGINADOS LOS PRODUCTOS
-    async getProductsPaginate(limit) {          
+    async getProductsPaginate(limit, page, filter,sort, attName) {          
         try {
-            //const products = await ProductModel.find().limit(limit); 
             //PRIMER {} = filtro por atributo/valor, vacio trae todo *** SEGUNDO {} = Limite y page inicial
-            const products = await ProductModel.paginate({ },{limit: 0, page: 1}) 
+            const products = await ProductModel.paginate(
+                filter ? { [attName]: filter } : {},
+                { limit: limit , lean: true, 
+                  page: page ,                  
+                  sort: sort                 
+                }
+            ) 
             return products;
         } catch (err) {           
             return { Error: `${err}` };

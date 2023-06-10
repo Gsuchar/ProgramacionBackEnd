@@ -3,12 +3,12 @@ import { CartManager } from "../dao/CartManager.js";
 import { CartService } from '../services/cartService.js';
 
 const routerCart = Router();
-const cartManager = new CartManager('./src/dao/dataFiles/carts.json');
+const cartManager = new CartManager('./src/dao/dataFiles/carts.json');//FS
 const cartService = new CartService;
 
 
 // TRAIGO TODOS LOS CARRITOS (en caso de tener límite, trae solo la cantidad indicada), no iba pero ya me queda
-routerCart.get("/mongo-carts", async (req, res) => {  
+routerCart.get("/carts", async (req, res) => {  
   try {
     const limit = req.query.limit;
     const carts = await cartService.getCarts(limit); 
@@ -19,7 +19,7 @@ routerCart.get("/mongo-carts", async (req, res) => {
 });
 
 // TRAIGO PRODUCTOS DEL CARRITO SEGÚN EL ID INDICADO EN URL
-routerCart.get('/mongo-carts/:cid', async (req, res) => {
+routerCart.get('/carts/:cid', async (req, res) => {
   const cid = req.params.cid;
   try {
     const cart = await cartService.getProductsByCartId(cid);
@@ -30,7 +30,7 @@ routerCart.get('/mongo-carts/:cid', async (req, res) => {
 });
 
 // AGREGO CARRITO, inicializa con cartID y un array de prods vacio
-routerCart.post('/mongo-carts-new', async (req, res) => {
+routerCart.post('/carts/new', async (req, res) => {
   try {
     const cart = await cartService.addCart();//REVISAR, DUDAS POR COMO ARMA products:[]
     res.status(201).json(cart);
@@ -40,7 +40,7 @@ routerCart.post('/mongo-carts-new', async (req, res) => {
 });
 
 // AGREGA UN PRODUCTO A UN CARRITO EXISTENTE SEGÚN ID DE CARRITO E ID DE PRODUCTO
-routerCart.post('/mongo-carts/:cid/product/:pid', async (req, res) => {
+routerCart.post('/carts/:cid/product/:pid', async (req, res) => {
   const cid = req.params.cid;
   const pid = req.params.pid;
   try {
@@ -52,7 +52,7 @@ routerCart.post('/mongo-carts/:cid/product/:pid', async (req, res) => {
 });
 
 // BORRO PRODUCTO/QUANTITY DEL CARRITO
-routerCart.delete('/mongo-carts-delete/:cid/product/:pid', async (req, res) => {  
+routerCart.delete('/carts/delete/:cid/product/:pid', async (req, res) => {  
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
@@ -63,8 +63,23 @@ routerCart.delete('/mongo-carts-delete/:cid/product/:pid', async (req, res) => {
   };
 });
 
+
+
+// VACIO CARRITO SEGÚN ID INDICADO
+routerCart.put('/emptyCart/:cid', async (req, res) => {  
+  try {
+    const { cid } = req.params;
+    console.log(cid)
+    // const cart = await cartService.deleteCart(cid);
+    const cart = await cartService.emptyCart(cid);
+    res.status(200).json(cart);
+  } catch (err) {
+      res.status(404).json({ Error: `${err}` });
+  };
+});
+
 // BORRO CARRITO SEGÚN ID INDICADO, no iba pero ya me queda
-routerCart.delete('/mongo-carts-delete/:cid', async (req, res) => {  
+routerCart.delete('/carts/deleteAll/:cid', async (req, res) => {  
   try {
     const { cid } = req.params;
     const cart = await cartService.deleteCart(cid);
@@ -80,6 +95,29 @@ routerCart.delete('/mongo-carts-delete/:cid', async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //*********************ANTERIOR FILESYSTEM*********************//
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +125,7 @@ routerCart.delete('/mongo-carts-delete/:cid', async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 //--------------ROUTER API--------------/
 // TRAIGO TODOS LOS CARRITOS (en caso de tener límite, trae solo la cantidad indicada), no iba pero ya me queda
-routerCart.get('/api/carts', async (req, res) => {
+routerCart.get('/fs/api/carts', async (req, res) => {
   const limit = req.query.limit;
   try {
     const carts = await cartManager.getCarts();
@@ -102,7 +140,7 @@ routerCart.get('/api/carts', async (req, res) => {
 });
 
 // TRAIGO PRODUCTOS DEL CARRITO SEGÚN EL ID INDICADO EN URL
-routerCart.get('/api/carts/:cid', async (req, res) => {
+routerCart.get('/fs/api/carts/:cid', async (req, res) => {
   const cid = req.params.cid;
   try {
     const cart = await cartManager.getProductsByCartId(cid);
@@ -113,7 +151,7 @@ routerCart.get('/api/carts/:cid', async (req, res) => {
 });
 
 // AGREGO CARRITO, inicializa con cartID y un array de prods vacio
-routerCart.post('/api/carts', async (req, res) => {
+routerCart.post('/fs/api/carts', async (req, res) => {
   try {
     const cart = await cartManager.addCart(req.body);
     res.status(201).json(cart);
@@ -123,7 +161,7 @@ routerCart.post('/api/carts', async (req, res) => {
 });
 
 // AGREGA UN PRODUCTO A UN CARRITO EXISTENTE SEGÚN ID DE CARRITO Y ID DE PRODUCTO
-routerCart.post('/api/:cid/product/:pid', async (req, res) => {
+routerCart.post('/fs/api/:cid/product/:pid', async (req, res) => {
   const cid = req.params.cid;
   const pid = req.params.pid;
   try {
@@ -135,7 +173,7 @@ routerCart.post('/api/:cid/product/:pid', async (req, res) => {
 });
 
 // BORRO CARRITO SEGÚN ID INDICADO, no iba pero ya me queda
-routerCart.post('/api/carts/:cid', async (req, res) => {
+routerCart.post('/fs/api/carts/:cid', async (req, res) => {
   const cid = req.params.cid;
   try {
     const cart = await cartManager.deleteCart(cid);
