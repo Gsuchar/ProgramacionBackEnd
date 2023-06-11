@@ -8,16 +8,8 @@ const schema = new Schema({
     status: { type: Boolean},
     stock: { type: Number/*, required: true, max: 100*/ },   
     category: { type: String , index: true/*,required: true, max: 100 */},
-    thumbnail: { type: String}
-
-    // title : String,
-    // description: String ,
-    // code:  Number,
-    // price: Number,
-    // status:  Boolean,
-    // stock: Number,   
-    // category: String,
-    // thumbnail:  String
+    thumbnail: { type: String}  
 },{versionKey:false});//{versionKey:false} saca __v: que es para versiones por moongose
+
 schema.plugin(mongoosePaginate);
 export const ProductModel = model("products", schema);

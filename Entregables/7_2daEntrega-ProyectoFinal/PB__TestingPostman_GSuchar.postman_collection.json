@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "de52e647-a4d7-4513-8b4d-c9c72a9e8c7a",
+		"_postman_id": "6e33159e-866f-4236-bc63-4102dc1c93d5",
 		"name": "PB__TestingPostman_GSuchar",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27191640"
@@ -76,7 +76,7 @@
 					]
 				},
 				{
-					"name": "API",
+					"name": "FileSystem",
 					"item": [
 						{
 							"name": "GET_Traigo todos los prod",
@@ -96,13 +96,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products",
+									"raw": "http://localhost:8080/fs/api/products",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"products"
 									]
@@ -128,13 +129,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products/?limit=3",
+									"raw": "http://localhost:8080/fs/api/products/?limit=3",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"products",
 										""
@@ -167,13 +169,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products/6",
+									"raw": "http://localhost:8080/fs/api/products/6",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"products",
 										"6"
@@ -197,13 +200,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products/11",
+									"raw": "http://localhost:8080/fs/api/products/11",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"products",
 										"11"
@@ -219,7 +223,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{  \r\n    \"title\": \"PROD_420\",\r\n    \"description\": \"420\",\r\n    \"code\": 4201,\r\n    \"price\": 420,\r\n    \"stock\": 420,\r\n    \"category\": \"420\",\r\n    \"thumbnail\": \"420\"\r\n    \r\n}",
+									"raw": "{  \r\n    \"title\": \"PROD_420\",\r\n    \"description\": \"420\",\r\n    \"code\": 420,\r\n    \"price\": 420,\r\n    \"stock\": 420,\r\n    \"category\": \"420\",\r\n    \"thumbnail\": \"420\"\r\n    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -227,13 +231,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products",
+									"raw": "http://localhost:8080/fs/api/products",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"products"
 									]
@@ -256,13 +261,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/products/11",
+									"raw": "http://localhost:8080/fs/api/products/11",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"products",
 										"11"
@@ -294,14 +300,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-products",
+									"raw": "http://localhost:8080/products",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-products"
+										"products"
 									]
 								}
 							},
@@ -325,14 +331,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-products?limit=2",
+									"raw": "http://localhost:8080/products?limit=2",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-products"
+										"products"
 									],
 									"query": [
 										{
@@ -362,15 +368,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-products/6477d0e0d89bb16387531993",
+									"raw": "http://localhost:8080/products/64810bfc333ed4bfc6f7acad",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-products",
-										"6477d0e0d89bb16387531993"
+										"products",
+										"64810bfc333ed4bfc6f7acad"
 									]
 								}
 							},
@@ -383,7 +389,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"products\": {\r\n        \"title\": \"PROD_420\",\r\n        \"description\": \"420\",\r\n        \"code\": 4201,\r\n        \"price\": 420,\r\n        \"stock\": 420,\r\n        \"category\": \"420\",\r\n        \"thumbnail\": \"420\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"products\": {\r\n        \"title\": \"AGREGADO\",\r\n        \"description\": \"AGREGADO\",\r\n        \"code\": 111,\r\n        \"price\": 420,\r\n        \"stock\": 420,\r\n        \"category\": \"AGREGADO\",\r\n        \"thumbnail\": \"420\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -391,14 +397,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-products-new",
+									"raw": "http://localhost:8080/products/new",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-products-new"
+										"products",
+										"new"
 									]
 								}
 							},
@@ -419,15 +426,16 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-products-delete/647a6ce75adab0790638766a---PONER ID A BORRAR",
+									"raw": "http://localhost:8080/products/delete/6484be64b1daed9e48672b0a",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-products-delete",
-										"647a6ce75adab0790638766a---PONER ID A BORRAR"
+										"products",
+										"delete",
+										"6484be64b1daed9e48672b0a"
 									]
 								}
 							},
@@ -451,7 +459,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": " {\r\n    \"title\": \"MODIFICO TITULO\",\r\n    \"description\": \"Tambien, code y price...modifica en funcion de los parametros q recibe\",\r\n    \"code\": 666,\r\n    \"price\": 666\r\n    \r\n}",
+									"raw": " {\r\n    \"title\": \"MODIFICO TITULO\",\r\n    \"description\": \"Tambien, code y price...modifica en funcion de los parametros q recibe\",\r\n    \"code\": 666,\r\n    \"price\": 666,\r\n    \"category\": \"Testing\"\r\n    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -459,15 +467,16 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-products-update/647aea7cda8a3b91229863c8---PONER ID A MODIFICAR",
+									"raw": "http://localhost:8080/products/update/648119df6decdb8b515992b3",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-products-update",
-										"647aea7cda8a3b91229863c8---PONER ID A MODIFICAR"
+										"products",
+										"update",
+										"648119df6decdb8b515992b3"
 									]
 								}
 							},
@@ -481,7 +490,7 @@
 			"name": "Carts",
 			"item": [
 				{
-					"name": "API",
+					"name": "FileSystem",
 					"item": [
 						{
 							"name": "GET_Traigo todos los carts",
@@ -501,13 +510,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/carts",
+									"raw": "http://localhost:8080/fs/api/carts",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"carts"
 									]
@@ -533,13 +543,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/carts/?limit=3",
+									"raw": "http://localhost:8080/fs/api/carts/?limit=3",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"carts",
 										""
@@ -572,13 +583,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/carts/2",
+									"raw": "http://localhost:8080/fs/api/carts/2",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"carts",
 										"2"
@@ -602,13 +614,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/carts",
+									"raw": "http://localhost:8080/fs/api/carts",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"carts"
 									]
@@ -642,15 +655,16 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/2/product/9",
+									"raw": "http://localhost:8080/fs/api/4/product/9",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
-										"2",
+										"4",
 										"product",
 										"9"
 									]
@@ -673,13 +687,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/carts/4",
+									"raw": "http://localhost:8080/fs/api/carts/4",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"api",
 										"carts",
 										"4"
@@ -711,14 +726,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts",
+									"raw": "http://localhost:8080/carts",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts"
+										"carts"
 									]
 								}
 							},
@@ -742,14 +757,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts?limit=2",
+									"raw": "http://localhost:8080/carts?limit=2",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts"
+										"carts"
 									],
 									"query": [
 										{
@@ -762,7 +777,7 @@
 							"response": []
 						},
 						{
-							"name": "GET_Traigo los Prods del cart segun cartId",
+							"name": "GET_Traigo los Prods del cart segun cartId--Populados",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -779,15 +794,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts/647aa95487a0186c0012cf80",
+									"raw": "http://localhost:8080/carts/64810b7f333ed4bfc6f7ac99",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts",
-										"647aa95487a0186c0012cf80"
+										"carts",
+										"64810b7f333ed4bfc6f7ac99"
 									]
 								}
 							},
@@ -808,14 +823,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts-new",
+									"raw": "http://localhost:8080/carts/new",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts-new"
+										"carts",
+										"new"
 									]
 								}
 							},
@@ -847,24 +863,24 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts/647b7809175520e58d28fe66/product/6477d0e0d89bb16387531993",
+									"raw": "http://localhost:8080/carts/64810b7f333ed4bfc6f7ac99/product/64810dd4673bfbdbf73fa49c",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts",
-										"647b7809175520e58d28fe66",
+										"carts",
+										"64810b7f333ed4bfc6f7ac99",
 										"product",
-										"6477d0e0d89bb16387531993"
+										"64810dd4673bfbdbf73fa49c"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "POST_Borrar cart segun Id",
+							"name": "POST_Borrar cart COMPLETO segun Id (no solicitado pero ya queda)",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -878,15 +894,16 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts-delete/647adfee761a9fb0304bdf34--PONER CARTID REAL",
+									"raw": "http://localhost:8080/carts/deleteAll/6484c34c2017a2a5026f783d",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts-delete",
-										"647adfee761a9fb0304bdf34--PONER CARTID REAL"
+										"carts",
+										"deleteAll",
+										"6484c34c2017a2a5026f783d"
 									]
 								}
 							},
@@ -907,17 +924,18 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/mongo-carts-delete/647b7809175520e58d28fe66/product/6477d0e0d89bb16387531992",
+									"raw": "http://localhost:8080/carts/delete/64810b7f333ed4bfc6f7ac99/product/64810dd4673bfbdbf73fa49c",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"mongo-carts-delete",
-										"647b7809175520e58d28fe66",
+										"carts",
+										"delete",
+										"64810b7f333ed4bfc6f7ac99",
 										"product",
-										"6477d0e0d89bb16387531992"
+										"64810dd4673bfbdbf73fa49c"
 									]
 								}
 							},

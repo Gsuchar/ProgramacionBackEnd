@@ -6,7 +6,7 @@ export class ProductService {
     // TRAIGO TODOS LOS PRODUCTOS
     async getProducts(limit) {          
         try {
-            const products = await ProductModel.find().limit(limit).lean(); 
+            const products = await ProductModel.find().limit(limit).lean().exec(); 
             return products;
         } catch (err) {           
             return { Error: `${err}` };

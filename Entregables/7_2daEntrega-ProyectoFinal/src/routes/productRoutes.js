@@ -11,7 +11,7 @@ const productService = new ProductService;
 //-------ROUTER MONGO----------//
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
 // TODOS > http://localhost:8080/mongo-products
-// Limite 2 > http://localhost:8080/mongo-products?limit=2 
+// Limite 2 > http://localhost:8080/products?limit=2 
 
 routerProd.get("/products", async (req, res) => {  
   try {
@@ -21,7 +21,7 @@ routerProd.get("/products", async (req, res) => {
     const sort = req.query.sort ? { price: req.query.sort } : '';
     const attName = req.query.attName || '';
     //const products = await productService.getProducts(limit); 
-    const products = await productService.getProductsPaginate(limit, page, filter,sort, attName); 
+    const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
     res.status(200).json( { products : products });
   } catch (err) {
       res.status(500).json({ Error: `${err}` });
@@ -90,6 +90,7 @@ routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
     res.status(400).json({ Error: `${err}` });
   }
 });
+
 // VISTA SIMPLE HTML -NO DINAMICA-
 routerProd.get("/html/products", async (req, res) => {
   const limit = req.query.limit;
@@ -105,6 +106,7 @@ routerProd.get("/html/products", async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   }
 });
+
 // VISTA WEBSOCKET -DINAMICA-
 routerProd.get("/realtimeproducts", async (req, res) => {  
   try {
@@ -124,7 +126,8 @@ routerProd.get("/realtimeproducts", async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+export default routerProd;
+//ABAJO ESTA LO DE FS, NO LO SAQUE POR SI VOLVEMOS A USARLO
 
 
 
@@ -185,7 +188,7 @@ routerProd.put('/fs/api/products/:pid', async (req, res) => {
 });
 
 // PRODUCTO NUEVO
-routerProd.post('/api/products', async (req, res) => {
+routerProd.post('/fs/api/products', async (req, res) => {
   try {       
     const product = await productManager.addProduct(req.body);
     res.status(201).json(product);
@@ -195,7 +198,7 @@ routerProd.post('/api/products', async (req, res) => {
 });
 
 // DELETE PRODUCTO
-routerProd.post('/api/products/:pid', async (req, res) => {
+routerProd.post('/fs/api/products/:pid', async (req, res) => {
   const pid = req.params.pid;
   try {
     const product = await productManager.deleteProduct(pid);
@@ -251,7 +254,6 @@ routerProd.get("/fs/realtimeproducts", async (req, res) => {
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
 /////////////////////////////////////////////////////////////////////////////////////////
   
-export default routerProd;
 
 
 

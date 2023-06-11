@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { CartManager } from "../dao/CartManager.js";
 import { CartService } from '../services/cartService.js';
+import {ProductService} from "../services/productService.js"
+const productService = new ProductService;
 
 const routerCart = Router();
 const cartManager = new CartManager('./src/dao/dataFiles/carts.json');//FS
@@ -20,8 +22,9 @@ routerCart.get("/carts", async (req, res) => {
 
 // TRAIGO PRODUCTOS DEL CARRITO SEGÚN EL ID INDICADO EN URL
 routerCart.get('/carts/:cid', async (req, res) => {
-  const cid = req.params.cid;
+  
   try {
+    const cid = req.params.cid;
     const cart = await cartService.getProductsByCartId(cid);
     res.status(200).json(cart);
   } catch (err) {
@@ -35,16 +38,17 @@ routerCart.post('/carts/new', async (req, res) => {
     const cart = await cartService.addCart();//REVISAR, DUDAS POR COMO ARMA products:[]
     res.status(201).json(cart);
   } catch (err) {
-      res.status(400).json({ Error: `${err}` });
+      res.status(400).json({ ErrorVVV: `${err}` });
   };
 });
 
-// AGREGA UN PRODUCTO A UN CARRITO EXISTENTE SEGÚN ID DE CARRITO E ID DE PRODUCTO
-routerCart.post('/carts/:cid/product/:pid', async (req, res) => {
+// AGREGA UN PRODUCTO Y QUANTITY A UN CARRITO 
+routerCart.put('/carts/:cid/product/:pid', async (req, res) => {
   const cid = req.params.cid;
   const pid = req.params.pid;
+  const pQuantity = req.body.quantity;
   try {
-    const cart = await cartService.addProductToCart(cid, pid);
+    const cart = await cartService.addProductToCart(cid, pid, pQuantity);
     res.status(200).json(cart);
   } catch (err) {
       res.status(404).json({ Error: `${err}` });
@@ -56,7 +60,9 @@ routerCart.delete('/carts/delete/:cid/product/:pid', async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
-    const cart = await cartService.deleteProductFromCart(cid, pid);
+    const pQuantity = req.body.quantity;
+
+    const cart = await cartService.deleteProductFromCart(cid, pid, pQuantity);
     res.status(200).json(cart);
   } catch (err) {
       res.status(404).json({ Error: `${err}` });
@@ -66,9 +72,9 @@ routerCart.delete('/carts/delete/:cid/product/:pid', async (req, res) => {
 
 
 // VACIO CARRITO SEGÚN ID INDICADO
-routerCart.put('/emptyCart/:cid', async (req, res) => {  
+routerCart.delete('/carts/empty/:cid', async (req, res) => {  
   try {
-    const { cid } = req.params;
+    const cid = req.params.cid;
     console.log(cid)
     // const cart = await cartService.deleteCart(cid);
     const cart = await cartService.emptyCart(cid);
@@ -89,7 +95,41 @@ routerCart.delete('/carts/deleteAll/:cid', async (req, res) => {
   };
 });
 
+//--------ROUTER HANDLEBARS Y WEBSOCKET----------//
+// VISTA SIMPLE HTML -NO DINAMICA-
+routerCart.get("/cart/products/:cid", async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const cartProducts = await cartService.getProductsByCartId(cid);   
+    res.status(200).render("cartProducts", cartProducts);
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  }
+});
 
+
+
+// VISTA WEBSOCKET -DINAMICA-
+routerCart.get("/productsToCart", async (req, res) => {  
+  try {
+    // const cart = await cartService.addCart();
+    // console.log(cart._id)
+    const limit =   10; // Obtener el nuevo límite desde la consulta
+    const page = 1; // Valor predeterminado si no se proporciona
+    const products = await productService.getProductsPaginate(limit, page);
+    //console.log(products) 
+    res.status(200).render('productsToCart', { listProducts : products }/*, console.log(products.totalDocs)*/ );
+  } catch (err) {
+    res.status(500).json({ Error: `${err}` });
+  }
+});
+
+
+
+
+
+//-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
+/////////////////////////////////////////////////////////////////////////////////////////
 //-------FIN ROUTER MONGO----------//
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
