@@ -6,6 +6,7 @@ socket.on("updatedProducts", (listProducts) => {
   const tableRows = listProducts.docs.map((product) => `
     <tr>
       <th scope="row">${product.id}</th>
+      
       <td>${product.title}</td>
       <td>${product.description}</td>
       <td>${product.price}</td>
@@ -21,7 +22,7 @@ socket.on("updatedProducts", (listProducts) => {
 
 socket.on("dinamic-list-cart", (cartUpdt) => {
   //const dviCart = document.getElementById("dinamic-list-cart");
-  console.log(JSON.stringify(cartUpdt))
+  //console.log(JSON.stringify(cartUpdt))
   //const cartProd = cartUpdt.cartProducts
   const cartBody = document.getElementById("dinamic-list-cart")
   const cartText = cartUpdt.cartProducts.map((product) => `
@@ -38,9 +39,9 @@ function setLimit() {
   const limit = parseInt(document.getElementById("limit").value);
   socket.emit("limitChange", limit);
 }
-function setOrderPrice() {
-  const orderPrice = document.getElementById("orderPrice").value;
-  socket.emit("sortChange", orderPrice);
+function setSortPrice() {
+  const sortPrice = document.getElementById("sortPrice").value;
+  socket.emit("sortChange", sortPrice);
 }
 
 function addToCart(productId) {  

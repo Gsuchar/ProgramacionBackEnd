@@ -79,23 +79,21 @@ export function socketServerHandler(httpServer) {
       }
     });
 
-    socket.on("sortChange", async (orderPrice) => {
+    socket.on("sortChange", async (sortPrice) => {
       try {
-        //const sort = toString(orderPrice);
-        //const sort = orderPrice ? { price: orderPrice } : '';
-        console.log(orderPrice)
-        const limit =  10; // Valor predeterminado si no se proporciona
-        const page =  1; // Valor predeterminado si no se proporciona
-        const filter =  '';
-        const sort =  { price: orderPrice } ;
-        const attName =  '';
-        const products = await productService.getProductsPaginate( limit, page, sort);
-        console.log(products)
+        const limit = 10; // Valor predeterminado si no se proporciona
+        const page = 1; // Valor predeterminado si no se proporciona
+        const filter = '';
+        const sort = sortPrice; 
+        const attName = '';
+        const products = await productService.getProductsPaginate(limit, page, filter, sort, attName);
+        console.log(products);
         socket.emit("updatedProducts", products);
       } catch (err) {
-       console.log({ Error: `${err}` })
+        console.log({ Error: `${err}` });
       }
     });
+    
 
     socket.on("addToCart", async (productId) => {
       try {

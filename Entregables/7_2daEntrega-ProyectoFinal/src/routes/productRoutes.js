@@ -16,7 +16,7 @@ const productService = new ProductService;
 routerProd.get("/products", async (req, res) => {  
   try {
     const limit = parseInt(req.query.limit) || 10; // Valor predeterminado si no se proporciona
-    const page = parseInt(req.query.page) || 1; // Valor predeterminado si no se proporciona
+    const page = parseInt(req.query.page) ; // Valor predeterminado si no se proporciona
     const filter = req.query.filter || '';
     const sort = req.query.sort ? { price: req.query.sort } : '';
     const attName = req.query.attName || '';

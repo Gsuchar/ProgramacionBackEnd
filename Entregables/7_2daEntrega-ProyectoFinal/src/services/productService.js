@@ -14,19 +14,20 @@ export class ProductService {
     };
 
     // TRAIGO PAGINADOS LOS PRODUCTOS
-    async getProductsPaginate(limit, page, filter,sort, attName) {          
+    async getProductsPaginate(limit, page, filter, sort, attName) {          
         try {
+            const sortOrder =  { price: sort } ;
             //PRIMER {} = filtro por atributo/valor, vacio trae todo *** SEGUNDO {} = Limite y page inicial
             const products = await ProductModel.paginate(
                 filter ? { [attName]: filter } : {},
-                { limit: limit , lean: true, 
-                  page: page ,                  
-                  sort: sort                 
+                { limit: limit ? limit : 10 ,  lean: true, 
+                  page: page ? page : 1,                  
+                  sort: sort ?  sortOrder : ""//{price:"asc"}                
                 }
             ) 
             return products;
         } catch (err) {           
-            return { Error: `${err}` };
+            return { Error111: `${err}` };
         }
     };
 
