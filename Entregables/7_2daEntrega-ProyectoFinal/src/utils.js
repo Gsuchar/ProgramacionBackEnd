@@ -57,8 +57,9 @@ export function socketServerHandler(httpServer) {
   // Escucha/anuncia conexiones de clientes
   socketServer.on("connection", (socket) => {
     console.log("A client-socket has connected: " + socket.id);
+    
     /******** SOCKET CARTS **********/
-    let  userId;
+    let userId;
     let cartId;
     cartService.addCart().then((cart) => {
       console.log("userId =>>> " + socket.id + "  cartId =>>> " + cart._id);
@@ -66,7 +67,35 @@ export function socketServerHandler(httpServer) {
       cartId = cart._id //ID carrito perteneciente al usuario        
       }).catch((err) => {
           console.error("Error creando cart: ", err);
-        });      
+        });
+
+    socket.on("limitChange", async (limit) => {
+      try {
+        const page = 1;
+        const products = await productService.getProductsPaginate(limit, page);
+        socket.emit("updatedProducts", products);
+      } catch (err) {
+       console.log({ Error: `${err}` })
+      }
+    });
+
+    socket.on("sortChange", async (orderPrice) => {
+      try {
+        //const sort = toString(orderPrice);
+        //const sort = orderPrice ? { price: orderPrice } : '';
+        console.log(orderPrice)
+        const limit =  10; // Valor predeterminado si no se proporciona
+        const page =  1; // Valor predeterminado si no se proporciona
+        const filter =  '';
+        const sort =  { price: orderPrice } ;
+        const attName =  '';
+        const products = await productService.getProductsPaginate( limit, page, sort);
+        console.log(products)
+        socket.emit("updatedProducts", products);
+      } catch (err) {
+       console.log({ Error: `${err}` })
+      }
+    });
 
     socket.on("addToCart", async (productId) => {
       try {
@@ -78,15 +107,7 @@ export function socketServerHandler(httpServer) {
       }
     });   
 
-    socket.on("limitChange", async (limit) => {
-      try {
-        const page = 1;
-        const products = await productService.getProductsPaginate(limit, page);
-        socket.emit("updatedProducts", products);
-      } catch (err) {
-        console.error(err);
-      }
-    });
+    
     /******** FIN SOCKET CARTS **********/
 
 

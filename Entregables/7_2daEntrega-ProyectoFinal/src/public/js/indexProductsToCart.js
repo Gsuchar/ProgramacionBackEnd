@@ -18,15 +18,29 @@ socket.on("updatedProducts", (listProducts) => {
   `);
   tableBody.innerHTML = tableRows.join("");
 });
+
 socket.on("dinamic-list-cart", (cartUpdt) => {
-  const dviCart = document.getElementById("dinamic-list-cart");
-  dviCart.innerHTML = JSON.stringify(cartUpdt)
+  //const dviCart = document.getElementById("dinamic-list-cart");
+  console.log(JSON.stringify(cartUpdt))
+  //const cartProd = cartUpdt.cartProducts
+  const cartBody = document.getElementById("dinamic-list-cart")
+  const cartText = cartUpdt.cartProducts.map((product) => `
+  <p class="card-text">${product.idProduct.title} x ${product.quantity}</p>  
+  
+`);
+  cartBody.innerHTML = cartText.join("");
+
+
 });
 
 
 function setLimit() {
   const limit = parseInt(document.getElementById("limit").value);
   socket.emit("limitChange", limit);
+}
+function setOrderPrice() {
+  const orderPrice = document.getElementById("orderPrice").value;
+  socket.emit("sortChange", orderPrice);
 }
 
 function addToCart(productId) {  
