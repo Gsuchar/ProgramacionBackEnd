@@ -1,9 +1,9 @@
 <div id="productList">  
   <div class="row" style="padding: 0px 0px 0px 5px;">    
-    <div class="col-10" style="background-color: #212529; height: 100vh;">
-      <h2 class=" my-3" style="color: #fff; text-align: center">PRODUCTOS PARA AGREGAR AL CART</h2>
+    <div class="col-10 divCont" >
+      <h2 class="titleTitle my-3" >PRODUCTOS PARA AGREGAR AL CART</h2>
       <table class="table table-dark">
-        <div style="color: rgb(255, 255, 255); ">
+        <div class="filterText">
           <h3>-- Filtros --</h3>
           <label for="filterLimit">Cantidad Productos:</label>
           <select id="filterLimit" onchange="onFilterChange()">
@@ -79,10 +79,10 @@
       </table>
     </div>
 
-    <div id="cart-product-list" class="col-2" style="border-left: 2px #198754 solid ; padding:3px 25px 3px 10px; background-color:#19191a">
+    <div id="cart-product-list" class="col-2" style="">
       <div class="card" style="margin-top: 50px;">
         <div class="card-header">
-          <h3 class="card-title" style="color: #198754; text-align: center">CART</h3>
+          <h3 class="card-title titleColor">CART</h3>
         </div>
         <div id="dinamic-list-cart" class="card-body ">
            {{#each cartUpdt.cartProducts}}

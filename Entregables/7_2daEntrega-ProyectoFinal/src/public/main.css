@@ -1,4 +1,24 @@
 /* No usado por ahora, de vago no pase el los styles para aca :) */
-.htmCartsProds{
-  padding: 10px;
+
+#cart-product-list{
+  border-left: 2px #198754 solid ;
+  padding:3px 25px 3px 10px;
+  background-color:#19191a
+}
+
+.titleTitle{
+  color: #fff;
+  text-align: center
+}
+.titleColor{
+  color: #198754;
+  text-align: center
+}
+.divCont{
+  background-color: #212529;
+  height: 100vh;
+}
+
+.filterText{
+  color: #fff;
 }
