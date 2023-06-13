@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6e33159e-866f-4236-bc63-4102dc1c93d5",
+		"_postman_id": "e63693a1-41a6-4774-b1fe-c0cf4b028026",
 		"name": "PB__TestingPostman_GSuchar",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27191640"
+		"_exporter_id": "18740752"
 	},
 	"item": [
 		{
@@ -331,7 +331,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/products?limit=2",
+									"raw": "http://localhost:8080/products?limit=10&page=1&filter=LALALA&attName=title",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -343,7 +343,19 @@
 									"query": [
 										{
 											"key": "limit",
-											"value": "2"
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "filter",
+											"value": "LALALA"
+										},
+										{
+											"key": "attName",
+											"value": "title"
 										}
 									]
 								}
@@ -368,7 +380,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/products/64810bfc333ed4bfc6f7acad",
+									"raw": "http://localhost:8080/products/648745edde41f6764269498f",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -376,7 +388,7 @@
 									"port": "8080",
 									"path": [
 										"products",
-										"64810bfc333ed4bfc6f7acad"
+										"648745edde41f6764269498f"
 									]
 								}
 							},
@@ -389,7 +401,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"products\": {\r\n        \"title\": \"AGREGADO\",\r\n        \"description\": \"AGREGADO\",\r\n        \"code\": 111,\r\n        \"price\": 420,\r\n        \"stock\": 420,\r\n        \"category\": \"AGREGADO\",\r\n        \"thumbnail\": \"420\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"products\": {\r\n        \"title\": \"TEST\",\r\n        \"description\": \"AGREGADO\",\r\n        \"code\": 33,\r\n        \"price\": 420,\r\n        \"stock\": 420,\r\n        \"category\": \"AGREGADO\",\r\n        \"thumbnail\": \"420\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -794,7 +806,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/64810b7f333ed4bfc6f7ac99",
+									"raw": "http://localhost:8080/carts/64887d970f8ac227ba1e3dab",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -802,16 +814,16 @@
 									"port": "8080",
 									"path": [
 										"carts",
-										"64810b7f333ed4bfc6f7ac99"
+										"64887d970f8ac227ba1e3dab"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "POST_NewCart",
+							"name": "PUT_NewCart",
 							"request": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -838,7 +850,7 @@
 							"response": []
 						},
 						{
-							"name": "POST_Update Cart",
+							"name": "PUT_Update Cart",
 							"event": [
 								{
 									"listen": "test",
@@ -851,11 +863,11 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\r\n    \r\n    \"quantity\": 3333\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -863,7 +875,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/64810b7f333ed4bfc6f7ac99/product/64810dd4673bfbdbf73fa49c",
+									"raw": "http://localhost:8080/carts/64887d970f8ac227ba1e3dab/product/64887b316d761255ec4c5336",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -871,16 +883,16 @@
 									"port": "8080",
 									"path": [
 										"carts",
-										"64810b7f333ed4bfc6f7ac99",
+										"64887d970f8ac227ba1e3dab",
 										"product",
-										"64810dd4673bfbdbf73fa49c"
+										"64887b316d761255ec4c5336"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "POST_Borrar cart COMPLETO segun Id (no solicitado pero ya queda)",
+							"name": "DELETE_Borrar cart COMPLETO segun Id (no solicitado pero ya queda)",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -910,7 +922,7 @@
 							"response": []
 						},
 						{
-							"name": "POST_Borrar Prod from Cart",
+							"name": "DELETE_Vacio cart",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -924,7 +936,38 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/delete/64810b7f333ed4bfc6f7ac99/product/64810dd4673bfbdbf73fa49c",
+									"raw": "http://localhost:8080/carts/empty/648884b136ae2cf4553373b6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"carts",
+										"empty",
+										"648884b136ae2cf4553373b6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE_Borrar Prod from Cart",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "quantity",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/carts/delete/64887af76d761255ec4c531f/product/64810b86333ed4bfc6f7ac9c",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -933,9 +976,9 @@
 									"path": [
 										"carts",
 										"delete",
-										"64810b7f333ed4bfc6f7ac99",
+										"64887af76d761255ec4c531f",
 										"product",
-										"64810dd4673bfbdbf73fa49c"
+										"64810b86333ed4bfc6f7ac9c"
 									]
 								}
 							},

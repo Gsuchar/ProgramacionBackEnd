@@ -21,8 +21,7 @@ routerCart.get("/carts", async (req, res) => {
 });
 
 // TRAIGO PRODUCTOS DEL CARRITO SEGÚN EL ID INDICADO EN URL
-routerCart.get('/carts/:cid', async (req, res) => {
-  
+routerCart.get('/carts/:cid', async (req, res) => {  
   try {
     const cid = req.params.cid;
     const cart = await cartService.getProductsByCartId(cid);
@@ -33,7 +32,7 @@ routerCart.get('/carts/:cid', async (req, res) => {
 });
 
 // AGREGO CARRITO, inicializa con cartID y un array de prods vacio
-routerCart.post('/carts/new', async (req, res) => {
+routerCart.put('/carts/new', async (req, res) => {
   try {
     const cart = await cartService.addCart();
     res.status(201).json(cart);
