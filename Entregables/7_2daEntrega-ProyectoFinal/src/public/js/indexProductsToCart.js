@@ -5,8 +5,7 @@ socket.on("updatedProducts", (listProducts) => {
   const tableBody = document.getElementById("dinamic-product-list");
   const tableRows = listProducts.docs.map((product) => `
     <tr>
-      <th scope="row">${product.id}</th>
-      
+      <th scope="row">${product.id}</th>      
       <td>${product.title}</td>
       <td>${product.description}</td>
       <td>${product.price}</td>
@@ -17,32 +16,47 @@ socket.on("updatedProducts", (listProducts) => {
       <td><input type="submit" value="Agregar" class="btn btn-success" onclick="addToCart('${product.id}')"/></td>
     </tr>
   `);
+
   tableBody.innerHTML = tableRows.join("");
+  const pagination = document.querySelector('.pagination');
+  pagination.innerHTML = '';
+
+  const previousPage = listProducts.hasPrevPage
+    ? `<li class="page-item"><a class="page-link" href="#" onclick="onFilterChange(${listProducts.prevPage})"><-- </a></li>`
+    : '';
+  const nextPage = listProducts.hasNextPage ?
+    `<li class="page-item"><a class="page-link" href="#" onclick="onFilterChange(${listProducts.nextPage})"> --></a></li>` : '';
+
+  const paginationHTML = `
+    ${previousPage}
+    <li class="page-item"><a class="page-link">${listProducts.page} de ${listProducts.totalPages} paginas</a></li>
+    ${nextPage}
+  `;
+
+  pagination.innerHTML = paginationHTML;
 });
+
+
 
 socket.on("dinamic-list-cart", (cartUpdt) => {
-  //const dviCart = document.getElementById("dinamic-list-cart");
-  //console.log(JSON.stringify(cartUpdt))
-  //const cartProd = cartUpdt.cartProducts
-  const cartBody = document.getElementById("dinamic-list-cart")
+  const cartBody = document.getElementById("dinamic-list-cart");
   const cartText = cartUpdt.cartProducts.map((product) => `
-  <p class="card-text">${product.idProduct.title} x ${product.quantity}</p>  
+    <p class="card-text">${product.idProduct.title} x ${product.quantity}</p>  
   
-`);
+  `);
   cartBody.innerHTML = cartText.join("");
-
-
 });
 
 
-function setLimit() {
-  const limit = parseInt(document.getElementById("limit").value);
-  socket.emit("limitChange", limit);
+function onFilterChange(page) {
+  const filterLimit = parseInt(document.getElementById("filterLimit").value);
+  const filterSort = document.getElementById("filterSort").value;
+  const filterAttName = document.getElementById("filterAttName").value;
+  const filterText = document.getElementById("filterText").value;
+  const filterPage = page ? page : 1
+  socket.emit("onFilterChange", filterLimit, filterPage, filterSort, filterAttName, filterText);
 }
-function setSortPrice() {
-  const sortPrice = document.getElementById("sortPrice").value;
-  socket.emit("sortChange", sortPrice);
-}
+
 
 function addToCart(productId) {  
   socket.emit("addToCart", productId);

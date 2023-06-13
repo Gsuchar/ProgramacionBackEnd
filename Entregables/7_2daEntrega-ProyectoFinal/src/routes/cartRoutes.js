@@ -35,7 +35,7 @@ routerCart.get('/carts/:cid', async (req, res) => {
 // AGREGO CARRITO, inicializa con cartID y un array de prods vacio
 routerCart.post('/carts/new', async (req, res) => {
   try {
-    const cart = await cartService.addCart();//REVISAR, DUDAS POR COMO ARMA products:[]
+    const cart = await cartService.addCart();
     res.status(201).json(cart);
   } catch (err) {
       res.status(400).json({ ErrorVVV: `${err}` });
@@ -69,14 +69,11 @@ routerCart.delete('/carts/delete/:cid/product/:pid', async (req, res) => {
   };
 });
 
-
-
 // VACIO CARRITO SEGÚN ID INDICADO
 routerCart.delete('/carts/empty/:cid', async (req, res) => {  
   try {
     const cid = req.params.cid;
     console.log(cid)
-    // const cart = await cartService.deleteCart(cid);
     const cart = await cartService.emptyCart(cid);
     res.status(200).json(cart);
   } catch (err) {
@@ -97,7 +94,7 @@ routerCart.delete('/carts/deleteAll/:cid', async (req, res) => {
 
 //--------ROUTER HANDLEBARS Y WEBSOCKET----------//
 // VISTA SIMPLE HTML -NO DINAMICA-
-routerCart.get("/cart/products/:cid", async (req, res) => {
+routerCart.get("/carts/products/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
     const cartProducts = await cartService.getProductsByCartId(cid);   
@@ -107,25 +104,17 @@ routerCart.get("/cart/products/:cid", async (req, res) => {
   }
 });
 
-
-
 // VISTA WEBSOCKET -DINAMICA-
 routerCart.get("/productsToCart", async (req, res) => {  
   try {
-    // const cart = await cartService.addCart();
-    // console.log(cart._id)
-    const limit =   10; // Obtener el nuevo límite desde la consulta
-    const page = 1; // Valor predeterminado si no se proporciona
+    const limit =   10; // Lmite max 10
+    const page = 1; // Incia en page: 1
     const products = await productService.getProductsPaginate(limit, page);
-    //console.log(products) 
-    res.status(200).render('productsToCart', { listProducts : products }/*, console.log(products.totalDocs)*/ );
+    res.status(200).render('productsToCart', { products }/*, console.log(products.totalDocs)*/ );
   } catch (err) {
     res.status(500).json({ Error: `${err}` });
   }
 });
-
-
-
 
 
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
@@ -134,6 +123,7 @@ routerCart.get("/productsToCart", async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
+//FS ESTA ABAJO//////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
 

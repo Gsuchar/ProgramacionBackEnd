@@ -9,9 +9,8 @@ const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
 const thumbnail = document.getElementById("formThumbnail");
 
-//SERVER DATA --- ARREGLO POR ENTREGABLE 5
+//REDUCE GRACIAS A AFTER --- ARREGLO POR ENTREGABLE 5
 socket.on("products", (productsList) => {
-  //console.log(productsList);
   document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
     return acc + "<tr>" +
      "<th scope='row'>"+ item.id +
@@ -40,8 +39,7 @@ formProducts.addEventListener("submit", (e) => {
     thumbnail: thumbnail.value,
   };  
   socket.emit("new-product", newProd);
-  formProducts.reset();
-  
+  formProducts.reset();  
 
 });
 

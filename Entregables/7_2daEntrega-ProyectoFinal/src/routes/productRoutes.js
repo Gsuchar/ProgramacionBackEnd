@@ -9,18 +9,18 @@ const productManager = new ProductManager('./src/dao/dataFiles/products.json');
 const productService = new ProductService;
 
 //-------ROUTER MONGO----------//
+
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
-// TODOS > http://localhost:8080/mongo-products
+// TODOS > http://localhost:8080/products
 // Limite 2 > http://localhost:8080/products?limit=2 
 
 routerProd.get("/products", async (req, res) => {  
   try {
-    const limit = parseInt(req.query.limit) || 10; // Valor predeterminado si no se proporciona
-    const page = parseInt(req.query.page) ; // Valor predeterminado si no se proporciona
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) ; 
     const filter = req.query.filter || '';
-    const sort = req.query.sort ? { price: req.query.sort } : '';
+    const sort = req.query.sort ? req.query.sort : '';
     const attName = req.query.attName || '';
-    //const products = await productService.getProducts(limit); 
     const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
     res.status(200).json( { products : products });
   } catch (err) {
@@ -38,6 +38,7 @@ routerProd.get('/products/:pid', async (req, res) => {
       res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
   };
 });
+
 // PRODUCTO NUEVO
 routerProd.post("/products/new", async (req, res) => {
   try {
@@ -71,43 +72,10 @@ routerProd.delete("/products/delete/:pid", async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   }
 });
+//-------FIN ROUTER MONGO----------//
 
-//--------ROUTER HANDLEBARS Y WEBSOCKET----------//
-// POR POSTMAN FORM
-routerProd.post('/html/products', uploader.single('file'), async (req, res) => {
-  try {
-    const productData = {
-      title: req.body.title,
-      description: req.body.description,
-      code: req.body.code,
-      price: req.body.price,
-      stock: req.body.stock,
-      category: req.body.category,
-    };    
-    const product = await productManager.addProduct(productData, req.file);
-    res.status(201).json(product);
-  }catch (err) {
-    res.status(400).json({ Error: `${err}` });
-  }
-});
-
-// VISTA SIMPLE HTML -NO DINAMICA-
-routerProd.get("/html/products", async (req, res) => {
-  const limit = req.query.limit;
-  try {
-    const products = await productManager.getProducts();
-    if (limit) {
-      const prodsLimit = products.slice(0, limit);
-      res.status(200).render("productsHtml", { products: prodsLimit });
-    } else {
-      res.status(200).render("productsHtml", { products });
-    }
-  } catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
-
-// VISTA WEBSOCKET -DINAMICA-
+//-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
+// VISTA WEBSOCKET -DINAMICA- PROBANDOOOOOOO
 routerProd.get("/realtimeproducts", async (req, res) => {  
   try {
     const products = await productService.getProducts(); 

@@ -5,11 +5,8 @@
       <table class="table table-dark">
         <div style="color: rgb(255, 255, 255); ">
           <h3>-- Filtros --</h3>
-
-          {{!-- <label for="category">Categoria:</label>
-          <input type="text" id="category" /> --}}
-          <label for="limit">Cantidad Productos:</label>
-          <select id="limit" onchange="setLimit()">
+          <label for="filterLimit">Cantidad Productos:</label>
+          <select id="filterLimit" onchange="onFilterChange()">
             <option value="10">Seleccionar</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -22,8 +19,8 @@
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-          <label for="filterType">Filtrar por:</label>
-          <select id="filterType" onchange="setFilterType()">
+          <label for="filterAttName">Filtrar por:</label>
+          <select id="filterAttName" >
             <option>Seleccionar</option>
             <option value="title">Nombre</option>
             <option value="description">Descripcion</option>            
@@ -32,15 +29,15 @@
             <option value="stock">Stock</option>
             <option value="category">Categoria</option>            
           </select>
-          <label for="attName">  y Buscar: </label>
-          <input type="text" id="attName" />
-          <label for="sortPrice">Ordenar por:</label>
-          <select id="sortPrice" onchange="setSortPrice()">
+          <label for="filterText">  y Buscar: </label>
+          <input type="text" id="filterText" onchange="onFilterChange()" />
+          <label for="filterSort">Ordenar por:</label>
+          <select id="filterSort" onchange="onFilterChange()">
             <option value="">Seleccionar</option>
             <option value="asc">Menor Precio</option>
-            <option value="desc">Mayor Precio</option>
-                        
+            <option value="desc">Mayor Precio</option>                        
           </select>
+
         </div>
         <thead>
           <tr>
@@ -56,7 +53,7 @@
           </tr>
         </thead>
         <tbody id="dinamic-product-list">
-          {{#each listProducts.docs}}
+          {{#each products.docs}}
             <tr>
               <th scope="row">{{this.id}}</th>
               <td>{{this.title}}</td>
@@ -70,28 +67,19 @@
               </td>  
             </tr>
           {{/each}}
-                <nav aria-label="Page navigation example">
-        <ul class="pagination pagination-sm justify-content-end ">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link">{{listProducts.page}} de {{listProducts.totalPages}} paginas</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav>
+
 
         </tbody>
-        
-      </table>
       
-
-
-      <p style="background-color: aqua; color: red">{{listProducts.totalDocs}}, {{listProducts.totalPages}}, {{listProducts.limit}}</p>
-
+        <ul class="pagination pagination-sm justify-content-end ">
+          <li class="page-item"><a class="page-link">{{products.page}} de {{products.totalPages}} paginas</a></li>
+          <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
+        </ul>
+      
+      </table>
     </div>
 
     <div id="cart-product-list" class="col-2" style="border-left: 2px #198754 solid ; padding:3px 25px 3px 10px; background-color:#19191a">
-      {{!-- <h2 class=" my-3" style="color: #198754; text-align: center">CARRITO</h2> --}}
-      {{!-- <div id="dinamic-list-cart" style="color: #39f752">
-      </div> --}}
       <div class="card" style="margin-top: 50px;">
         <div class="card-header">
           <h3 class="card-title" style="color: #198754; text-align: center">CART</h3>
@@ -102,59 +90,8 @@
           {{/each}}
         </div>
       </div>
-
-
-
     </div>
   </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexProductsToCart.js"></script> 
-
-
-
-    {{!-- <div class="col-3" style="border-left: 2px #198754 solid ; padding:3px 25px 3px 10px">
-      <h2 class="text-center my-1" style="color: #198754;">Añadir Producto</h2>
-      <form id="formProducts" style="margin: auto">
-        <div style="margin-bottom: 10px">
-          <div class="col-12">
-            <label for="title"> Titulo: </label>
-            <br />
-            <input type="text" name="title" id="formTitle" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div class="col-12">
-            <label for="description"> Descripción: </label>
-            <br />
-            <input type="text" name="description" id="formDescription" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div class="col-12">
-            <label for="price"> Precio: </label>
-            <br />
-            <input type="number" name="price" id="formPrice" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div class="col-12">
-            <label for="code"> Codigo: </label>
-            <br />
-            <input type="number" name="code" id="formCode" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div class="col-12">
-            <label for="stock"> Stock: </label>
-            <br />
-            <input type="number" name="stock" id="formStock" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div class="col-12">
-            <label for="category"> Categoria: </label>
-            <br />
-            <input type="text" name="category" id="formCategory" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div class="col-12">
-            <label for="thumbnail"> URL de la Imagen: </label>
-            <br />
-            <input type="text" name="thumbnail" id="formThumbnail" style="margin-bottom: 10px" class="form-control"/>
-          </div>
-          <div style="display: flex; justify-content: center; align-items: center">
-            <input type="submit" value="Crear producto" class="btn btn-success"/>
-          </div>
-        </div>
-      </form>
-    </div> --}}

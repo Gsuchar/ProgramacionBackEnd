@@ -3,7 +3,7 @@ import { ProductModel } from '../dao/models/productModel.js';
 
 export class ProductService {
     
-    // TRAIGO TODOS LOS PRODUCTOS
+    // TRAIGO TODOS LOS PRODUCTOS SIN PAGINATE
     async getProducts(limit) {          
         try {
             const products = await ProductModel.find().limit(limit).lean().exec(); 
@@ -13,21 +13,22 @@ export class ProductService {
         }
     };
 
-    // TRAIGO PAGINADOS LOS PRODUCTOS
+    // TRAIGO TODOS LOS PRODUCTOS CON PAGINATE
     async getProductsPaginate(limit, page, filter, sort, attName) {          
         try {
-            const sortOrder =  { price: sort } ;
-            //PRIMER {} = filtro por atributo/valor, vacio trae todo *** SEGUNDO {} = Limite y page inicial
+            const sortPrice =  { price: sort } ;            
             const products = await ProductModel.paginate(
-                filter ? { [attName]: filter } : {},
+                //PRIMER {} = filtro por atributo/valor, vacio trae todo
+                filter ? { [attName ? attName : "category"]: filter } : {},
+                // SEGUNDO {} = limit, page, sort
                 { limit: limit ? limit : 10 ,  lean: true, 
                   page: page ? page : 1,                  
-                  sort: sort ?  sortOrder : ""//{price:"asc"}                
+                  sort: sort ?  sortPrice : ""               
                 }
             ) 
             return products;
         } catch (err) {           
-            return { Error111: `${err}` };
+            return { Error: `${err}` };
         }
     };
 
@@ -38,8 +39,7 @@ export class ProductService {
           product ? product :  (() => { throw (`El producto de id ${id} no se encontró.`) })();
           return product;
         } catch (err) {
-            throw (`Error al buscar producto. ${err}`);
-            //throw (err);
+            throw (`Error al buscar producto. ${err}`);            
         }
     };
 
@@ -63,7 +63,6 @@ export class ProductService {
                 thumbnail: !newProd.thumbnail ? "Sin Definir" :  newProd.thumbnail   
             };            
             const createdProduct = await ProductModel.create(newProduct);
-            //console.log(createdProduct);
             return createdProduct;
         }catch (err) {
             return { Error: `${err}` };
@@ -104,7 +103,6 @@ export class ProductService {
                 productToUpdate,
                 { new: true } // Esto asegura que se devuelva el documento actualizado (Mongo)
               );
-            //console.log("prodUpdated====>"+JSON.stringify(prodUpdated, null, 2))
             return prodUpdated;
         } catch (err) {
             throw (`No se pudo modificar producto con ID ${id}. ${err}`);

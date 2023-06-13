@@ -48,6 +48,7 @@ import { MessageModel } from './dao/models/messageModel.js';
 import { CartService } from "./services/cartService.js";
 import { ProductService } from "./services/productService.js";
 //-----
+
 export function socketServerHandler(httpServer) {
   const socketServer = new Server(httpServer);
   const productManager = new ProductManager('./src/dao/dataFiles/products.json');
@@ -58,41 +59,34 @@ export function socketServerHandler(httpServer) {
   socketServer.on("connection", (socket) => {
     console.log("A client-socket has connected: " + socket.id);
     
+
     /******** SOCKET CARTS **********/
     let userId;
     let cartId;
+
+    // Solo visual a modo referencial el usuario y el cart nuevo al entrar-IGNORAR SI MAREA-
     cartService.addCart().then((cart) => {
       console.log("userId =>>> " + socket.id + "  cartId =>>> " + cart._id);
-      userId = socket.id; //ID del socket como identificador único del usuario
-      cartId = cart._id //ID carrito perteneciente al usuario        
+      userId = socket.id; //ID del socket como identificador único del usuario-IGNORAR SI MAREA-
+      cartId = cart._id //ID carrito perteneciente al usuario-IGNORAR SI MAREA-   
       }).catch((err) => {
           console.error("Error creando cart: ", err);
         });
 
-    socket.on("limitChange", async (limit) => {
-      try {
-        const page = 1;
-        const products = await productService.getProductsPaginate(limit, page);
-        socket.emit("updatedProducts", products);
-      } catch (err) {
-       console.log({ Error: `${err}` })
-      }
-    });
 
-    socket.on("sortChange", async (sortPrice) => {
+    socket.on("onFilterChange", async ( filterLimit, filterPage, filterSort, filterAttName, filterText) => {
       try {
-        const limit = 10; // Valor predeterminado si no se proporciona
-        const page = 1; // Valor predeterminado si no se proporciona
-        const filter = '';
-        const sort = sortPrice; 
-        const attName = '';
-        const products = await productService.getProductsPaginate(limit, page, filter, sort, attName);
-        console.log(products);
-        socket.emit("updatedProducts", products);
+        const limit = filterLimit; 
+        const page = filterPage ; 
+        const filter = filterText;
+        const sort = filterSort; 
+        const attName = filterAttName;
+        const products = await productService.getProductsPaginate(limit, page, filter, sort, attName);        
+        socket.emit("updatedProducts",  products );
       } catch (err) {
-        console.log({ Error: `${err}` });
+          console.log({ Error: `${err}` });
       }
-    });
+    });    
     
 
     socket.on("addToCart", async (productId) => {
@@ -101,12 +95,13 @@ export function socketServerHandler(httpServer) {
         const cartUpdt = await cartService.getProductsByCartId(cartId);
         socketServer.emit("dinamic-list-cart", cartUpdt);
       } catch (err) {
-        console.log({ Error: `${err}` });
+          console.log({ Error: `${err}` });
       }
-    });   
+    });  
 
     
     /******** FIN SOCKET CARTS **********/
+
 
 
     /****** CHAT **********/
@@ -141,9 +136,10 @@ export function socketServerHandler(httpServer) {
       } catch (err) {
         console.log({ Error: `${err}` });
       }
-    });
-    /****** END PRODUCTS *****/
-
-    
+    });    
   });
+
+  /****** FILE SYSTEM END PRODUCTS *****/
+
+  
 };
