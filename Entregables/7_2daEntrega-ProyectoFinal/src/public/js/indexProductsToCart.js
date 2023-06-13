@@ -40,8 +40,8 @@ socket.on("updatedProducts", (listProducts) => {
 
 socket.on("dinamic-list-cart", (cartUpdt) => {
   const cartBody = document.getElementById("dinamic-list-cart");
-  const cartText = cartUpdt.cartProducts.map((product) => `
-    <p class="card-text">${product.idProduct.title} x ${product.quantity}</p>  
+  const cartText = cartUpdt.cartProducts.map((cartProduct) => `
+    <p class="card-text">${cartProduct.idProduct.title} x ${cartProduct.quantity}</p>  
   
   `);
   cartBody.innerHTML = cartText.join("");
