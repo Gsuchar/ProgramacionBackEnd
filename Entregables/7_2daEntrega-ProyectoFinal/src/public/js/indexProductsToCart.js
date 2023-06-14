@@ -21,12 +21,15 @@ socket.on("updatedProducts", (listProducts) => {
   const pagination = document.querySelector('.pagination');
   pagination.innerHTML = '';
 
+  // Si existe prevPage del populate se muestra
   const previousPage = listProducts.hasPrevPage
     ? `<li class="page-item"><a class="page-link" href="#" onclick="onFilterChange(${listProducts.prevPage})"><-- </a></li>`
     : '';
+  // Si existe nextPage del populate se muestra
   const nextPage = listProducts.hasNextPage ?
     `<li class="page-item"><a class="page-link" href="#" onclick="onFilterChange(${listProducts.nextPage})"> --></a></li>` : '';
 
+  //Render dinamicos de page-item para paginado  
   const paginationHTML = `
     ${previousPage}
     <li class="page-item"><a class="page-link">${listProducts.page} de ${listProducts.totalPages} paginas</a></li>
@@ -42,8 +45,8 @@ socket.on("dinamic-list-cart", (cartUpdt) => {
   const cartBody = document.getElementById("dinamic-list-cart");
   const cartText = cartUpdt.cartProducts.map((cartProduct) => `
     <p class="card-text">${cartProduct.idProduct.title} x ${cartProduct.quantity}</p>  
-  
   `);
+
   cartBody.innerHTML = cartText.join("");
 });
 
@@ -54,6 +57,7 @@ function onFilterChange(page) {
   const filterAttName = document.getElementById("filterAttName").value;
   const filterText = document.getElementById("filterText").value;
   const filterPage = page ? page : 1
+
   socket.emit("onFilterChange", filterLimit, filterPage, filterSort, filterAttName, filterText);
 }
 

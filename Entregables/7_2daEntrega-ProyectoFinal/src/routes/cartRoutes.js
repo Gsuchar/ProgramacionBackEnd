@@ -37,7 +37,7 @@ routerCart.put('/carts/new', async (req, res) => {
     const cart = await cartService.addCart();
     res.status(201).json(cart);
   } catch (err) {
-      res.status(400).json({ ErrorVVV: `${err}` });
+      res.status(400).json({ Error: `${err}` });
   };
 });
 
@@ -109,7 +109,7 @@ routerCart.get("/productsToCart", async (req, res) => {
     const limit =   10; // Lmite max 10
     const page = 1; // Incia en page: 1
     const products = await productService.getProductsPaginate(limit, page);
-    res.status(200).render('productsToCart', { products }/*, console.log(products.totalDocs)*/ );
+    res.status(200).render('productsToCart', { products });
   } catch (err) {
     res.status(500).json({ Error: `${err}` });
   }

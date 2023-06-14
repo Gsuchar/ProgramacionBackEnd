@@ -9,7 +9,7 @@ export class CartService {
       const carts = await CartModel.find().limit(limit);
       return carts;
     } catch (err) {
-        throw ['Error al obtener carts.' + ` ${err}`];
+        throw (`Error al obtener carts. +  ${err}`);
     }
   };
     
@@ -30,7 +30,7 @@ export class CartService {
       const createdCart = await CartModel.create({});
       return createdCart;
     } catch (err) {
-        throw (`1XX__${err}`);
+        throw (`Error al crear cart. ${err}`);
     };    
   };      
     
@@ -50,7 +50,7 @@ export class CartService {
       const updatedCart = await CartModel.findByIdAndUpdate( { _id: cartId }, cart, { new: true } );                  
       return updatedCart;
     } catch (err) {
-        throw `${err}`;
+        throw (`Error al agregar producto al cart. ${err}`);
     }
   };
       
@@ -61,7 +61,7 @@ export class CartService {
       const cartProducts = cart.products;      
       return { cartProducts };
     } catch (err) {
-        throw (`No se encontró el producto.`);
+      throw (`Falló mostrar los productos del cart. ${err}`);
     }
   };
 
@@ -81,8 +81,7 @@ export class CartService {
       const updatedCart = await CartModel.findByIdAndUpdate( { _id: cartId }, cart, { new: true } );            
       return updatedCart;
     } catch (Error) {
-        //throw `${Error}`;
-        throw `ERRORS`;
+        throw (`Error al borrar producto del cart. ${err}`);
     }
   };
   
@@ -92,7 +91,7 @@ export class CartService {
       const deletedcart = await CartModel.findOneAndDelete({ _id: id });      
       return deletedcart;      
     }catch (err) {
-      throw (`Fallo al encontrar carrito. ${err}`);
+      throw (`Fallo al encontrar o borrar cart. ${err}`);
     };
   };
   
@@ -102,7 +101,7 @@ export class CartService {
       const emptyCart = await CartModel.findOneAndUpdate({ _id: cid }, {products:[]}, {new:true});      
       return emptyCart;      
     }catch (err) {
-      throw (`Fallo al encontrar carrito. ${err}`);
+      throw (`Fallo al encontrar cart. ${err}`);
     };
   };
   

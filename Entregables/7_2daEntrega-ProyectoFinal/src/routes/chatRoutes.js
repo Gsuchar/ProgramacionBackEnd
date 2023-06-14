@@ -10,5 +10,4 @@ routerChat.get("/chat", async (req, res) => {
     };
   });
 
-
 export default routerChat;

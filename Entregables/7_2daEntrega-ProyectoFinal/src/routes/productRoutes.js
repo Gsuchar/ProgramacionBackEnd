@@ -35,7 +35,7 @@ routerProd.get('/products/:pid', async (req, res) => {
     const product = await productService.getProductById(pid);
     res.status(200).json(product);
   } catch (err) {
-      res.status(404).json({ Error: `No se encontró el producto con ID ${pid}.` });
+      res.status(404).json({ Error: `${err}` });
   };
 });
 

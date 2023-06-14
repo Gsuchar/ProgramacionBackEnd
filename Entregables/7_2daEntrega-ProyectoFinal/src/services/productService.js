@@ -9,7 +9,7 @@ export class ProductService {
             const products = await ProductModel.find().limit(limit).lean().exec(); 
             return products;
         } catch (err) {           
-            return { Error: `${err}` };
+            throw (`Error al buscar productos. ${err}`);
         }
     };
 
@@ -28,7 +28,7 @@ export class ProductService {
             ) 
             return products;
         } catch (err) {           
-            return { Error: `${err}` };
+            throw (`Error al buscar productos. ${err}`);
         }
     };
 
@@ -39,7 +39,7 @@ export class ProductService {
           product ? product :  (() => { throw (`El producto de id ${id} no se encontró.`) })();
           return product;
         } catch (err) {
-            throw (`Error al buscar producto. ${err}`);            
+            throw (`Error al buscar producto id ${id}. ${err}`);            
         }
     };
 
@@ -65,7 +65,7 @@ export class ProductService {
             const createdProduct = await ProductModel.create(newProduct);
             return createdProduct;
         }catch (err) {
-            return { Error: `${err}` };
+            throw (`Error al agregar productos. ${err}`);
         };    
     };
 
