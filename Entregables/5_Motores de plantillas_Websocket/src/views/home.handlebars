@@ -1,0 +1,19 @@
+<div class="container">
+  <h2 class="text-center my-4">Lista de Productos con Handlebars</h2>
+  <div class="col-md-4">
+    <ul class="list-group">
+      {{#each products}}
+        <li class="list-group-item">
+          <h3>{{title}}</h3>
+          <p>ID: {{id}}</p>
+          <p>{{description}}</p>
+          <p>Precio: {{price}}</p>
+          <p>Código: {{code}}</p>
+          <p>Stock: {{stock}}</p>
+          <p>Categoría: {{category}}</p>
+          <p>thumbnail: {{thumbnail}}</p>
+        </li>
+      {{/each}}
+    </ul>
+  </div>  
+</div>
