@@ -48,7 +48,9 @@ app.set("view engine", "handlebars");
 dotenv.config(); // Carga variables de entorno del .env
 app.use(
   session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://Gsuchar:1J0pqk2HPyyEZZl4@progbackend.muru6sp.mongodb.net/ecommerce_8?retryWrites=true&w=majority', ttl: 7200 }),
+    //store: MongoStore.create({ mongoUrl: 'mongodb+srv://Gsuchar:1J0pqk2HPyyEZZl4@progbackend.muru6sp.mongodb.net/ecommerce_8?retryWrites=true&w=majority', ttl: 7200 }),
+    
+    store: MongoStore.create({ mongoUrl: process.env.DB_MONGO_STRING, ttl: 7200 }),
     secret: 'un-re-secreto',
     resave: true,
     saveUninitialized: true,
