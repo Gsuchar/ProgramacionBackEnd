@@ -1,5 +1,11 @@
-/* No usado por ahora, de vago no pase el los styles para aca :) */
 
+.login{
+  text-align: -webkit-center;
+  padding-top: 30vh;
+}
+
+
+/*HANDLEBARS PRODUCTFROMCART*/
 #cart-product-list{
   border-left: 2px #198754 solid ;
   padding:3px 25px 3px 10px;
@@ -22,3 +28,4 @@
 .filterText{
   color: #fff;
 }
+/**/
