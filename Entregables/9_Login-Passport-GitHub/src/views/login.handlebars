@@ -1,0 +1,30 @@
+<div class="divCont">
+  <div class="container login">
+    <div class="card col-5">
+      <div class="card-header">
+        <h2>¡Bienvenidos!</h2>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Completa los campos o Registrate.</h5>
+        <div class="col-6">
+          <form action='/auth/login' method='POST'>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">@</span>
+              </div>
+              <input type="text" class="form-control" name='email' placeholder='Email' aria-label="Email" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">**</span>
+              </div>
+              <input type="text" class="form-control" name='password' placeholder='Password' aria-label="Password" aria-describedby="basic-addon2">
+            </div>
+            <input class="btn btn-primary"type='submit' value='Entrar' />
+            <a  class="btn btn-link" href='/auth/register'>Registrarse</a>  
+          </form>                
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
