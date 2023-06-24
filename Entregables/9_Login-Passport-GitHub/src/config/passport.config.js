@@ -68,12 +68,12 @@ export function iniPassport() {
     'github',
     new GitHubStrategy(
       {
-        clientID: 'Iv1.8f15a0410611252c',
-        clientSecret: '0f8123e04107f25175a0cb5bb5d47856d86d48fb',
+        clientID: 'Iv1.f5f2a1114fa87966',
+        clientSecret: 'f072ac5385b8d27fde8092d89d0bd73d1babccd6',
         callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
       },
       async (accesToken, _, profile, done) => {
-        console.log("PROFILE ACA>>>>>  "+profile);
+     
         try {
           const res = await fetch('https://api.github.com/user/emails', {
             headers: {
@@ -92,6 +92,7 @@ export function iniPassport() {
           profile.email = emailDetail.email;
 
           let user = await UserModel.findOne({ email: profile.email });
+          console.log(user)
           if (!user) {
             const newUser = {
               email: profile.email,

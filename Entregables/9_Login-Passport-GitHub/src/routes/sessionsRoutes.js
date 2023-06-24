@@ -9,7 +9,7 @@ routerSessions.get('/github', passport.authenticate('github', { scope: ['user:em
 routerSessions.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
   req.session.user = req.user;
   // Successful authentication, redirect home.
-  res.redirect('/');
+  res.redirect('/auth/perfil');
 });
 
 routerSessions.get('/show', (req, res) => {
