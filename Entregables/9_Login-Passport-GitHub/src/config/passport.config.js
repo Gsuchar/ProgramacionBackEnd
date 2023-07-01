@@ -3,7 +3,7 @@ import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils.js';
 import { UserModel } from '../dao/models/userModel.js';
 import GitHubStrategy from 'passport-github2';
-
+import dotenv from "dotenv";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -63,17 +63,17 @@ export function iniPassport() {
       }
     )
   );
-  
+  dotenv.config(); // Carga variables de entorno del .env
   passport.use(
     'github',
     new GitHubStrategy(
+      
       {
-        clientID: 'Iv1.f5f2a1114fa87966',
-        clientSecret: 'f072ac5385b8d27fde8092d89d0bd73d1babccd6',
-        callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
+        clientID: process.env.clientID,
+        clientSecret: process.env.clientSecret,
+        callbackURL: process.env.callbackURL,
       },
-      async (accesToken, _, profile, done) => {
-     
+      async (accesToken, _, profile, done) => {     
         try {
           const res = await fetch('https://api.github.com/user/emails', {
             headers: {
@@ -83,7 +83,7 @@ export function iniPassport() {
             },
           });
           const emails = await res.json();
-          console.log("EMAILS ACA>>>>>  "+ JSON.stringify(emails))
+          //console.log("EMAILS ACA>>>>>  "+ JSON.stringify(emails))
           const emailDetail = emails.find((email) => email.verified == true);
 
           if (!emailDetail) {
@@ -102,15 +102,15 @@ export function iniPassport() {
               password: 'nopass',
             };
             let userCreated = await UserModel.create(newUser);
-            console.log('User Registration succesful');
+            //console.log('User Registration succesful');
             return done(null, userCreated);
           } else {
-            console.log('User already exists');
+            //console.log('User already exists');
             return done(null, user);
           }
         } catch (e) {
           console.log('Error en auth github');
-          console.log(e);
+          //console.log(e);
           return done(e);
         }
       }
