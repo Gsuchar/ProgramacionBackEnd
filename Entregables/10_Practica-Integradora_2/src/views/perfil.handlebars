@@ -1,12 +1,29 @@
 <h1>Perfil</h1>
-
-email:
+Nombre:
+{{user.firstName}}
+<br />
+Apellido:
+{{user.lastName}}
+<br />
+Email:
 {{user.email}}
+<br />
+Edad:
+{{user.age}}
 <br />
 isAdmin:
 {{user.isAdmin}}
 <br />
-<a href='/auth/administracion'>Ver datos super secretos<a>
+Rol:
+{{user.role}}
+<br />
+{{!-- Carrito:
+{{user.idCart}}
+<br /> --}}
 
+<a href='/auth/administracion'>Solo Adminis<a></a>
+
+<br />
+<a href='/api/sessions/current'>Ver Sesión<a></a>
 <br />
 <a href='/auth/logout'>Salir!</a>

@@ -12,7 +12,7 @@ routerSessions.get('/githubcallback', passport.authenticate('github', { failureR
   res.redirect('/auth/perfil');
 });
 
-routerSessions.get('/show', (req, res) => {
+routerSessions.get('/current', (req, res) => {
   return res.send(JSON.stringify(req.session));
 });
 

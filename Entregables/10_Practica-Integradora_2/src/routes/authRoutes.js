@@ -16,9 +16,19 @@ authRouter.post('/register', passport.authenticate('register', { failureRedirect
   if (!req.user) {
     return res.json({ error: 'something went wrong' });
   }
-  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
-
-  return res.json({ msg: 'ok', payload: req.user });
+  req.session.user = {
+    _id: req.user._id,
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    age: req.user.age,
+    role: req.user.role,
+    isAdmin: req.user.isAdmin
+  };
+  const user = req.session.user;
+  //return res.render('perfil', { user: user }); 
+  res.redirect('/auth/perfil') 
+  //return res.json({ msg: 'ok', payload: req.user });
 });
 
 authRouter.get('/failregister', async (req, res) => {
@@ -33,11 +43,20 @@ authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/au
   if (!req.user) {
     return res.json({ error: 'invalid credentials' });
   }
-  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
+  //req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
+  req.session.user = {
+    _id: req.user._id,
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    age: req.user.age,
+    role: req.user.role,
+    isAdmin: req.user.isAdmin
+  };
   const user = req.session.user;
   //return res.json({ msg: 'ok', payload: req.user });
-  return res.render('perfil', { user: user });
-  
+  //return res.render('perfil', { user: user });
+  return res.redirect('/auth/perfil')
 });
 
 authRouter.get('/faillogin', async (req, res) => {

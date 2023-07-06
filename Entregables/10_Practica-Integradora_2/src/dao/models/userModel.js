@@ -10,7 +10,7 @@ const schema = new Schema({
   //idCart: { type: Schema.Types.ObjectId},
   idCart: { type: String },
   password: { type: String/*, required: true*/, max: 100 },
-  //isAdmin: { type: Boolean/*, required: true*/, default: false },
+  isAdmin: { type: Boolean/*, required: true*/, default: false },
   role:{ type: String, default: 'user' },
 
 });

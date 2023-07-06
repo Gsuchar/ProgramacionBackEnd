@@ -37,7 +37,7 @@ export function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
-          const { email, firstName, lastName } = req.body;
+          const { email, firstName, lastName, age, role } = req.body;
           let user = await UserModel.findOne({ email: username });
           if (user) {
             console.log('User already exists');
@@ -47,9 +47,13 @@ export function iniPassport() {
           const newUser = {
             email,
             firstName,
-            lastName,
+            lastName,            
+            age: 18,
+            role: 'user',
             isAdmin: false,
             password: createHash(password),
+            idCart: 'IDCARRRITO',
+            //VER SI ASOCIO IDCARRITO A LOCALSTORE O POR USUARIO
           };
           let userCreated = await UserModel.create(newUser);
           console.log(userCreated);
@@ -99,7 +103,7 @@ export function iniPassport() {
               firstName: profile._json.name || profile._json.login || 'noname',
               lastName: 'nolast',
               age: 18,
-              //isAdmin: false,
+              isAdmin: false,
               role: 'user',
               //password: 'nopass',
               password: createHash('nopass'),//Ver mas adelante como mejorar esto.
