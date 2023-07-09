@@ -2,8 +2,11 @@ import passport from 'passport';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils.js';
 import { UserModel } from '../dao/models/userModel.js';
+import { CartService } from "../services/cartService.js";
 import GitHubStrategy from 'passport-github2';
 import dotenv from "dotenv";
+//---
+const cartService = new CartService;
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -43,7 +46,9 @@ export function iniPassport() {
             console.log('User already exists');
             return done(null, false);
           }
-
+          //Creo Carrito
+          const cartId = await cartService.addCart()
+          //Armo datos Usuario
           const newUser = {
             email,
             firstName,
@@ -52,11 +57,11 @@ export function iniPassport() {
             role: 'user',
             isAdmin: false,
             password: createHash(password),
-            idCart: 'IDCARRRITO',
+            idCart: cartId._id,
             //VER SI ASOCIO IDCARRITO A LOCALSTORE O POR USUARIO
           };
           let userCreated = await UserModel.create(newUser);
-          console.log(userCreated);
+          //console.log(userCreated);
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (e) {
@@ -98,6 +103,9 @@ export function iniPassport() {
           let user = await UserModel.findOne({ email: profile.email });
           console.log(user)
           if (!user) {
+            //Creo Carrito
+            const cartId = await cartService.addCart()
+            //Armo datos Usuario
             const newUser = {
               email: profile.email,
               firstName: profile._json.name || profile._json.login || 'noname',
@@ -107,7 +115,7 @@ export function iniPassport() {
               role: 'user',
               //password: 'nopass',
               password: createHash('nopass'),//Ver mas adelante como mejorar esto.
-              idCart: 'IDCARRRITO'
+              idCart: cartId._id
             };
             let userCreated = await UserModel.create(newUser);
             //console.log('User Registration succesful');
