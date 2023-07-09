@@ -1,12 +1,13 @@
 import passport from 'passport';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils.js';
-//import { UserModel } from '../dao/models/userModel.js';
-import { UserService } from "../services/userServic.js";
+import { UserModel } from '../dao/models/userModel.js';
+import { UserService } from "../services/userService.js";
 import { CartService } from "../services/cartService.js";
 import GitHubStrategy from 'passport-github2';
 import dotenv from "dotenv";
 //---
+const userService = new UserService;
 const cartService = new CartService;
 const LocalStrategy = local.Strategy;
 
@@ -15,7 +16,9 @@ export function iniPassport() {
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ email: username });
+        //const user = await UserModel.findOne({ email: username });
+        const user = await userService.findOne({ email: username });
+
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
           return done(null, false);
