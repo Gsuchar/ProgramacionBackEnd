@@ -39,22 +39,8 @@ export async function connectMongo() {
     throw "Unable to connect to the database";
   }
 }
-/* ANTERIOR SIN .ENV */////////////////////////////////////////////////////////////////////////////////////////////////////
-// import { connect } from "mongoose";
-// //-----
-// export async function connectMongo() {
-//   try {
-//     await connect(
-//       "mongodb+srv://Gsuchar:1J0pqk2HPyyEZZl4@progbackend.muru6sp.mongodb.net/ecommerce_8?retryWrites=true&w=majority"
-//     );
-//     console.log("Connected to MongoDB!");
-//   } catch (err) {
-//     console.log(err);
-//     throw "Unable to connect to the database";
-//   }
-// };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/***************************************************************************/
 //----------------bcrypt------------------------------
 import bcrypt from 'bcrypt';
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));

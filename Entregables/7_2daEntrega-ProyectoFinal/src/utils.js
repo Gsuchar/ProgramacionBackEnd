@@ -30,7 +30,7 @@ import { connect } from "mongoose";
 export async function connectMongo() {
   try {
     await connect(
-      "mongodb+srv://Gsuchar:1J0pqk2HPyyEZZl4@progbackend.muru6sp.mongodb.net/ecommerce_PF_Entrega-2?retryWrites=true&w=majority"
+      "mongodb+srv://USUARIO:PASS@SERVER/NOMBRE_BASE?retryWrites=true&w=majority"
     );
     console.log("Connected to MongoDB!");
   } catch (e) {
