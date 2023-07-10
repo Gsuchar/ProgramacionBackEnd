@@ -27,7 +27,6 @@ export function iniPassport() {
           console.log('Invalid Password');
           return done(null, false);
         }
-
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -67,8 +66,7 @@ export function iniPassport() {
   dotenv.config(); // Carga variables de entorno del .env
   passport.use(
     'github',
-    new GitHubStrategy(
-      
+    new GitHubStrategy(      
       {
         clientID: process.env.clientID,
         clientSecret: process.env.clientSecret,
@@ -82,8 +80,7 @@ export function iniPassport() {
               Authorization: 'Bearer ' + accesToken,
               'X-Github-Api-Version': '2022-11-28',
             },
-          });
-          
+          });          
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
           if (!emailDetail) {
@@ -100,7 +97,7 @@ export function iniPassport() {
               email: profile.email,
               firstName: profile._json.name || profile._json.login || 'noname',
               lastName: 'nolast',            
-              age: 18,
+              //age: 18,
               password: 'nopass',
             };
             let userCreated = await userService.addUser(newUser);

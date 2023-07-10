@@ -30,7 +30,7 @@ export class UserService {
   async addUser(newUser) {
       try {        
           const users = await this.getUsers();      
-          const userExist = users.some((user) => user._id == newUser._id);
+          const userExist = users.some((user) => user.email == newUser.email);
           if (userExist) {
               throw ("Ya existe el Usuario que desea ingresar.");
           };
@@ -38,16 +38,13 @@ export class UserService {
             const cartId = await cartService.addCart()
             //Armo datos Usuario
             const userToCreate = {
-              //email: newUser.email && /^\d+$/.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar Email.") })(), 
-              email: newUser.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar un Email válido.") })(),
+              email: newUser.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar un Email válido.") })(),//Bajo por comodidad al leer
               firstName: newUser.firstName ? newUser.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
               lastName: newUser.lastName ? newUser.lastName : (() => { throw ("Debe ingresar Apellido.") })(), 
-              //age: newUser.age ? newUser.age : (() => { throw ("Debe ingresar Edad.") })(), 
               age: newUser.age ? newUser.age : '999', 
               isAdmin: false,
               role: 'user',
-              //password: 'nopass',
-              password: createHash( newUser.password),//Ver mas adelante como mejorar esto.
+              password: createHash( newUser.password),
               idCart: cartId._id
             };
             let createdUser = await UserModel.create(userToCreate);
