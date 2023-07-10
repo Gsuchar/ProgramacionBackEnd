@@ -4,12 +4,7 @@ import { createHash, isValidPassword } from '../utils.js';
 const cartService = new CartService;
 
 export class UserService {
-  // validateUser(firstName, lastName, email) {
-  //   if (!firstName || !lastName || !email) {
-  //     console.log('validation error: please complete firstName, lastname and email.');
-  //     throw new Error('validation error: please complete firstName, lastname and email.');
-  //   }
-  // }
+
     // TRAIGO TODOS LOS PRODUCTOS SIN PAGINATE
     async getUsers(limit) {          
       try {
@@ -32,29 +27,30 @@ export class UserService {
   };
 
   // USER NUEVO
-  async addUser(newUser1) {
+  async addUser(newUser) {
       try {        
           const users = await this.getUsers();      
-          const userExist = users.some((user) => user._id == newUser1._id);
+          const userExist = users.some((user) => user._id == newUser._id);
           if (userExist) {
               throw ("Ya existe el Usuario que desea ingresar.");
           };
             //Creo Carrito
             const cartId = await cartService.addCart()
             //Armo datos Usuario
-            const newUser = {
+            const userToCreate = {
               //email: newUser.email && /^\d+$/.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar Email.") })(), 
-              email: newUser1.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser1.email) ? newUser1.email : (() => { throw ("Debe ingresar un Email válido.") })(),
-              firstName: newUser1.firstName ? newUser1.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
-              lastName: newUser1.lastName ? newUser1.lastName : (() => { throw ("Debe ingresar Apellido.") })(), 
-              age: newUser1.age ? newUser1.age : (() => { throw ("Debe ingresar Edad.") })(), 
+              email: newUser.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar un Email válido.") })(),
+              firstName: newUser.firstName ? newUser.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
+              lastName: newUser.lastName ? newUser.lastName : (() => { throw ("Debe ingresar Apellido.") })(), 
+              //age: newUser.age ? newUser.age : (() => { throw ("Debe ingresar Edad.") })(), 
+              age: newUser.age ? newUser.age : '999', 
               isAdmin: false,
               role: 'user',
               //password: 'nopass',
-              password: createHash( newUser1.password),//Ver mas adelante como mejorar esto.
+              password: createHash( newUser.password),//Ver mas adelante como mejorar esto.
               idCart: cartId._id
             };
-            let createdUser = await UserModel.create(newUser);
+            let createdUser = await UserModel.create(userToCreate);
           return createdUser;
       }catch (err) {
           throw (`Error al agregar Usuario. ${err}`);

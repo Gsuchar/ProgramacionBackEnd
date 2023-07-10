@@ -65,8 +65,8 @@ app.use(passport.session());
 app.use('/', productRoutes);
 app.use('/', cartRoutes);
 app.use('/', chatRoutes);
-app.use('/auth', authRoutes);
-app.use('/api/sessions', routerSessions);
+app.use('/', authRoutes);
+app.use('/', routerSessions);
 
 // Epic link Fail - 404 Not Found
 app.get("*", (req, res) => {

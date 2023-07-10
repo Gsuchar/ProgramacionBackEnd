@@ -1,14 +1,12 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { createHash, isValidPassword } from '../utils.js';
+import { isValidPassword } from '../utils.js';
 import { UserModel } from '../dao/models/userModel.js';
 import { UserService } from "../services/userService.js";
-//import { CartService } from "../services/cartService.js";
 import GitHubStrategy from 'passport-github2';
 import dotenv from "dotenv";
 //---
 const userService = new UserService;
-//const cartService = new CartService;
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -59,9 +57,9 @@ export function iniPassport() {
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (err) {
-          console.log('Error in register' + e);
-          //console.log(e);
-          return done(e);
+          console.log('Error in register' + err);
+          //console.log(err);
+          return done(err);
         }
       }
     )
@@ -92,11 +90,11 @@ export function iniPassport() {
             return done(new Error('cannot get a valid email for this user'));
           }
           profile.email = emailDetail.email;
-          console.log(profile)
+          //console.log(profile)
           const users = await userService.getUsers();
           let user;
           users.map((u) => u.email == profile.email ?   user = u : '');
-          console.log(user)
+          //console.log(user)
           if (!user) {
             let newUser = {
               email: profile.email,
@@ -112,10 +110,10 @@ export function iniPassport() {
             //console.log('User already exists');
             return done(null, user);
           }
-        } catch (e) {
+        } catch (err) {
           console.log('Error en auth github');
-          //console.log(e);
-          return done(e);
+          //console.log(err);
+          return done(err);
         }
       }
     )

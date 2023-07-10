@@ -1,10 +1,49 @@
-<h1>REGISTER</h1>
-<form action='/auth/register' method='POST'>
-  <input type='text' name='firstName' placeholder='firstName' />
-  <input type='text' name='lastName' placeholder='lastName' />
-  <input type='text' name='age' placeholder='age' />
-  <input type='text' name='email' placeholder='email' />
-  <input type='text' name='password' placeholder='password' />
-  <input type='submit' value='registrarse!' />
-</form>
-<a href='/auth/login'>ya tengo una cuenta!</a>
+<div class="divCont">
+  <div class="container register">
+    <div class="card col-6">
+      <div class="card-header">
+        <h2>¡Registro de Usuario!</h2>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Completa el formulario de registro.</h5>
+        <div class="col-12">
+          <form action='/auth/register' method='POST'>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Nombre</span>
+              </div>
+              <input type="text" class="form-control" name='firstName' placeholder='Nombre' aria-label="Nombre" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Apellido</span>
+              </div>
+              <input type="text" class="form-control" name='lastName' placeholder='Apellido' aria-label="Apellido" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Edad</span>
+              </div>
+              <input type="text" class="form-control" name='age' placeholder='Edad' aria-label="Edad" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+              </div>
+              <input type="text" class="form-control" name='email' placeholder='Email' aria-label="Email" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">**</span>
+              </div>
+              <input type="text" class="form-control" name='password' placeholder='Password' aria-label="Password" aria-describedby="basic-addon2">
+            </div>
+            <input class="btn btn-primary"type='submit' value='Registrarse' />
+            {{!-- <a href='/auth/login'>ya tengo una cuenta!</a>             --}}
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
