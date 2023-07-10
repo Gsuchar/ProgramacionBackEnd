@@ -1,6 +1,6 @@
 import { UserModel } from '../dao/models/userModel.js';
 import {CartService} from '../services/cartService.js';
-
+import { createHash, isValidPassword } from '../utils.js';
 const cartService = new CartService;
 
 export class UserService {
@@ -21,7 +21,7 @@ export class UserService {
   };
 
   // TRAIGO USER SEGÚN EL ID
-  async getUsertById(id) {
+  async getUserById(id) {
       try {
         const user = await UserModel.find({ _id: id });
         user ? user :  (() => { throw (`El Usuario de id ${id} no se encontró.`) })();
@@ -32,10 +32,10 @@ export class UserService {
   };
 
   // USER NUEVO
-  async addUser(newUser) {
+  async addUser(newUser1) {
       try {        
           const users = await this.getUsers();      
-          const userExist = users.some((user) => user._id == newUser._id);
+          const userExist = users.some((user) => user._id == newUser1._id);
           if (userExist) {
               throw ("Ya existe el Usuario que desea ingresar.");
           };
@@ -44,14 +44,14 @@ export class UserService {
             //Armo datos Usuario
             const newUser = {
               //email: newUser.email && /^\d+$/.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar Email.") })(), 
-              email: newUser.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar un Email válido.") })(),
-              firstName: newUser.firstName ? newUser.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
-              lastName: 'nolast',
-              age: 999,
+              email: newUser1.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser1.email) ? newUser1.email : (() => { throw ("Debe ingresar un Email válido.") })(),
+              firstName: newUser1.firstName ? newUser1.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
+              lastName: newUser1.lastName ? newUser1.lastName : (() => { throw ("Debe ingresar Apellido.") })(), 
+              age: newUser1.age ? newUser1.age : (() => { throw ("Debe ingresar Edad.") })(), 
               isAdmin: false,
               role: 'user',
               //password: 'nopass',
-              password: createHash('GenPass-'+ email),//Ver mas adelante como mejorar esto.
+              password: createHash( newUser1.password),//Ver mas adelante como mejorar esto.
               idCart: cartId._id
             };
             let createdUser = await UserModel.create(newUser);
