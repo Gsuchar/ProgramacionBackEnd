@@ -17,12 +17,10 @@ export function iniPassport() {
         const users = await userService.getUsers();
         let user;
         users.map((u) => u.email == username ?   user = u : '');
-        //console.log("USER>>>>>>>>> "+user)
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
           return done(null, false);
         }
-        //console.log('LO QUE LLEGA PASS>> '+password+ "USER.PASS>>>"+ user.password)
         if (!isValidPassword(password, user.password)) {
           console.log('Invalid Password');
           return done(null, false);
@@ -52,7 +50,6 @@ export function iniPassport() {
             password,
           };
           let userCreated = await userService.addUser(newUser);
-          //console.log(userCreated);
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (err) {
@@ -84,20 +81,17 @@ export function iniPassport() {
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
           if (!emailDetail) {
-            return done(new Error('cannot get a valid email for this user'));
+            return done(new Error('Invalid email for this user'));
           }
           profile.email = emailDetail.email;
-          //console.log(profile)
           const users = await userService.getUsers();
           let user;
           users.map((u) => u.email == profile.email ?   user = u : '');
-          //console.log(user)
           if (!user) {
             let newUser = {
               email: profile.email,
               firstName: profile._json.name || profile._json.login || 'noname',
               lastName: 'nolast',            
-              //age: 18,
               password: 'nopass',
             };
             let userCreated = await userService.addUser(newUser);
@@ -108,7 +102,7 @@ export function iniPassport() {
             return done(null, user);
           }
         } catch (err) {
-          console.log('Error en auth github');
+          console.log('Fail login with github');
           //console.log(err);
           return done(err);
         }
@@ -116,7 +110,7 @@ export function iniPassport() {
     )
   );
   
-
+  // SIEMPRE NECESARIO PASSPORT - SERIALIZEUSER y DESERIALIZEUSER
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });

@@ -5,7 +5,7 @@ const cartService = new CartService;
 
 export class UserService {
 
-    // TRAIGO TODOS LOS PRODUCTOS SIN PAGINATE
+    // TRAIGO TODOS LOS USUARIOS
     async getUsers(limit) {          
       try {
           const users = await UserModel.find().limit(limit);
