@@ -1,0 +1,39 @@
+<div class="divCont">
+  <div class="container register">
+    <div class="card col-6">
+      <div class="card-header">
+        <h2>Perfil</h2>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Datos del Usuario.</h5>
+        <div class="col-12">
+            Nombre:
+            {{user.firstName}}
+            <br />
+            Apellido:
+            {{user.lastName}}
+            <br />
+            Email:
+            {{user.email}}
+            <br />
+            Edad:
+            {{user.age}}
+            <br />
+            isAdmin:
+            {{user.isAdmin}}
+            <br />
+            Rol:
+            {{user.role}}
+            <br />
+            Carrito*:
+            {{user.idCart}}
+            <br />                   
+            <a style="text-align: left" href='/auth/administracion'>Menu Admin<a>  ---------   </a>
+            <a href='/api/sessions/current'>Datos Sesión<a></a>
+            <br />
+            <a href='/auth/logout'>Salir!</a>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
