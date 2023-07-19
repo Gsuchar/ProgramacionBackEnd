@@ -97,10 +97,12 @@ class UsersController {
     //   };
     async getUserById(req, res) {
         const uid = req.params.uid;
-        try {          
-          const user =  userService.userByIdOrEmail(uid/*{ _id: uid }*/);
+        try {         
+          console.log(uid)   
+          const user =  await userService.userByIdOrEmail(uid, null/*{ _id: uid }*/);
           //user ? user :  (() => { throw new Error (`El Usuario de id ${uid} no se encontró.`) })();
           //return user;
+          console.log("CON_CONTROLL>  " + user)
           return res.json(user)
         } catch (err) {
             return res.status(500).json({ error: `Error al buscar Usuario id ${uid}` });            

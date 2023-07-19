@@ -162,26 +162,44 @@ async getUserById(id) {
       };
   };
 
-  userByIdOrEmail(id, email){
-    const users = this.getUsers();
-    for (const param in users) {
-      switch (param) {
-        case "id":
-          //const userById = users.some((user) => user._id == id);
-          let userById;
-          users.map((u) => u._id == users._id ?   userById = u : '');
-          console.log(userById)
-        return userById;
-        case "email":
-          //const userByEmail = users.some((user) => user.email == email);
-          let userByEmail;
-          users.map((u) => u.email == users.email ?   userByEmail = u : '');
-          console.log(userByEmail)
+  // userByIdOrEmail(id, email){
+  //   const users = this.getUsers();
+  //   for (const param in users) {
+  //     switch (param) {
+  //       case "id":
+  //         //const userById = users.some((user) => user._id == id);
+  //         let userById;
+  //         users.map((u) => u._id == users._id ?   userById = u : '');
+  //         console.log(userById)
+  //       return userById;
+  //       case "email":
+  //         //const userByEmail = users.some((user) => user.email == email);
+  //         let userByEmail;
+  //         users.map((u) => u.email == users.email ?   userByEmail = u : '');
+  //         console.log(userByEmail)
                       
-        return userByEmail;
-      }
-    };       
+  //       return userByEmail;
+  //     }
+  //   };       
+  // };
+  async userByIdOrEmail(id, email) {
+    const users = await userModel_2.getUsers();
+    let a, e;
+    if (id) {
+      a = users.find((user) => user._id.toString() === id.toString());
+      console.log("Con1>  " + a)
+      return  a
+      //return users.find((user) => user._id.toString() === id.toString());
+    } else if (email) {
+      //return users.find((user) => user.email.toString() === email.toString());
+      e = users.find((user) => user.email.toString() === email.toString());
+      console.log("Con2>  " + e)
+      return  e
+
+
+    }
   };
+  
   
   //LLAVE FIN USER SERVICE
 };
