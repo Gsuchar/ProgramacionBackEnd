@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { ProductManager } from "../dao/ProductManager.js";
+import { ProductManager } from "../DAO/ProductManager.js";
 import { uploader } from '../utils.js';
 import {ProductService} from "../services/productService.js"
 
 
 const routerProd = Router();
-const productManager = new ProductManager('./src/dao/dataFiles/products.json');
+const productManager = new ProductManager('./src/DAO/dataFiles/products.json');
 const productService = new ProductService;
 
 //-------ROUTER MONGO----------//
