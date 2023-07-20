@@ -1,5 +1,5 @@
 
-import { UserModel, UserModel_2 } from '../DAO/models/userModel.js';
+import { UserModel, UserModel_2 } from '../DAO/mongo/models/userModel.js';
 import {CartService} from '../services/cartService.js';
 import { createHash, isValidPassword } from '../utils.js';
 import express from 'express';

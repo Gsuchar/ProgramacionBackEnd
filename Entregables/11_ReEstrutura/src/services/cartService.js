@@ -1,5 +1,5 @@
-import { CartModel } from '../DAO/models/cartModel.js';
-import { ProductModel } from '../DAO/models/productModel.js';
+import { CartModel } from '../DAO/mongo/models/cartModel.js';
+import { ProductModel } from '../DAO/mongo/models/productModel.js';
 //-----
 
 export class CartService {

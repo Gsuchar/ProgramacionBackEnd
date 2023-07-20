@@ -51,8 +51,8 @@ export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(pa
 /***************************************************************************/
 //----------------SOCKET SERVER HANDLER-------------------------------------
 import { Server } from "socket.io";
-import { ProductManager } from "./DAO/ProductManager.js";
-import { MessageModel } from './DAO/models/messageModel.js';
+import { ProductManager } from "./DAO/file/ProductManager.js";
+import { MessageModel } from './DAO/mongo/models/messageModel.js';
 import { CartService } from "./services/cartService.js";
 import { ProductService } from "./services/productService.js";
 //-----
