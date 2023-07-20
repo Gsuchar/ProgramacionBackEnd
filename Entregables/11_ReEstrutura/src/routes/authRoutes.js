@@ -17,10 +17,11 @@ authRouter.get('/auth/faillogin', usersController.loginFail);
 authRouter.get('/auth/logout', usersController.logOut);
 // Perfil de Usuario
 authRouter.get('/auth/perfil', isUser, usersController.perfil);
-// Panel de Administración (accesible solo para usuarios con rol de administrador e isAdmin = true)
+// Panel de Administración (accesible solo para usuarios con rol de admin e isAdmin = true)
 authRouter.get('/auth/administracion', isUser, isAdmin, usersController.adminPanel);
 
 //TESTING
 authRouter.get('/users', usersController.getUsers);
 authRouter.get('/users/:uid', usersController.getUserById);
+authRouter.delete('/users/:uid', usersController.deleteUser);
 export default authRouter;

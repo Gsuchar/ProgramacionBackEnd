@@ -18,7 +18,7 @@ export function iniPassport() {
         // let user;
         // users.map((u) => u.email == username ?   user = u : '');
         //const user =  userService.userByIdOrEmail(username);
-        const user = await userService.userByIdOrEmail(null, username);
+        const user = await userService.getUserByIdOrEmail(null, username);
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
           return done(null, false);
@@ -90,7 +90,7 @@ export function iniPassport() {
           // let user;
           // users.map((u) => u.email == profile.email ?   user = u : '');
           //const user =  userService.userByIdOrEmail(profile.email);
-          const user = await userService.userByIdOrEmail(null, profile.email);
+          const user = await userService.getUserByIdOrEmail(null, profile.email);
           if (!user) {
             let newUser = {
               email: profile.email,

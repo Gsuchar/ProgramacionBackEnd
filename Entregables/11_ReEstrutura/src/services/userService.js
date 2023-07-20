@@ -1,3 +1,4 @@
+
 import { UserModel, UserModel_2 } from '../dao/models/userModel.js';
 import {CartService} from '../services/cartService.js';
 import { createHash, isValidPassword } from '../utils.js';
@@ -47,34 +48,6 @@ export class UserService {
     }
   };
 
-  // // TRAIGO USER SEGÚN EL ID
-  // async getUserById(id) {
-  //     try {
-  //       const user = await UserModel.find({ _id: id });
-  //       user ? user :  (() => { throw (`El Usuario de id ${id} no se encontró.`) })();
-  //       return user;
-  //     } catch (err) {
-  //         throw (`Error al buscar Usuario id ${id}. ${err}`);            
-  //     }
-  // };
-    // TRAIGO USER SEGÚN EL ID
-  // async getUserById(id) {
-  //   try {
-  //     const user = await userModel_2.getUserById({ _id: id });
-  //     //user ? user :  (() => { throw (`El Usuario de id ${id} no se encontró.`) })();
-  //     return user;
-  //   } catch (err) {
-  //       throw (`SERVICE___Error al buscar Usuario id ${id}. ${err}`);            
-  //   }
-  // };
-  // services/userService.js
-async getUserById(id) {
-  const user = await userModel_2.getUserById({ _id: id });
-  return user;
-}
-
-
-
   // USER NUEVO
   async addUser(newUser) {
       try {        
@@ -87,7 +60,7 @@ async getUserById(id) {
             const cartId = await cartService.addCart()
             //Armo datos Usuario
             const userToCreate = {
-              email: newUser.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar un Email válido.") })(),//Bajo por comodidad al leer
+              email: newUser.email && /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(newUser.email) ? newUser.email : (() => { throw ("Debe ingresar un Email válido.") })(),
               firstName: newUser.firstName ? newUser.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
               lastName: newUser.lastName ? newUser.lastName : (() => { throw ("Debe ingresar Apellido.") })(), 
               age: newUser.age ? newUser.age : '999', 
@@ -130,75 +103,51 @@ async getUserById(id) {
                 break;
             }
         };            
-      // const userUpdated = await UserModel.findByIdAndUpdate(
-      //     { _id: id },
-      //     userToUpdate,
-      //     { new: true } // Esto asegura que se devuelva el documento actualizado (Mongo)
-      //   );
       const userUpdated = await userModel_2.updateUser( { _id: id }, userToUpdate );
       return userUpdated;
     } catch (err) {
       throw (`No se pudo modificar Usuario con ID ${id}. ${err}`);
     };
   };
+  async getUserByIdOrEmail(id, email) {
+    try {
+      const users = await userModel_2.getUsers();
+      let _id, _email;
+      if (id) {
+        // Busco user por id
+        _id = users.find((user) => user._id.toString() === id.toString());
+        // Si el id no es falsy y distinto de undefined lo retorna, si no manda null para activar activar throw error en controller
+        _id && _id!=undefined ? _id : _id = null;
+        return _id
+      } else if (email) {
+        // Busco user por email
+        _email = users.find((user) => user.email.toString() === email.toString());
+        // Si el id no es falsy y distinto de undefined lo manda, si no manda null para activar throw error en controller
+        _email && _email!=undefined  ? _email :  null;
+        return _email
+      }      
+    } catch (err) {
+      throw (`Fallo al buscar Usuario. ${err}`);
+    }
 
+  };
   // DELETE USUARIO
-  // async deleteUser(id, cartId) {
-  //     try {        
-  //         const deletedUser = await UserModel.findByIdAndDelete({ _id: id });
-  //         await cartService.deleteCart(cartId);
-  //         return deletedUser;      
-  //     }catch (err) {
-  //         throw (`Fallo al borrar el Usuario. ${err}`);
-  //     };
-  // };
-  async deleteUser(id, cartId) {
-      try {        
-          const deletedUser = await userModel_2.deleteUser({ _id: id });
-          await cartService.deleteCart(cartId);
+  //async deleteUser(id, cartId) {
+  async deleteUser(user) {
+      try {
+          console.log("LALA>11>> " + user) 
+          const idcartU = await this.getUserByIdOrEmail(user, null) 
+          console.log("LALA>>> " + idcartU)       
+          const deletedUser = await userModel_2.deleteUser( user );
+          
+          const cartIdUser = await cartService.getCartById( idcartU.idCart);
+          await cartService.deleteCart(cartIdUser);
           return deletedUser;      
       }catch (err) {
           throw (`Fallo al borrar el Usuario. ${err}`);
       };
   };
 
-  // userByIdOrEmail(id, email){
-  //   const users = this.getUsers();
-  //   for (const param in users) {
-  //     switch (param) {
-  //       case "id":
-  //         //const userById = users.some((user) => user._id == id);
-  //         let userById;
-  //         users.map((u) => u._id == users._id ?   userById = u : '');
-  //         console.log(userById)
-  //       return userById;
-  //       case "email":
-  //         //const userByEmail = users.some((user) => user.email == email);
-  //         let userByEmail;
-  //         users.map((u) => u.email == users.email ?   userByEmail = u : '');
-  //         console.log(userByEmail)
-                      
-  //       return userByEmail;
-  //     }
-  //   };       
-  // };
-  async userByIdOrEmail(id, email) {
-    const users = await userModel_2.getUsers();
-    let a, e;
-    if (id) {
-      a = users.find((user) => user._id.toString() === id.toString());
-      console.log("Con1>  " + a)
-      return  a
-      //return users.find((user) => user._id.toString() === id.toString());
-    } else if (email) {
-      //return users.find((user) => user.email.toString() === email.toString());
-      e = users.find((user) => user.email.toString() === email.toString());
-      console.log("Con2>  " + e)
-      return  e
-
-
-    }
-  };
   
   
   //LLAVE FIN USER SERVICE

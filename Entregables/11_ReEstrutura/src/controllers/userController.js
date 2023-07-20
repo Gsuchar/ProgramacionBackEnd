@@ -99,13 +99,27 @@ class UsersController {
         const uid = req.params.uid;
         try {         
           console.log(uid)   
-          const user =  await userService.userByIdOrEmail(uid, null/*{ _id: uid }*/);
-          //user ? user :  (() => { throw new Error (`El Usuario de id ${uid} no se encontró.`) })();
+          const user =  await userService.getUserByIdOrEmail(uid, null);
+          //Si user es null(falsy), dispara mensaje de error que complementa el del catch
+          user ? user :  (() => { throw (`El Usuario de id ${uid} no existe en la base de datos.`) })();
           //return user;
           console.log("CON_CONTROLL>  " + user)
           return res.json(user)
         } catch (err) {
-            return res.status(500).json({ error: `Error al buscar Usuario id ${uid}` });            
+            //return res.status(500).json({ Error: `Error al buscar Usuario id ${uid}. ${err}` });
+            return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
+        }
+      };
+    async deleteUser(req, res) {
+        const uid = req.params.uid;
+        try {         
+          console.log(uid)   
+          const user =  await userService.deleteUser(uid);
+          console.log("CON_TROLL>  " + user)
+          return res.json(user)
+        } catch (err) {
+            //return res.status(500).json({ Error: `Error al buscar Usuario id ${uid}. ${err}` });
+            return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
         }
       };
 

@@ -24,34 +24,9 @@ export class UserModel_2{
         const users = await UserModel.find().limit(limit);
         return users;
     } catch (err) {           
-        throw (`Error al buscar usuario. ${err}`);
+        throw (`Error al acceder a usuarios. ${err}`);
     }
   };
-    // TRAIGO USER SEGÚN EL ID
-  //   async getUserById(id) {
-  //     try {
-  //       const user = await UserModel.find({ _id: id });
-  //       user ? user :  (() => { throw (`El Usuario de id ${id} no se encontró.`) })();
-  //       return user;
-  //     } catch (err) {
-  //         throw (`MODEL___Error al buscar Usuario id ${id}. ${err}`);            
-  //     }
-  // };
-  // async getUserById(id) {
-  //   const user = await UserModel.find({ _id: id });
-  //   if (!user) {
-  //     throw new Error(`El Usuario de id ${id} no se encontró.`);
-  //   }
-  //   return user;
-  // }
-  getUserById(id) {
-    return UserModel.find({ _id: id });
-  }
-
-// async getUserById(id) {
-//     const user = await UserModel.find({ _id: id });
-//     return user;
-// }
 
   async addUser(newUser) {
     try {
@@ -62,8 +37,9 @@ export class UserModel_2{
     };    
   };
   async updateUser(id, fieldsToUpdate) {
-    try { 
-      const userUpdated = await UserModel.findByIdAndUpdate( /*{ _id: id }*/id, fieldsToUpdate, { new: true } );
+    try {
+      //new: true => devuelve el valor actualizado. 
+      const userUpdated = await UserModel.findByIdAndUpdate( id, fieldsToUpdate, { new: true } );
       return userUpdated;
     } catch (err) {
       throw (`No se pudo modificar Usuario con ID ${id}. ${err}`);
@@ -72,15 +48,12 @@ export class UserModel_2{
 
   async deleteUser(id) {
     try {        
-        const deletedUser = await UserModel.findByIdAndDelete(/*{ _id: id }*/id);
-        //await cartService.deleteCart(cartId);
+        const deletedUser = await UserModel.findByIdAndDelete( id );
         return deletedUser;      
     }catch (err) {
         throw (`Fallo al borrar el Usuario. ${err}`);
     };
   };
-
-
   
  // FIN LLAVE USERMODEL  
 }
