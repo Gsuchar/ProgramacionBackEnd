@@ -1,4 +1,4 @@
-import { ProductModel } from '../DAO/mongo/models/productModel.js';
+import { ProductModel, productModel_2 } from '../DAO/mongo/models/productModel.js';
 //-----
 
 export class ProductService {
@@ -6,10 +6,10 @@ export class ProductService {
     // TRAIGO TODOS LOS PRODUCTOS SIN PAGINATE
     async getProducts(limit) {          
         try {
-            const products = await ProductModel.find().limit(limit).lean().exec(); 
+            const products = await productModel_2.getProducts(limit); 
             return products;
         } catch (err) {           
-            throw (`Error al buscar productos. ${err}`);
+            throw (`Error al buscar productos.`);
         }
     };
 
@@ -17,7 +17,7 @@ export class ProductService {
     async getProductsPaginate(limit, page, filter, sort, attName) {          
         try {
             const sortPrice =  { price: sort } ;            
-            const products = await ProductModel.paginate(
+            const products = await productModel_2.getProductsPaginate(
                 //PRIMER {} = filtro por atributo/valor, vacio trae todo
                 filter ? { [attName ? attName : "category"]: filter } : {},
                 // SEGUNDO {} = limit, page, sort
@@ -25,7 +25,8 @@ export class ProductService {
                   page: page ? page : 1,                  
                   sort: sort ?  sortPrice : ""               
                 }
-            ) 
+            )
+            //const products = await productModel_2.getProductsPaginate(limit, page, filter, sort, attName) 
             return products;
         } catch (err) {           
             throw (`Error al buscar productos. ${err}`);
@@ -35,11 +36,10 @@ export class ProductService {
     // TRAIGO PRODUCTO SEGÚN EL ID
     async getProductById(id) {
         try {
-          const product = await ProductModel.find({ _id: id });
-          product ? product :  (() => { throw (`El producto de id ${id} no se encontró.`) })();
+          const product = await productModel_2.getProductById({ _id: id });
           return product;
         } catch (err) {
-            throw (`Error al buscar producto id ${id}. ${err}`);            
+            throw (`No se encontró producto de id ${id}.`);
         }
     };
 
@@ -62,10 +62,10 @@ export class ProductService {
                 category: newProd.category ? newProd.category : (() => { throw ("Debe ingresar la categoria de Producto.") })(),
                 thumbnail: !newProd.thumbnail ? "Sin Definir" :  newProd.thumbnail   
             };            
-            const createdProduct = await ProductModel.create(newProduct);
+            const createdProduct = await productModel_2.addProduct(newProduct);
             return createdProduct;
         }catch (err) {
-            throw (`Error al agregar productos. ${err}`);
+            throw (`Fallo agregar producto. ${err}`);
         };    
     };
 
@@ -98,26 +98,24 @@ export class ProductService {
                         break;
                 }
             };            
-            const prodUpdated = await ProductModel.findByIdAndUpdate(
-                { _id: id },
-                productToUpdate,
-                { new: true } // Esto asegura que se devuelva el documento actualizado (Mongo)
-              );
+            const prodUpdated = await productModel_2.updateProduct( { _id: id }, productToUpdate );
             return prodUpdated;
         } catch (err) {
-            throw (`No se pudo modificar producto con ID ${id}. ${err}`);
+            throw (`No se pudo modificar producto. ${err}`);
         };
     };
 
     // DELETE PRODUCTO
     async deleteProduct(id) {
         try {        
-            const deletedProduct = await ProductModel.findByIdAndDelete({ _id: id });
+            const deletedProduct = await productModel_2.deleteProduct({ _id: id });
             return deletedProduct;      
         }catch (err) {
-            throw (`Fallo al encontrar producto. ${err}`);
+            throw (`Fallo al encontrar producto.`);
         };
     };
-    
+
  //LLAVE FIN PRODUCT SERVICE
 };
+
+export const productService = new ProductService();

@@ -1,13 +1,9 @@
 import { Router } from 'express';
+import { chatsController } from '../controllers/chatController.js';
+
 
 const routerChat = Router();
 
-routerChat.get("/chat", async (req, res) => {  
-    try {      
-      res.status(200).render('chat', { });
-    } catch (err) {
-        res.status(500).json({ Error: `${err}` });
-    };
-  });
+routerChat.get("/chat", chatsController.chats);
 
 export default routerChat;

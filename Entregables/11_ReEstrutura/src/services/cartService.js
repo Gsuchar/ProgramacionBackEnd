@@ -9,7 +9,7 @@ export class CartService {
       const carts = await CartModel.find().limit(limit);
       return carts;
     } catch (err) {
-        throw (`Error al obtener carts. +  ${err}`);
+        throw (`Error al obtener carts. ${err}`);
     }
   };
     
@@ -85,6 +85,17 @@ export class CartService {
     }
   };
   
+  // VACIO CART SEGUN ID 
+  async emptyCart(cid) {
+    try {
+      const emptyCart = await CartModel.findOneAndUpdate({ _id: cid }, {products:[]}, {new:true});      
+      return emptyCart;      
+    }catch (err) {
+      throw (`Fallo al encontrar cart. ${err}`);
+    };
+  };
+    
+  
   //BORRO CART POR ID, no va pero ya me queda tambien x 2.  
   async deleteCart(id) {
     try {
@@ -95,16 +106,9 @@ export class CartService {
     };
   };
   
-  // VACIO CART SEGUN ID 
-  async emptyCart(cid) {
-    try {
-      const emptyCart = await CartModel.findOneAndUpdate({ _id: cid }, {products:[]}, {new:true});      
-      return emptyCart;      
-    }catch (err) {
-      throw (`Fallo al encontrar cart. ${err}`);
-    };
-  };
-  
+
 
  //LAVE FIN CART SERVICE    
 };
+
+export const cartService = new CartService();

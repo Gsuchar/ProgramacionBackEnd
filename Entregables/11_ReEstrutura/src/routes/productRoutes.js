@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ProductManager } from "../DAO/file/ProductManager.js";
 import { uploader } from '../utils.js';
 import {ProductService} from "../services/productService.js"
+import { productsController } from '../controllers/productController.js';
 
 
 const routerProd = Router();
@@ -13,66 +14,24 @@ const productService = new ProductService;
 // TRAIGO TODOS LOS PRODUCTOS (en caso de tener límite, trae solo la cantidad indicada)
 // TODOS > http://localhost:8080/products
 // Limite 2 > http://localhost:8080/products?limit=2 
-
-routerProd.get("/products", async (req, res) => {  
-  try {
-    const limit = parseInt(req.query.limit) || 10;
-    const page = parseInt(req.query.page) ; 
-    const filter = req.query.filter || '';
-    const sort = req.query.sort ? req.query.sort : '';
-    const attName = req.query.attName || '';
-    const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
-    res.status(200).json( { products : products });
-  } catch (err) {
-      res.status(500).json({ Error: `${err}` });
-    }
-});
+routerProd.get("/products", productsController.getProducts);
+routerProd.get("/productsP", productsController.getProductsPaginate);
 
 // TRAIGO PRODUCTO SEGÚN EL ID INDICADO EN URL
-routerProd.get('/products/:pid', async (req, res) => {
-  const pid = req.params.pid;
-  try {
-    const product = await productService.getProductById(pid);
-    res.status(200).json(product);
-  } catch (err) {
-      res.status(404).json({ Error: `${err}` });
-  };
-});
-
+routerProd.get('/products/:pid', productsController.getProductById);
 // PRODUCTO NUEVO
-routerProd.post("/products/new", async (req, res) => {
-  try {
-    const { title, description, price, code, stock, category, thumbnail } = req.body.products;
-    const prodToCreate = await productService.addProduct({ title, description,  code, price, status: true, stock, category, thumbnail });    
-    return res.status(201).json({ products: prodToCreate });
-  } catch (err) {
-      res.status(500).json({ Error: `${err}` });
-  }
-});
-
+routerProd.post("/products/new",productsController.addProduct);
 // MODIFICA UN PRODUCTO EXISTENTE SEGÚN ID Y CAMPO A MODIFICAR
-routerProd.put("/products/update/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const fieldsToUpdate = req.body;
-  try {
-    const product = await productService.updateProduct(pid, fieldsToUpdate);
-    res.status(200).json(product);
-  } catch (err) {
-      res.status(500).json({ Error: `${err}` });
-  }
-});
-
+routerProd.put("/products/update/:pid", productsController.updateProduct);
 // DELETE PRODUCTO
-routerProd.delete("/products/delete/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const deleted =  await productService.deleteProduct(pid)
-    return res.status(200).json(deleted);
-  }catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
+routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 //-------FIN ROUTER MONGO----------//
+
+
+
+
+
+
 
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA- PROBANDOOOOOOO
