@@ -28,13 +28,30 @@ export class ProductModel_2{
     };
 
     // TRAIGO TODOS LOS PRODUCTOS CON PAGINATE
+    // async getProductsPaginate(limit, page, filter, sort, attName) {          
+    //     try {
+    //         const sortPrice =  { price: sort } ;            
+    //         const products = await ProductModel.paginate(
+    //             //PRIMER {} = filtro por atributo/valor, vacio trae todo
+    //             filter ? { [attName ? attName : "category"]: filter } : {},
+    //             // SEGUNDO {} = limit, page, sort
+    //             { limit: limit ? limit : 10 ,  lean: true, 
+    //               page: page ? page : 1,                  
+    //               sort: sort ?  sortPrice : ""               
+    //             }
+    //         ) 
+    //         return products;
+    //     } catch (err) {           
+    //         throw (`Error al buscar productos. ${err}`);
+    //     }
+    // };
     async getProductsPaginate(filter, limit, lean, page, sort/*, attName*/) {          
         try {
-            const sortPrice =  { price: sort } ;            
-            const products = await ProductModel.paginate( filter ,{ limit ,  lean, page, sort } ) 
+            //const sortPrice =  { price: sort } ;            
+            const products = await ProductModel.paginate( filter , limit ,  lean, page, sort  ) 
             return products;
         } catch (err) {           
-            throw (`Error al buscar productos. ${err}`);
+            throw (`Error al buscar productos. MODELO `);
         }
     };
 

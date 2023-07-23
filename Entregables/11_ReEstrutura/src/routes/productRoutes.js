@@ -33,6 +33,13 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 
 
+
+
+
+
+
+
+
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA- PROBANDOOOOOOO
 routerProd.get("/realtimeproducts", async (req, res) => {  

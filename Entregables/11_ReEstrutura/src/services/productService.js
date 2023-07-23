@@ -26,10 +26,11 @@ export class ProductService {
                   sort: sort ?  sortPrice : ""               
                 }
             )
-            //const products = await productModel_2.getProductsPaginate(limit, page, filter, sort, attName) 
+            //const products = await productModel_2.getProductsPaginate(limit, page, filter, sort, attName)
+            //console.log("Pepeeeeee>>>>>>>  " +JSON.stringify(products))
             return products;
         } catch (err) {           
-            throw (`Error al buscar productos. ${err}`);
+            throw (`Error al buscar productos.CONTROLLER, DESDE EL MODELO >>  ${err}`);
         }
     };
 

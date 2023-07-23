@@ -1,14 +1,9 @@
 import { cartService } from '../services/cartService.js';
+import { productService } from '../services/productService.js';
 
 
 class CartsController {
-    // async getCarts(limit) {
-    //     try {          
-    //       return cartService.getCarts(limit);
-    //     } catch (err) {
-    //         throw (`Error al obtener carts. ${err}`);
-    //     }
-    // };
+
     async getCarts(req, res) {
         try {
             const limit = req.query.limit;
@@ -18,15 +13,7 @@ class CartsController {
             res.status(500).json({ Error: `${err}` });
         }
     };
-    // async getCartById(cartId) {
-    //     try {
-    //       const cart = await cartService.getCartById(cartId); 
-    //       cart ? cart : (() => { throw (`El carrito de id ${id} no se encontró.`) })();
-    //       return cart;
-    //     } catch (err) {
-    //         throw (`Error al buscar carrito. ${err}`);
-    //     }
-    //   };        
+     
     async getCartById(req, res) {
         try {
             const cart = await cartService.addCart();
@@ -44,17 +31,17 @@ class CartsController {
         } catch (err) {
             res.status(404).json({ Error: `${err}` });
         };
-      };
-    
+    };    
 
-    async addCart(req, res) {
-        try {        
-            const createdCart = await cartService.addCart();
-            return createdCart;
+    async addCart(req, res){
+        try {
+            const cart = await cartService.addCart();
+            res.status(201).json(cart);
         } catch (err) {
-            throw (`Error al crear cart. ${err}`);
-        };    
+            res.status(400).json({ Error: `${err}` });
+        };
     };
+
     async addProductToCart(req, res) {
         try {
             const cid = req.params.cid;
@@ -98,9 +85,38 @@ class CartsController {
         } catch (err) {
             res.status(404).json({ Error: `${err}` });
         };
-    }     
-    
-    
+    };
+
+
+//--------ROUTER HANDLEBARS Y WEBSOCKET----------//
+// VISTA SIMPLE HTML -NO DINAMICA-
+    async getProductsByCartId_Handlebars(req, res){
+        try {
+            const cid = req.params.cid;
+            const cartProducts = await cartService.getProductsByCartId(cid);   
+            res.status(200).render("cartProducts", cartProducts);
+        } catch (err) {
+            res.status(500).json({ Error: `${err}` });
+        }
+    };
+  
+  // VISTA WEBSOCKET -DINAMICA-
+    async getProductsByCartId_Paginate(req, res){  
+        try {
+            const limit = parseInt(req.query.limit) || 10;
+            const page = parseInt(req.query.page) ; 
+            const filter = req.query.filter || '';
+            const sort = req.query.sort ? req.query.sort : '';
+            const attName = req.query.attName || '';
+            const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
+            res.status(200).render('productsToCart', { products });
+        } catch (err) {
+            res.status(500).json({ Error: `${err}` });
+        }
+    };
+  
+  //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
+  /////////////////////////////////////////////////////////////////////////////////////////    
 
 
  //LAVE FIN CART CONTROLLER

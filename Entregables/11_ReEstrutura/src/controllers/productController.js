@@ -23,7 +23,7 @@ class ProductsController {
           const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
           res.status(200).json( { products : products });
         } catch (err) {
-            res.status(500).json({ Error: `${err}` });
+            res.status(500).json({ Error: `LALALA:PRODCONTROLLER>>  ${err}` });
         }
     };
 
