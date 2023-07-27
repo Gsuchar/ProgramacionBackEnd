@@ -14,7 +14,7 @@ import { connectMongo, socketServerHandler } from "./utils.js";
 import { iniPassport } from './config/passport.config.js';
 import passport from 'passport';
 import dotenv from "dotenv";
-import routerSessions from './routes/sessionsRoutes.js';
+import sessionRoutes from './routes/sessionsRoutes.js';
 //-----
 
 
@@ -66,7 +66,7 @@ app.use('/', productRoutes);
 app.use('/', cartRoutes);
 app.use('/', chatRoutes);
 app.use('/', authRoutes);
-app.use('/', routerSessions);
+app.use('/', sessionRoutes);
 
 // Epic link Fail - 404 Not Found
 app.get("*", (req, res) => {

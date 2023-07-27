@@ -1,4 +1,5 @@
 import { userService } from '../services/userService.js';
+import { sessionsController } from '../controllers/sessionController.js';
 
 class UsersController {
     // REGISTER
@@ -14,17 +15,18 @@ class UsersController {
         if (!req.user) {
             return res.json({ error: 'No existe usuario' });
         };
-        req.session.user = {
-            _id: req.user._id,
-            email: req.user.email,
-            firstName: req.user.firstName,
-            lastName: req.user.lastName,
-            age: req.user.age,
-            role: req.user.role,
-            isAdmin: req.user.isAdmin,
-            idCart: req.user.idCart
-        };
-        return userService.redirectPerfil(res);
+        // req.session.user = {
+        //     _id: req.user._id,
+        //     email: req.user.email,
+        //     firstName: req.user.firstName,
+        //     lastName: req.user.lastName,
+        //     age: req.user.age,
+        //     role: req.user.role,
+        //     isAdmin: req.user.isAdmin,
+        //     idCart: req.user.idCart
+        // };
+        //return userService.redirectPerfil(res);
+        return userService.dashboard(req, res);
     };
     // LOGIN
     login(req, res) {
@@ -35,17 +37,20 @@ class UsersController {
         if (!req.user) {
             return res.json({ error: 'Error en Credenciales' });
         };
-        req.session.user = {
-            _id: req.user._id,
-            email: req.user.email,
-            firstName: req.user.firstName,
-            lastName: req.user.lastName,
-            age: req.user.age,
-            role: req.user.role,
-            isAdmin: req.user.isAdmin,
-            idCart: req.user.idCart
-        };
-        return userService.redirectPerfil(res);
+        // req.session.user = {
+        //     _id: req.user._id,
+        //     email: req.user.email,
+        //     firstName: req.user.firstName,
+        //     lastName: req.user.lastName,
+        //     age: req.user.age,
+        //     role: req.user.role,
+        //     isAdmin: req.user.isAdmin,
+        //     idCart: req.user.idCart
+        // };
+        //return userService.redirectPerfil(res);
+        //return userService.dashboard(res);
+        //return res.render('dashboard', {user : req.session.user})
+        return userService.dashboard(req, res);
     };
     // LOGIN FAIL
     loginFail(req, res) {
@@ -60,6 +65,31 @@ class UsersController {
             return res.redirect('/auth/login');
         });
     };
+    // dashboard(req, res) {
+    //     const user = req.session.user;
+    //     //return userService.dashboard(res,user);
+    //     return res.render('dashboard', { user: user });
+    // };
+    //  dashboard(req, res) {   
+    //     //const user = req.session.user;
+    //     req.session.user = {
+    //         _id: req.user._id,
+    //         email: req.user.email,
+    //         firstName: req.user.firstName,
+    //         lastName: req.user.lastName,
+    //         age: req.user.age,
+    //         role: req.user.role,
+    //         isAdmin: req.user.isAdmin,
+    //         idCart: req.user.idCart
+    //     };     
+    //     return res.render('dashboard', {user : req.session.user});     
+    //   };
+    dashboard(req, res) {
+        const user = req.session.user;
+        return res.render('dashboard', { user: user });
+        
+    };
+    
     // PERFIL USUARIO
     perfil(req, res) {
         const user = req.session.user;

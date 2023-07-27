@@ -34,3 +34,13 @@
   color: #fff;
 }
 /**/
+
+
+.card-header-dashboard{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+}
+

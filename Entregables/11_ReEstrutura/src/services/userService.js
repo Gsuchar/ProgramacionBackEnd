@@ -19,12 +19,29 @@ export class UserService {
   redirectPerfil(res){
     return res.redirect('/auth/perfil') 
   };
-
+  // async redirectDashboard(res){
+  //   return res.render('/dashboard') 
+  // };
 
   loginFail(res){
     return res.json({ error: 'fail to login' });
   };
- 
+  async dashboard(req,res) {        
+    //return res.render('dashboard', user);
+    req.session.user = {
+      _id: req.user._id,
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      age: req.user.age,
+      role: req.user.role,
+      isAdmin: req.user.isAdmin,
+      idCart: req.user.idCart
+  }; 
+    //let user = req.session.user;    
+    //return res.render('dashboard', {user : req.session.user}); 
+    return res.redirect('/dashboard')  
+  };
   
   // POR AHORA NO LO USO YA QUE LO MANDABA AL MISMO LUGAR, UNIFIQUE EN redirectPerfil
   // registerPassport(res){
