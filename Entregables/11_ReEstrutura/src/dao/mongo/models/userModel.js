@@ -55,7 +55,7 @@ export class UserModel_2{
     };
   };
   
- // FIN LLAVE USERMODEL  
+ // FIN LLAVE USERMODEL_2  
 }
 
 export const userModel_2 = new UserModel_2();

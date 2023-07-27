@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e63693a1-41a6-4774-b1fe-c0cf4b028026",
+		"_postman_id": "6e33159e-866f-4236-bc63-4102dc1c93d5",
 		"name": "PB__TestingPostman_GSuchar",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18740752"
+		"_exporter_id": "27191640"
 	},
 	"item": [
 		{
@@ -59,15 +59,87 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:8080/html/products",
+									"raw": "http://localhost:8080/fs/html/products",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"fs",
 										"html",
 										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST_NewProd_Form Copy",
+							"protocolProfileBehavior": {
+								"followOriginalHttpMethod": false,
+								"insecureHTTPParser": true,
+								"disableUrlEncoding": false,
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "SOY UN NUEVO PRODUCTO POR FORM",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "asdasdasd",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "420",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "420",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "420",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "Unic_Form",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/products?attName=category&filter=420",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "attName",
+											"value": "category"
+										},
+										{
+											"key": "filter",
+											"value": "420"
+										}
 									]
 								}
 							},
@@ -331,7 +403,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/products?limit=10&page=1&filter=LALALA&attName=title",
+									"raw": "http://localhost:8080/products?limit=2",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -343,19 +415,7 @@
 									"query": [
 										{
 											"key": "limit",
-											"value": "10"
-										},
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "filter",
-											"value": "LALALA"
-										},
-										{
-											"key": "attName",
-											"value": "title"
+											"value": "2"
 										}
 									]
 								}
@@ -380,7 +440,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/products/648745edde41f6764269498f",
+									"raw": "http://localhost:8080/products/64bc782f6653d3e13277ebcar",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -388,7 +448,7 @@
 									"port": "8080",
 									"path": [
 										"products",
-										"648745edde41f6764269498f"
+										"64bc782f6653d3e13277ebcar"
 									]
 								}
 							},
@@ -401,7 +461,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"products\": {\r\n        \"title\": \"TEST\",\r\n        \"description\": \"AGREGADO\",\r\n        \"code\": 33,\r\n        \"price\": 420,\r\n        \"stock\": 420,\r\n        \"category\": \"AGREGADO\",\r\n        \"thumbnail\": \"420\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"products\": {\r\n        \"title\": \"4444444 6\",\r\n        \"description\": \"4444444\",\r\n        \"code\": \"3\",\r\n        \"price\": 31,\r\n        \"stock\": \"31\",\r\n        \"category\": \"420\",\r\n        \"thumbnail\": 1\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -438,7 +498,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/products/delete/6484be64b1daed9e48672b0a",
+									"raw": "http://localhost:8080/products/delete/64bc7f3b147168a5f6f396f0",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -447,7 +507,7 @@
 									"path": [
 										"products",
 										"delete",
-										"6484be64b1daed9e48672b0a"
+										"64bc7f3b147168a5f6f396f0"
 									]
 								}
 							},
@@ -471,7 +531,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": " {\r\n    \"title\": \"MODIFICO TITULO\",\r\n    \"description\": \"Tambien, code y price...modifica en funcion de los parametros q recibe\",\r\n    \"code\": 666,\r\n    \"price\": 666,\r\n    \"category\": \"Testing\"\r\n    \r\n}",
+									"raw": " {\r\n    \"title\": \"CAMBIADO\",\r\n    \"price\": \"2\",\r\n    \"_id\": 5,\r\n    \"category\": 23,\r\n    \"description\": \" \"\r\n    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -479,7 +539,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/products/update/648119df6decdb8b515992b3",
+									"raw": "http://localhost:8080/products/update/64bc7f3b147168a5f6f396f0",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -488,7 +548,7 @@
 									"path": [
 										"products",
 										"update",
-										"648119df6decdb8b515992b3"
+										"64bc7f3b147168a5f6f396f0"
 									]
 								}
 							},
@@ -769,7 +829,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts?limit=2",
+									"raw": "http://localhost:8080/carts?limit=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -781,7 +841,7 @@
 									"query": [
 										{
 											"key": "limit",
-											"value": "2"
+											"value": "1"
 										}
 									]
 								}
@@ -806,7 +866,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/64887d970f8ac227ba1e3dab",
+									"raw": "http://localhost:8080/carts/64bc75e24d3ab12f410bf27f",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -814,7 +874,7 @@
 									"port": "8080",
 									"path": [
 										"carts",
-										"64887d970f8ac227ba1e3dab"
+										"64bc75e24d3ab12f410bf27f"
 									]
 								}
 							},
@@ -825,15 +885,6 @@
 							"request": {
 								"method": "PUT",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://localhost:8080/carts/new",
 									"protocol": "http",
@@ -850,7 +901,40 @@
 							"response": []
 						},
 						{
-							"name": "PUT_Update Cart",
+							"name": "PUT_AgregaProd a cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/carts/64bc75e24d3ab12f410bf27f/product/64bc76554d3ab12f410bf28b",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"carts",
+										"64bc75e24d3ab12f410bf27f",
+										"product",
+										"64bc76554d3ab12f410bf28b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT_Agrega CANTIDAD de Prod a cart",
 							"event": [
 								{
 									"listen": "test",
@@ -867,7 +951,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \r\n    \"quantity\": 3333\r\n}",
+									"raw": "{\r\n    \"quantity\": 666    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -875,7 +959,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/64887d970f8ac227ba1e3dab/product/64887b316d761255ec4c5336",
+									"raw": "http://localhost:8080/carts/64810b7f333ed4bfc6f7ac99/product/64810dd4673bfbdbf73fa49c",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -883,9 +967,9 @@
 									"port": "8080",
 									"path": [
 										"carts",
-										"64887d970f8ac227ba1e3dab",
+										"64810b7f333ed4bfc6f7ac99",
 										"product",
-										"64887b316d761255ec4c5336"
+										"64810dd4673bfbdbf73fa49c"
 									]
 								}
 							},
@@ -906,7 +990,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/deleteAll/6484c34c2017a2a5026f783d",
+									"raw": "http://localhost:8080/carts/deleteAll/64bd9cab98f661784c31bc41",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -915,14 +999,14 @@
 									"path": [
 										"carts",
 										"deleteAll",
-										"6484c34c2017a2a5026f783d"
+										"64bd9cab98f661784c31bc41"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "DELETE_Vacio cart",
+							"name": "DELETE_EmptyCart",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -936,7 +1020,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/carts/empty/648884b136ae2cf4553373b6",
+									"raw": "http://localhost:8080/carts/empty/64bda383ea41eced129ea249",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -945,7 +1029,7 @@
 									"path": [
 										"carts",
 										"empty",
-										"648884b136ae2cf4553373b6"
+										"64bda383ea41eced129ea249"
 									]
 								}
 							},
@@ -956,18 +1040,8 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "quantity",
-											"value": "",
-											"type": "text"
-										}
-									]
-								},
 								"url": {
-									"raw": "http://localhost:8080/carts/delete/64887af76d761255ec4c531f/product/64810b86333ed4bfc6f7ac9c",
+									"raw": "http://localhost:8080/carts/delete/64bc75e24d3ab12f410bf27f/product/64bc765a4d3ab12f410bf28e",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -976,15 +1050,119 @@
 									"path": [
 										"carts",
 										"delete",
-										"64887af76d761255ec4c531f",
+										"64bc75e24d3ab12f410bf27f",
 										"product",
-										"64810b86333ed4bfc6f7ac9c"
+										"64bc765a4d3ab12f410bf28e"
 									]
 								}
 							},
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "GET_Traigo todos USers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users?limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_Traigo todos USers Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/gsuchar@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"gsuchar@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/delete/6484be64b1daed9e48672b0a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"delete",
+								"6484be64b1daed9e48672b0a"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

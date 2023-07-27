@@ -10,7 +10,7 @@ export class CartManager {
     CartManager.cartGlobalID = lastCartId;
   };
 
-  productManager = new ProductManager('./src/dao/dataFiles/products.json');  
+  productManager = new ProductManager('./src/DAO/dataFiles/products.json');  
   static cartGlobalID = 0;
 
   //TODOS LOS CART, no va pero ya me queda pronto por si las dudas

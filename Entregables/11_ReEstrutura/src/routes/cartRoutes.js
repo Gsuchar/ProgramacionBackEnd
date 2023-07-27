@@ -1,124 +1,59 @@
 import { Router } from 'express';
-import { CartManager } from "../dao/CartManager.js";
+import { CartManager } from "../DAO/file/CartManager.js";
 import { CartService } from '../services/cartService.js';
 import {ProductService} from "../services/productService.js"
-const productService = new ProductService;
+import { cartsController } from '../controllers/cartController.js';
+//const productService = new ProductService;
 
 const routerCart = Router();
-const cartManager = new CartManager('./src/dao/dataFiles/carts.json');//FS
-const cartService = new CartService;
+const cartManager = new CartManager('./src/DAO/dataFiles/carts.json');//FS
+//const cartService = new CartService;
 
 
 // TRAIGO TODOS LOS CARRITOS (en caso de tener límite, trae solo la cantidad indicada), no iba pero ya me queda
-routerCart.get("/carts", async (req, res) => {  
-  try {
-    const limit = req.query.limit;
-    const carts = await cartService.getCarts(limit); 
-    res.status(200).json( { carts : carts });
-  } catch (err) {
-      res.status(500).json({ Error: `${err}` });
-    }
-});
+routerCart.get("/carts", cartsController.getCarts);
 
 // TRAIGO PRODUCTOS DEL CARRITO SEGÚN EL ID INDICADO EN URL
-routerCart.get('/carts/:cid', async (req, res) => {  
-  try {
-    const cid = req.params.cid;
-    const cart = await cartService.getProductsByCartId(cid);
-    res.status(200).json(cart);
-  } catch (err) {
-      res.status(404).json({ Error: `${err}` });
-  };
-});
+routerCart.get('/carts/:cid', cartsController.getProductsByCartId);
 
 // AGREGO CARRITO, inicializa con cartID y un array de prods vacio
-routerCart.put('/carts/new', async (req, res) => {
-  try {
-    const cart = await cartService.addCart();
-    res.status(201).json(cart);
-  } catch (err) {
-      res.status(400).json({ Error: `${err}` });
-  };
-});
+routerCart.put('/carts/new', cartsController.addCart);
 
 // AGREGA UN PRODUCTO Y QUANTITY A UN CARRITO 
-routerCart.put('/carts/:cid/product/:pid', async (req, res) => {
-  const cid = req.params.cid;
-  const pid = req.params.pid;
-  const pQuantity = req.body.quantity;
-  try {
-    const cart = await cartService.addProductToCart(cid, pid, pQuantity);
-    res.status(200).json(cart);
-  } catch (err) {
-      res.status(404).json({ Error: `${err}` });
-  };
-});
+routerCart.put('/carts/:cid/product/:pid',cartsController.addProductToCart);
 
 // BORRO PRODUCTO/QUANTITY DEL CARRITO
-routerCart.delete('/carts/delete/:cid/product/:pid', async (req, res) => {  
-  try {
-    const cid = req.params.cid;
-    const pid = req.params.pid;
-    const pQuantity = req.body.quantity;
-
-    const cart = await cartService.deleteProductFromCart(cid, pid, pQuantity);
-    res.status(200).json(cart);
-  } catch (err) {
-      res.status(404).json({ Error: `${err}` });
-  };
-});
+routerCart.delete('/carts/delete/:cid/product/:pid', cartsController.deleteProductFromCart);
 
 // VACIO CARRITO SEGÚN ID INDICADO
-routerCart.delete('/carts/empty/:cid', async (req, res) => {  
-  try {
-    const cid = req.params.cid;
-    console.log(cid)
-    const cart = await cartService.emptyCart(cid);
-    res.status(200).json(cart);
-  } catch (err) {
-      res.status(404).json({ Error: `${err}` });
-  };
-});
+routerCart.delete('/carts/empty/:cid',cartsController.emptyCart);
 
 // BORRO CARRITO SEGÚN ID INDICADO, no iba pero ya me queda
-routerCart.delete('/carts/deleteAll/:cid', async (req, res) => {  
-  try {
-    const { cid } = req.params;
-    const cart = await cartService.deleteCart(cid);
-    res.status(200).json(cart);
-  } catch (err) {
-      res.status(404).json({ Error: `${err}` });
-  };
-});
+routerCart.delete('/carts/deleteAll/:cid', cartsController.deleteCart);
 
+
+
+
+
+
+
+//================ TESTING =====================================//
 //--------ROUTER HANDLEBARS Y WEBSOCKET----------//
 // VISTA SIMPLE HTML -NO DINAMICA-
-routerCart.get("/carts/products/:cid", async (req, res) => {
-  try {
-    const cid = req.params.cid;
-    const cartProducts = await cartService.getProductsByCartId(cid);   
-    res.status(200).render("cartProducts", cartProducts);
-  } catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
+routerCart.get("/carts/products/:cid", cartsController.getProductsByCartId_Handlebars);
 
 // VISTA WEBSOCKET -DINAMICA-
-routerCart.get("/productsToCart", async (req, res) => {  
-  try {
-    const limit =   10; // Lmite max 10
-    const page = 1; // Incia en page: 1
-    const products = await productService.getProductsPaginate(limit, page);
-    res.status(200).render('productsToCart', { products });
-  } catch (err) {
-    res.status(500).json({ Error: `${err}` });
-  }
-});
+routerCart.get("/productsToCart", cartsController.getProductsByCartId_Paginate);
 
 
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
 /////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 //-------FIN ROUTER MONGO----------//
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////

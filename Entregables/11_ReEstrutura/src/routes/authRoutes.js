@@ -19,7 +19,9 @@ authRouter.get('/auth/logout', usersController.logOut);
 authRouter.get('/auth/perfil', isUser, usersController.perfil);
 // Panel de Administración (accesible solo para usuarios con rol de admin e isAdmin = true)
 authRouter.get('/auth/administracion', isUser, isAdmin, usersController.adminPanel);
-
+// Dashboard
+//authRouter.get('/dashboard', isUser,  usersController.dashboard);
+authRouter.get('/dashboard', isUser, usersController.dashboard);
 //TESTING
 authRouter.get('/users', usersController.getUsers);
 authRouter.get('/users/:uid', usersController.getUserById);

@@ -4,7 +4,7 @@ export function isUser(req, res, next) {
   // }
   // return res.status(401).render('error', { error: 'error de autenticacion!' });
 
-  req.session?.user?.email ? next() : res.status(401).render('error', { error: 'error de autenticacion!' });
+  req.session?.user?.email ? next() : res.status(401).render('error', { error: 'Debes estar logueado para acceder a este sitio.' });
 }
 
 export function isAdmin(req, res, next) {

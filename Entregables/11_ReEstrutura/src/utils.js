@@ -51,17 +51,17 @@ export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(pa
 /***************************************************************************/
 //----------------SOCKET SERVER HANDLER-------------------------------------
 import { Server } from "socket.io";
-import { ProductManager } from "./dao/ProductManager.js";
-import { MessageModel } from './dao/models/messageModel.js';
+import { ProductManager } from "./DAO/file/ProductManager.js";
+import { MessageModel } from './DAO/mongo/models/messageModel.js';
 import { CartService } from "./services/cartService.js";
-import { ProductService } from "./services/productService.js";
+import { productService } from "./services/productService.js";
 //-----
 
 export function socketServerHandler(httpServer) {
   const socketServer = new Server(httpServer);
-  const productManager = new ProductManager('./src/dao/dataFiles/products.json');
+  const productManager = new ProductManager('./src/DAO/dataFiles/products.json');
   const cartService = new CartService; 
-  const productService = new ProductService; 
+  //const productService = new ProductService; 
 
   // Escucha/anuncia conexiones de clientes
   socketServer.on("connection", (socket) => {
