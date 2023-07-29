@@ -108,8 +108,10 @@ class CartsController {
             const filter = req.query.filter || '';
             const sort = req.query.sort ? req.query.sort : '';
             const attName = req.query.attName || '';
+            //const userSession = req.session.user;
+            const sessionUser= req.session.user;
             const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
-            res.status(200).render('productsToCart', { products });
+            res.status(200).render('productsToCart', { products, sessionUser  });
         } catch (err) {
             res.status(500).json({ Error: `${err}` });
         }

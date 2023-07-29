@@ -1,29 +1,31 @@
 <div class="divCont">
   <div class="container login">
-    <div class="card col-5">
-      <div class="card-header">
+    <div class="card col-5 cardsBorder">
+      <div class="card-header card-header-dashboard-style ">
         <h2>¡Bienvenidos!</h2>
       </div>
       <div class="card-body">
         <h5 class="card-title">Completa los campos o Registrate.</h5>
-        <div class="col-6">
+        <div class="col-8">
           <form action='/auth/login' method='POST'>
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 ">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">@</span>
+                <span class="input-group-text input-group-text-style" id="basic-addon1">@</span>
               </div>
-              <input type="text" class="form-control" name='email' placeholder='Email' aria-label="Email" aria-describedby="basic-addon1">
+              <input type="text" class="form-control imputForms" name='email' placeholder='Email' aria-label="Email" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon2">**</span>
+                <span class="input-group-text input-group-text-style" id="basic-addon2">**</span>
               </div>
-              <input type="text" class="form-control" name='password' placeholder='Password' aria-label="Password" aria-describedby="basic-addon2">
+              <input type="text" class="form-control imputForms" name='password' placeholder='Password' aria-label="Password" aria-describedby="basic-addon2">
             </div>
-            <input class="btn btn-primary"type='submit' value='Entrar' />
-            <a  class="btn btn-link" href='/auth/register'>Registrarse</a>  
+            <input class="btn btn-sm  btn-outline-warning"type='submit' value='Entrar' />
+            <a  class="btn btn-sm btn-outline-warning" href='/auth/register'>Registrarse</a>  
           </form>
-          <a href='/api/sessions/github'>Entrar con github</a>                
+          <br>
+         <p> ---------- O ----------</p>
+          <a href='/api/sessions/github' class="btn btn-sm">Entrar con Github</a>                
         </div>
       </div>
     </div>

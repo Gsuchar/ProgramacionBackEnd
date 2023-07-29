@@ -108,11 +108,12 @@ export class ProductService {
 
     // DELETE PRODUCTO
     async deleteProduct(id) {
-        try {        
+        try {
+
             const deletedProduct = await productModel_2.deleteProduct({ _id: id });
             return deletedProduct;      
         }catch (err) {
-            throw (`Fallo al encontrar producto.`);
+            throw (`Fallo al encontrar producto2.  ${id}`);
         };
     };
 

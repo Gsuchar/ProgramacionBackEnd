@@ -95,7 +95,7 @@ export class ProductModel_2{
             const deletedProduct = await ProductModel.findByIdAndDelete(/*{ _id: id }*/ id);
             return deletedProduct;      
         }catch (err) {
-            throw (`Fallo al encontrar producto.`);
+            throw (`Fallo al encontrar producto1.`);
         };
     };    
  // FIN LLAVE USERMODEL_2  

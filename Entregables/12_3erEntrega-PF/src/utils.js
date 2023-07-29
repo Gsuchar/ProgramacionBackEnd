@@ -73,7 +73,7 @@ export function socketServerHandler(httpServer) {
     // let userId;
     // let cartId;
 
-    // Solo visual a modo referencial el usuario y el cart nuevo al entrar-IGNORAR SI MAREA-
+    // // Solo visual a modo referencial el usuario y el cart nuevo al entrar-IGNORAR SI MAREA-
     // cartService.addCart().then((cart) => {
     //   console.log("userId =>>> " + socket.id + "  cartId =>>> " + cart._id);
     //   userId = socket.id; //ID del socket como identificador único del usuario-IGNORAR SI MAREA-
@@ -82,26 +82,26 @@ export function socketServerHandler(httpServer) {
     //       console.error("Error creando cart: ", err);
     //     });
  // Hacer una solicitud para obtener los datos de la sesión del usuario
-fetch("/api/sessions/current")
-.then(response => response.json())
-.then(data => {
-  const userId = data.user._id;
-  const cartId = data.user.idCart;
+// fetch("/api/sessions/current")
+// .then(response => response.json())
+// .then(data => {
+//   const userId = data.user._id;
+//   const cartId = data.user.idCart;
 
-  // Conectarse al servidor de Socket.io y enviar el `userId` y `cartId` como datos iniciales
-  const socket = io({
-    query: {
-      userId: userId,
-      cartId: cartId
-    }
-  });
+//   // Conectarse al servidor de Socket.io y enviar el `userId` y `cartId` como datos iniciales
+//   const socket = io({
+//     query: {
+//       userId: userId,
+//       cartId: cartId
+//     }
+//   });
 
-  // Resto de tu código para manejar eventos y comunicación con el servidor de Socket.io
-  // ...
-})
-.catch(error => {
-  console.error("Error al obtener datos de sesión del usuario:", error);
-});
+//   // Resto de tu código para manejar eventos y comunicación con el servidor de Socket.io
+//   // ...
+// })
+// .catch(error => {
+//   console.error("Error al obtener datos de sesión del usuario:", error);
+// });
 
     socket.on("onFilterChange", async ( filterLimit, filterPage, filterSort, filterAttName, filterText) => {
       try {
@@ -118,9 +118,12 @@ fetch("/api/sessions/current")
     });    
     
 
-    socket.on("addToCart", async (productId) => {
+    socket.on("addToCart", async (productId,cartId) => {
       try {
+        
+        //console.log("UTILS>>> PROD>>"+ productId+" CART>>"+cartId)
         await cartService.addProductToCart(cartId, productId)
+        
         const cartUpdt = await cartService.getProductsByCartId(cartId);
         socketServer.emit("dinamic-list-cart", cartUpdt);
       } catch (err) {
@@ -149,8 +152,8 @@ fetch("/api/sessions/current")
     /******** FILE SYSTEM PRODUCTS **********/
     socket.on("new-product", async (newProd) => {
       try {
-        await productManager.addProduct({ ...newProd });
-        const productsList = await productManager.getProducts();
+        await productService.addProduct({ ...newProd });
+        const productsList = await productService.getProducts();
         socketServer.emit("products", productsList);
       } catch (err) {
         console.log({ Error: `${err}` });
@@ -159,8 +162,10 @@ fetch("/api/sessions/current")
 
     socket.on("delete-product", async (productId) => {
       try {
-        await productManager.deleteProduct(productId);
-        const productsUpdt = await productManager.getProducts();
+        console.log("del socket>>>>>>> "+productId )
+        await productService.deleteProduct(productId);
+        const productsUpdt = await productService.getProducts();
+        //const productsUpdt = await productManager.getProducts();
         socketServer.emit("products", productsUpdt);
       } catch (err) {
         console.log({ Error: `${err}` });

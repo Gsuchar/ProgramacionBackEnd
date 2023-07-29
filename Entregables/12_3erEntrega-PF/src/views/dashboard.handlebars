@@ -1,39 +1,39 @@
 
 <div class="divCont">
   <div class="container login">
-    <div class="card col-10">
-      <div class="card-header card-header-dashboard">
+    <div class="card col-10 cardsBorder">
+      <div class="card-header card-header-dashboard card-header-dashboard-style">
         <h3 class="">Dashboard</h3>        
-        <div>{{user.firstName }} <a href='/auth/logout'>Salir</a></div>
+        <div>Bienvenido, <b>{{user.firstName }}</b>  <a href='/auth/logout'>Salir</a></div>
       </div>
-      <div class="card-body">
-        <h6 class="card-title">Acciones a realizar.</h6>
+      <div class="card-body card-body-style">
+        <h6 class="card-title text-body-secondary ">Acciones a realizar.</h6>
         <div class="card-header-dashboard">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
+          <div class="card cardsBorder-dashboard" style="width: 18rem;">
+            <div class="card-body  ">
               <h5 class="card-title">PRODUCT</h5>
               <h6 class="card-subtitle mb-2 text-body-secondary">Manager</h6>
-              <p class="card-text">Opciones de Productos.</p>
-              <a href="#" class="card-link">Agregar</a>
-              <a href="/productsP" class="card-link">Ver</a>
+              <p class="card-text text-body-secondary">Opciones de Productos.</p>
+              <a href="/realtimeproducts" class="card-link btn-sm btn btn-outline-warning">Agregar</a>
+              <a href="/html/products" class="card-link btn-sm btn btn-outline-warning">Ver</a>
             </div>
           </div>
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
+          <div class="card cardsBorder-dashboard" style="width: 18rem;">
+            <div class="card-body  ">
               <h5 class="card-title">CARTS</h5>
               <h6 class="card-subtitle mb-2 text-body-secondary">Manager</h6>
-              <p class="card-text">Opciones de Carritos.</p>
-              <a href="#" class="card-link">Ver Carritos</a>
+              <p class="card-text text-body-secondary">Opciones de Carritos.</p>
+              <a href="#" class="card-link btn-sm btn btn-outline-warning">Ver Carritos</a>
               {{!-- <a href="#" class="card-link">Another link</a> --}}
             </div>
           </div>
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
+          <div class="card cardsBorder-dashboard" style="width: 18rem;">
+            <div class="card-body  ">
               <h5 class="card-title">COMPRAR</h5>
               <h6 class="card-subtitle mb-2 text-body-secondary">"La Tienda"</h6>
-              <p class="card-text">Lo que seria la tienda para cumplir.</p>
+              <p class="card-text text-body-secondary">Lo que seria la tienda para cumplir.</p>
               {{!-- <a href="#" class="card-link">Lo que seria la tienda para cumplir :) .</a> --}}
-              <a href="#" class="card-link">TIENDA</a>
+              <a href="/productsToCart" class="card-link btn-sm btn btn-outline-warning">TIENDA</a>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
       <div class="card-header">
         <h2>¡Bienvenidos!</h2>
       </div>
-      <div class="card-body">
+      <div class="card-body ">
         <h5 class="card-title">Completa los campos o Registrate.</h5>
         <div class="col-6">
           <form action='/auth/login' method='POST'>

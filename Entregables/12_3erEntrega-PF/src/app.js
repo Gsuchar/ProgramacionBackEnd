@@ -55,7 +55,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+// Passport
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());

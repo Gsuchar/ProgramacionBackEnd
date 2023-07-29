@@ -13,11 +13,12 @@ const thumbnail = document.getElementById("formThumbnail");
 socket.on("products", (productsList) => {
   document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
     return acc + "<tr>" +
-     "<th scope='row'>"+ item.id +
+     "<th scope='row'>"+ item.code +
+    //  "<th scope='row'>"+ item._id +
      "</th>" + "<td>" + item.title + "</td>" +
      "</th>" + "<td>" + item.description + "</td>" +
      "</th>" + "<td>" + item.price + "</td>" +
-     "</th>" + "<td>" + item.code + "</td>" +
+    //  "</th>" + "<td>" + item.code + "</td>" +
      "</th>" + "<td>" + item.stock + "</td>" +
      "</th>" + "<td>" + item.category + "</td>" +
      "</th>" + "<td>" + item.thumbnail + "</td>" +
@@ -44,5 +45,6 @@ formProducts.addEventListener("submit", (e) => {
 });
 
 function deleteProduct(productId) {
+  console.log("del indexPRODUCTS>>>>>>> "+productId )
   socket.emit('delete-product', productId);
 };

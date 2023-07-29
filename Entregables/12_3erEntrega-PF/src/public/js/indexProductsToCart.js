@@ -62,6 +62,7 @@ function onFilterChange(page) {
 }
 
 
-function addToCart(productId) {  
-  socket.emit("addToCart", productId);
+function addToCart(productId, cartId) { 
+  console.log("INDEXPRODUCTSTOCART>>> PROD>>"+ productId+" CART>>"+cartId)
+  socket.emit("addToCart",  productId,cartId);
 }
