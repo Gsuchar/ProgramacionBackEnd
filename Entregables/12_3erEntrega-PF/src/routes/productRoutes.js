@@ -3,7 +3,7 @@ import { ProductManager } from "../DAO/file/ProductManager.js";
 import { uploader } from '../utils.js';
 import {ProductService} from "../services/productService.js"
 import { productsController } from '../controllers/productController.js';
-
+import { isAdmin, isLoged } from '../middlewares/auth.js';
 
 const routerProd = Router();
 const productManager = new ProductManager('./src/DAO/dataFiles/products.json');
@@ -42,10 +42,10 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA- PROBANDOOOOOOO
-routerProd.get("/realtimeproducts", async (req, res) => {  
+routerProd.get("/realtimeproducts", isAdmin,  async (req, res) => {  
   try {
     const products = await productService.getProducts(); 
-    console.log("realtimeSOCKET>>>>> "+ JSON.stringify(req.session.user))
+    //console.log("realtimeSOCKET>>>>> "+ JSON.stringify(req.session.user))
     res.status(200).render('realtimeproducts',  { products : products, sessionUser : req.session.user });
   } catch (err) {
     res.status(500).alert({ Error: `1${err}` });

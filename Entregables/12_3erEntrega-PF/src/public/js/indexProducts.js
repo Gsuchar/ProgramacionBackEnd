@@ -10,23 +10,43 @@ const category = document.getElementById("formCategory");
 const thumbnail = document.getElementById("formThumbnail");
 
 //REDUCE GRACIAS A AFTER --- ARREGLO POR ENTREGABLE 5
+// socket.on("products", (productsList) => {
+//   document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
+//     return acc + "<tr>" +
+//      "<td scope='row'>"+ item.code + "</td>" +
+//      "<td>" + item.title + "</td>" +
+//      "<td>" + item.description + "</td>" +
+//      "<td>" + item.price + "</td>" +
+//      "<td>" + item.stock + "</td>" +
+//      "<td>" + item.category + "</td>" +
+//      "<td>" + item.thumbnail + "</td>" +
+//      '<td>'+'<input type="submit" value="Borrar"  class="btn btn-danger " onclick="deleteProduct('+ item._id +')"/>' +
+//       '</td>'+
+//      "</tr>";
+//   }, "");
+  
+// });
+
 socket.on("products", (productsList) => {
-  document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
-    return acc + "<tr>" +
-     "<th scope='row'>"+ item.code +
-    //  "<th scope='row'>"+ item._id +
-     "</th>" + "<td>" + item.title + "</td>" +
-     "</th>" + "<td>" + item.description + "</td>" +
-     "</th>" + "<td>" + item.price + "</td>" +
-    //  "</th>" + "<td>" + item.code + "</td>" +
-     "</th>" + "<td>" + item.stock + "</td>" +
-     "</th>" + "<td>" + item.category + "</td>" +
-     "</th>" + "<td>" + item.thumbnail + "</td>" +
-     '<td>'+'<input type="submit" value="Borrar"  class="btn btn-danger " onclick="deleteProduct('+ item.id +')"/>' +
-      '</td>'+
-     "</tr>";
-  }, "");
+ 
+  const tableBody = document.getElementById("dinamic-product-list");
+  const tableRows = productsList.map((product) => `
+    <tr>
+      <td scope="row">${product.code}</td>          
+      <td>${product.title}</td>
+      <td>${product.description}</td>
+      <td>${product.price}</td>
+      <td>${product.stock}</td>
+      <td>${product.category}</td>
+      <td>${product.thumbnail}</td>
+      <td>
+        <input type="submit" value="Borrar" class="btn btn-danger " onclick="deleteProduct('${product._id}')"/>
+      </td>
+    </tr>
+  `);
+  tableBody.innerHTML = tableRows.join("");
 });
+
 
 formProducts.addEventListener("submit", (e) => {
   e.preventDefault();  
@@ -45,6 +65,6 @@ formProducts.addEventListener("submit", (e) => {
 });
 
 function deleteProduct(productId) {
-  console.log("del indexPRODUCTS>>>>>>> "+productId )
+  //console.log("del indexPRODUCTS>>>>>>> "+productId )
   socket.emit('delete-product', productId);
 };

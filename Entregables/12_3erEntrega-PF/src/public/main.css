@@ -1,6 +1,8 @@
 
 .overF_Hidden{
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow-x: clip;
+  background-color: #19191a;
 }
 .login{
   text-align: -moz-center;
@@ -42,27 +44,28 @@
 
 /*HANDLEBARS PRODUCTFROMCART*/
 #cart-product-list{
-  border-left: 2px #198754 solid ;
+  border-left: 2px darkorange solid;
   padding:3px 25px 3px 10px;
   background-color:#19191a
 }
 
 .backgroundTable{
-
+  background-color:#212529
 }
-.titleTitle{
+/* .titleTitle{
   color: #fff;
   text-align: center
-}
+} 
 .titleColor{
-  color: #198754;
+  color: #ffc107;
   text-align: center
-}
+}*/
 .divCont{
   /* background-color: #212529;
   height: 100vh; */
-  background-color: #000000db;
-  height: 100vh;
+  /* background-color: #000000db; */
+  /* background-color: #19191a;
+  height: 100% ; */
 }
 
 .filterText{
@@ -89,5 +92,7 @@
 .productTable{
   text-align: -moz-center;
   text-align: -webkit-center;
-  padding-top: 10vh;
+  padding-top: 1vh;
 }
+th{color: #ffc107a6 !important}
+/* th{color: #ffc107 !important} */

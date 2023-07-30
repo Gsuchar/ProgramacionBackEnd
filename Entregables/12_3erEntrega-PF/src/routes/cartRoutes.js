@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { CartManager } from "../DAO/file/CartManager.js";
-import { CartService } from '../services/cartService.js';
-import {ProductService} from "../services/productService.js"
 import { cartsController } from '../controllers/cartController.js';
+import { isLoged, isUser } from '../middlewares/auth.js';
+
 //const productService = new ProductService;
 
 const routerCart = Router();
@@ -43,7 +43,7 @@ routerCart.delete('/carts/deleteAll/:cid', cartsController.deleteCart);
 routerCart.get("/carts/products/:cid", cartsController.getProductsByCartId_Handlebars);
 
 // VISTA WEBSOCKET -DINAMICA-
-routerCart.get("/productsToCart", cartsController.getProductsByCartId_Paginate);
+routerCart.get("/productsToCart",isLoged, isUser, cartsController.getProductsByCartId_Paginate);
 
 
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//

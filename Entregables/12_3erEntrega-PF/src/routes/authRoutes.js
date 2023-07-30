@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { isAdmin, isUser } from '../middlewares/auth.js';
+import { isAdmin, isLoged } from '../middlewares/auth.js';
 import { usersController } from '../controllers/userController.js';
 
 const authRouter = express.Router();
@@ -16,12 +16,12 @@ authRouter.get('/auth/faillogin', usersController.loginFail);
 // Logout
 authRouter.get('/auth/logout', usersController.logOut);
 // Perfil de Usuario
-authRouter.get('/auth/perfil', isUser, usersController.perfil);
+authRouter.get('/auth/perfil', isLoged, usersController.perfil);
 // Panel de Administración (accesible solo para usuarios con rol de admin e isAdmin = true)
-authRouter.get('/auth/administracion', isUser, isAdmin, usersController.adminPanel);
+authRouter.get('/auth/administracion', isLoged, isAdmin, usersController.adminPanel);
 // Dashboard
-//authRouter.get('/dashboard', isUser,  usersController.dashboard);
-authRouter.get('/dashboard', isUser, usersController.dashboard);
+//authRouter.get('/dashboard', isLoged,  usersController.dashboard);
+authRouter.get('/dashboard', isLoged, usersController.dashboard);
 //TESTING
 authRouter.get('/users', usersController.getUsers);
 authRouter.get('/users/:uid', usersController.getUserById);

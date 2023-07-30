@@ -110,8 +110,22 @@ class CartsController {
             const attName = req.query.attName || '';
             //const userSession = req.session.user;
             const sessionUser= req.session.user;
-            const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);    
-            res.status(200).render('productsToCart', { products, sessionUser  });
+            const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);
+
+            const oldCartUnfinished = await cartService.getProductsByCartId(sessionUser.idCart)
+            let Olds
+            if (oldCartUnfinished) {
+                Olds = oldCartUnfinished.cartProducts.map((o) =>{
+                    return JSON.stringify(o)
+                 }
+                )
+                console.log("******************************       " + Olds)
+            }
+
+
+            //console.log("controllerCART>> products>>"+JSON.stringify(products.docs) + " ---SESSION>>> "+JSON.stringify(sessionUser) )
+            console.log("aadsada>Z>>> "+ JSON.stringify(oldCartUnfinished.cartProducts))   
+            res.status(200).render('productsToCart', { products, sessionUser, Olds  });
         } catch (err) {
             res.status(500).json({ Error: `${err}` });
         }

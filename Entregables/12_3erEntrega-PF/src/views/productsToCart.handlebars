@@ -1,15 +1,15 @@
 <div class="divCont">
   <div class="container productTable">
-    <div class="card col-12 overF_Hidden">
+    <div class="card col-12 overF_Hidden cardsBorder">
       <div id="productList">
-        <div class="row" style="padding: 0px 0px 0px 0px;">    
-          <div class="col-10 " >
-            <h2 class="titleTitle my-3" >PRODUCTOS PARA AGREGAR AL CART</h2>
+        <div class="row" >    
+          <div class="col-10 backgroundTable " >
+            <h2 class="titleTitle my-3">¡¡ LA TIENDITA !!</h2>
             <table class="table table-dark">
               <div class="filterText">
-                <h3>-- Filtros --</h3>
+                <h3>-- Filtros --</h3><p style="color: red">CARTID>>{{sessionUser.idCart}}</p>
                 <label for="filterLimit">Cantidad Productos:</label>
-                <select id="filterLimit" onchange="onFilterChange()">
+                <select id="filterLimit" onchange="onFilterChange({{../sessionUser.idCart}})">
                   <option value="10">Seleccionar</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -58,19 +58,19 @@
                 </tr>
               </thead>
               <tbody id="dinamic-product-list">
+                
                 {{#each products.docs}}
-                  <tr>
-                    {{!-- <th scope="row">{{this.id}}</th> --}}
+                  {{!-- <tr><p style="color: red">AAAAA>>{{../sessionUser.idCart}}</p> --}}
                     <th scope="row">{{this.code}}</th>
                     <td>{{this.title}}</td>
                     <td>{{this.description}}</td>
                     <td>{{this.price}}</td>
-                    {{!-- <td>{{this.code}}</td> --}}
                     <td>{{this.stock}}</td>
                     <td>{{this.category}}</td>
                     <td>{{this.thumbnail}}</td>
                     {{!-- Le paso '{{../sessionUser.idCart}}' que es variable de handlebars, de esta forma entra en el scope del #each --}}
-                    <td><input type="submit" value="Agregar"  class="btn btn-success " onclick="addToCart('{{this.id}}', '{{../sessionUser.idCart}}')"/></td>  
+                    {{!-- <td><input type="submit" value="Agregar"  class="btn btn-success " onclick="addToCart('{{this._id}}', '{{../sessionUser.idCart}}')"/></td>   --}}
+                    <td><input type="submit" value="Agregar" class="btn btn-success"  onclick="addToCart('{{this._id}}', sessionUser.idCart)"/></td>
                   </tr>
                 {{/each}}
               </tbody>      
@@ -79,17 +79,19 @@
                 <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
               </ul>      
             </table>
+              <a href="/dashboard" class="card-link">Volver</a>
           </div>
-          <div id="cart-product-list" class="col-2" style="">
-            <div class="card" style="margin-top: 50px;">
+          <div id="cart-product-list" class="col-2 " style="">
+            <div class="card cardsBorder-dashboard" style="margin-top: 50px;">
               <div class="card-header">
-                <h3 class="card-title titleColor">CART</h3>
+                <h3 class="card-title titleColor">CART</h3><p>{{oldCartUnfinished.cartProducts}}</p>
               </div>
               <div id="dinamic-list-cart" class="card-body ">
-                {{#each cartUpdt.cartProducts}}
-                  <p class="card-text"></p>
+                {{#each Olds.idProduct}}
+                  <p class="card-text">{{Olds.idProduct}}</p>
                 {{/each}}
               </div>
+              <a href="#" class="card-link btn-sm btn btn-outline-warning">CONTINUAR</a>
             </div>
           </div>
         </div>
@@ -98,104 +100,8 @@
   </div>  
 </div>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/indexProductsToCart.js"></script> 
-{{!-- <div id="productList">
-  <!--#with >>> Declaro la variable local sessionUser para poder usar sessionUser.idCart
-      en el Scope del #each al pasar el producto a agregar, ahora le paso el id de 
-      producto y el de carrito por la session.
-  -->
-  {{#with sessionUser}}
-  {{idCart}}
-  {{/with}}  
-  <div class="row" style="padding: 0px 0px 0px 5px;">    
-    <div class="col-10 divCont" >
-      <h2 class="titleTitle my-3" >PRODUCTOS PARA AGREGAR AL CART</h2>
-      <table class="table table-dark">
-        <div class="filterText">
-          <h3>-- Filtros --</h3>
-          <label for="filterLimit">Cantidad Productos:</label>
-          <select id="filterLimit" onchange="onFilterChange()">
-            <option value="10">Seleccionar</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
-          <label for="filterAttName">Filtrar por:</label>
-          <select id="filterAttName" >
-            <option>Seleccionar</option>
-            <option value="title">Nombre</option>
-            <option value="description">Descripcion</option>            
-            <option value="price">Precio</option>
-            <option value="code">Codigo</option>
-            <option value="stock">Stock</option>
-            <option value="category">Categoria</option>            
-          </select>
-          <label for="filterText">  y Buscar: </label>
-          <input type="text" id="filterText" onchange="onFilterChange()" />
-          <label for="filterSort">Ordenar por:</label>
-          <select id="filterSort" onchange="onFilterChange()">
-            <option value="">Seleccionar</option>
-            <option value="asc">Menor Precio</option>
-            <option value="desc">Mayor Precio</option>                        
-          </select>
-
-        </div>
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Codigo</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Thumbnail</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="dinamic-product-list">
-          {{#each products.docs}}
-            <tr>
-              <th scope="row">{{this.id}}</th>
-              <td>{{this.title}}</td>
-              <td>{{this.description}}</td>
-              <td>{{this.price}}</td>
-              <td>{{this.code}}</td>
-              <td>{{this.stock}}</td>
-              <td>{{this.category}}</td>
-              <td>{{this.thumbnail}}</td>
-              <td><input type="submit" value="Agregar"  class="btn btn-success " onclick="addToCart('{{this.id}}', '{{../sessionUser.idCart}}')"/></td>  
-              {{!-- <td><input type="submit" value="Agregar" class="btn btn-success" onclick="addToCart( '{{sessionUser.idCart}}')"/></td> 
-            </tr>
-          {{/each}}
-        </tbody>      
-        <ul class="pagination pagination-sm justify-content-end ">
-          <li class="page-item"><a class="page-link">{{products.page}} de {{products.totalPages}} paginas</a></li>
-          <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
-        </ul>      
-      </table>
-    </div>
-
-    <div id="cart-product-list" class="col-2" style="">
-      <div class="card" style="margin-top: 50px;">
-        <div class="card-header">
-          <h3 class="card-title titleColor">CART</h3>
-        </div>
-        <div id="dinamic-list-cart" class="card-body ">
-           {{#each cartUpdt.cartProducts}}
-            <p class="card-text"></p>
-          {{/each}}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/indexProductsToCart.js"></script>  --}}
+<script src="/js/indexProductsToCart.js"></script>
+<script>
+  // Guardo de forma global sessionUser.idCart con id de cart de la session actual.
+  const sessionUser = { idCart: '{{sessionUser.idCart}}' };
+</script>
