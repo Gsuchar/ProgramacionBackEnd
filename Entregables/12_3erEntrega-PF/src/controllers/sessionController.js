@@ -8,13 +8,6 @@ class SessionsController {
       // Successful authentication, redirect perfil.
       return res.redirect('/dashboard');
     }
-    userSession(req, res) {
-      let user = req.session.user;
-      // Successful authentication, redirect perfil.
-      //return res.redirect('/dashboard');
-      return user
-    }
-
  //FIN LLAVE CHATSCONTROLLER     
 };
 

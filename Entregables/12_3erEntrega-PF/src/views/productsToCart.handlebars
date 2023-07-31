@@ -1,15 +1,15 @@
-<div class="divCont">
+<div class="">
   <div class="container productTable">
     <div class="card col-12 overF_Hidden cardsBorder">
       <div id="productList">
         <div class="row" >    
           <div class="col-10 backgroundTable " >
             <h2 class="titleTitle my-3">¡¡ LA TIENDITA !!</h2>
-            <table class="table table-dark">
+            <table class="">
               <div class="filterText">
-                <h3>-- Filtros --</h3><p style="color: red">CARTID>>{{sessionUser.idCart}}</p>
+                <h3>-- Filtros --</h3>
                 <label for="filterLimit">Cantidad Productos:</label>
-                <select id="filterLimit" onchange="onFilterChange({{../sessionUser.idCart}})">
+                <select id="filterLimit" onchange="onFilterChange()">
                   <option value="10">Seleccionar</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -40,58 +40,64 @@
                   <option value="asc">Menor Precio</option>
                   <option value="desc">Mayor Precio</option>                        
                 </select>
+                <ul class="pagination pagination-sm justify-content-end ">
+                  <li class="page-item"><a class="page-link">{{products.page}} de {{products.totalPages}} paginas</a></li>
+                  <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
+                </ul> 
               </div>
               <thead>
                 <tr>
-                  {{!-- <th scope="col">ID</th> --}}
-                  <th scope="col">Codigo</th>
-                  {{!-- <th scope="col">ID</th> --}}
+                  {{!-- <th scope="col">Codigo</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Descripcion</th>
-                  <th scope="col">Precio</th>
-                  
-                  {{!-- <th scope="col">Codigo</th> --}}
+                  <th scope="col">Precio</th>                  
                   <th scope="col">Stock</th>
                   <th scope="col">Categoria</th>
                   <th scope="col">Thumbnail</th>
-                  <th scope="col">Acciones</th>
+                  <th scope="col">Acciones</th> --}}
                 </tr>
               </thead>
-              <tbody id="dinamic-product-list">
-                
-                {{#each products.docs}}
-                  {{!-- <tr><p style="color: red">AAAAA>>{{../sessionUser.idCart}}</p> --}}
-                    <th scope="row">{{this.code}}</th>
-                    <td>{{this.title}}</td>
-                    <td>{{this.description}}</td>
-                    <td>{{this.price}}</td>
-                    <td>{{this.stock}}</td>
-                    <td>{{this.category}}</td>
-                    <td>{{this.thumbnail}}</td>
-                    {{!-- Le paso '{{../sessionUser.idCart}}' que es variable de handlebars, de esta forma entra en el scope del #each --}}
-                    {{!-- <td><input type="submit" value="Agregar"  class="btn btn-success " onclick="addToCart('{{this._id}}', '{{../sessionUser.idCart}}')"/></td>   --}}
-                    <td><input type="submit" value="Agregar" class="btn btn-success"  onclick="addToCart('{{this._id}}', sessionUser.idCart)"/></td>
-                  </tr>
-                {{/each}}
-              </tbody>      
-              <ul class="pagination pagination-sm justify-content-end ">
-                <li class="page-item"><a class="page-link">{{products.page}} de {{products.totalPages}} paginas</a></li>
-                <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
-              </ul>      
+              <tbody  >
+                <tr>
+                  <td >
+                    <div id="dinamic-product-list" class="dinamic-product-list">              
+                    {{#each products.docs}}
+                      <div class="card cardsBorder-dashboard col-5 " style=" margin-top: 10px; ">
+                        <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
+                        <div class="card-header backgroundTable  ">
+                          <h5 class="card-title">{{this.title}}</h5>
+                          {{!-- <p class="card-subtitle filterText">{{this.description}}</p> --}}
+                        </div>
+                        <ul class="list-group list-group-flush card-body-style">
+                          <li class="list-group-item card-subtitle" style="border-top: 3px solid darkorange;"> {{this.description}}</li>
+                          <li class="list-group-item">Codigo: {{this.code}}</li>
+                          <li class="list-group-item">Precio: {{this.price}}</li>
+                          <li class="list-group-item">Stock: {{this.stock}}</li>
+                          <li class="list-group-item">Categoria: {{this.category}}</li>
+                          <li class="list-group-item backgroundTable"style="border-top: 5px solid darkorange;">
+                            <a href="#" class="card-link btn btn-sm btn-outline-danger"  onclick="removeFromCart('{{this._id}}', sessionUser.idCart)">Quitar</a>
+                            <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}', sessionUser.idCart)">Agregar</a>
+                          </li>
+                        </ul>
+                      </div>
+                    {{/each}}
+                  </td>
+                </tr>               
+              </tbody>
             </table>
-              <a href="/dashboard" class="card-link">Volver</a>
+            <a href="/dashboard" class="card-link">Volver</a>
           </div>
           <div id="cart-product-list" class="col-2 " style="">
             <div class="card cardsBorder-dashboard" style="margin-top: 50px;">
               <div class="card-header">
-                <h3 class="card-title titleColor">CART</h3><p>{{oldCartUnfinished.cartProducts}}</p>
+                <h3 class="card-title titleColor">CART</h3>
               </div>
               <div id="dinamic-list-cart" class="card-body ">
-                {{#each Olds.idProduct}}
-                  <p class="card-text">{{Olds.idProduct}}</p>
+                {{#each oldCartUnfinished.cartProducts}}
+                  <p class="card-text">{{this.idProduct.title}} x {{this.quantity}}</p>
                 {{/each}}
               </div>
-              <a href="#" class="card-link btn-sm btn btn-outline-warning">CONTINUAR</a>
+              <a href="/checkout" class="card-link btn-sm btn btn-outline-warning">CONTINUAR</a>
             </div>
           </div>
         </div>

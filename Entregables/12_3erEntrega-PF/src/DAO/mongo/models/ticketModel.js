@@ -1,24 +1,27 @@
 //@ts-check
 import { Schema, model } from 'mongoose';
-//import monsoosePaginate from 'mongoose-paginate-v2';
 
-const schema = new Schema({
-  code: { type: String, /*unique: true, required: true */},
-  purchase_datetime: { type: Date, /*required: true*/ },
-  amount: { type: Number, /*required: true */},
-  purchaser: { type: String, /*required: true */},
-  cartId : { type: String, /*required: true */}
-});
-//schema.plugin(monsoosePaginate);
+const schema = new Schema(
+  {
+    code: { type: String, /*unique: true, required: true */},
+    purchase_datetime: { type: Date, /*required: true*/ },
+    amount: { type: Number, /*required: true */},
+    purchaser: { type: String, /*required: true */},
+    //cartId : { type: String, /*required: true */}
+    products: [ { idProduct: { type: Object }, _id: false, quantity: { type: Number }, totalPrice: { type: Number } } ]//_id:false saca _id de mongoose
+  },{versionKey: false}
+);//{versionKey:false} saca __v: que es para versiones por moongose
 export const TicketModel = model('tickets', schema);
 
 export class TicketModel_2{
   async addTicket(newTicket) {
-    try {    
+    //console.log("MODEL TICKET>>>  "+ JSON.stringify(newTicket))
+    try {   
+
     const ticket = await TicketModel.create(newTicket);    
     return ticket;
     } catch (error) {
-    throw error;
+      throw (`FALLO EN MODELO.`);
     }
 }
 

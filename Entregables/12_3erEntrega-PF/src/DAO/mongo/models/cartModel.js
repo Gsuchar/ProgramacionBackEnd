@@ -96,24 +96,17 @@ export class CartModel_2 {
         throw (`Error al borrar producto del cart.`);
     }
     };
-    // async deleteProductFromCart(cartId, productId, quantityP) {
-    // try {
-    //     const productToCart = await ProductModel.findById(productId);
-    //     productToCart ? productToCart : (() => { new Error  ("No existe el producto en la base de datos, verifique.") })();
-    //     const cart = await CartModel.findById(cartId); 
-    //     cart ?  cart : (() => {   throw Error (`No se encontró carrito con ID ${cartId}.`) })();
-    //     // Busca productId en cart          
-    //     const productIndex = cart.products.findIndex((p) => p.idProduct.toString() === productId);
-    //     productIndex === -1 ? "" : cart.products[productIndex].quantity--;// Existe el producto en el cart, quantity -1
-    //     quantityP == 0 ? cart.products[productIndex].idProduct == productId ?// quantity parametro 0, elimina el producto del cart
-    //     cart.products.splice(productIndex, 1) :  ""  : "";
-
-    //     const updatedCart = await CartModel.findByIdAndUpdate( { _id: cartId }, cart, { new: true } );            
-    //     return updatedCart;
-    // } catch (Error) {
-    //     throw (`Error al borrar producto del cart. ${err}`);
-    // }
-    // };
+    
+    // UPDATE CART   
+    async updateCart(cid, cartUpdate) {
+        try {
+            //console.log("carMODEL_UPDATE>>>>>  "+ cartUpdate)
+            const updatedCart = await CartModel.findOneAndUpdate(/*{ _id: cartId }*/cid, /*{products:[]}*/cartUpdate, {new:true});      
+            return updatedCart;      
+        }catch (err) {
+            throw (`Fallo al encontrar cart, no se pudo modificar.`);
+        };
+    };
     
     // VACIO CART SEGUN ID 
     async emptyCart(cid) {
@@ -124,7 +117,6 @@ export class CartModel_2 {
             throw (`Fallo al encontrar cart vaciar cart.`);
         };
     };
-    
     
     //BORRO CART POR ID, no va pero ya me queda tambien x 2.  
     async deleteCart(id) {

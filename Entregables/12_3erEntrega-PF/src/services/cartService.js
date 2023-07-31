@@ -67,6 +67,15 @@ export class CartService {
     }
   };
 
+  // UPDATE CART  
+  async updateCart(cid, cartUpdate) {
+    try {
+      const updatedCart = await cartModel_2.updateCart({ _id: cid }, {products: cartUpdate});      
+      return updatedCart;      
+    }catch (err) {
+      throw (`Fallo al encontrar cart. ${err}`);
+    };
+  };
 
   // BORRO PRODUCTO/QUANTITY DEL CARRITO
   async deleteProductFromCart(cartId, productId, quantityP) {

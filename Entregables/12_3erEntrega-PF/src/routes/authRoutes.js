@@ -14,7 +14,7 @@ authRouter.get('/auth/login', usersController.login);
 authRouter.post('/auth/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }), usersController.loginPassport);
 authRouter.get('/auth/faillogin', usersController.loginFail);
 // Logout
-authRouter.get('/auth/logout', usersController.logOut);
+authRouter.get('/auth/logout', isLoged, usersController.logOut);
 // Perfil de Usuario
 authRouter.get('/auth/perfil', isLoged, usersController.perfil);
 // Panel de Administración (accesible solo para usuarios con rol de admin e isAdmin = true)

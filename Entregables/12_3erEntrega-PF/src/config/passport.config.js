@@ -13,11 +13,7 @@ export function iniPassport() {
   passport.use(
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
-      try {        
-        // const users = await userService.getUsers();
-        // let user;
-        // users.map((u) => u.email == username ?   user = u : '');
-        //const user =  userService.userByIdOrEmail(username);
+      try {
         const user = await userService.getUserByIdOrEmail(null, username);
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
@@ -56,7 +52,7 @@ export function iniPassport() {
           return done(null, userCreated);
         } catch (err) {
           console.log('Error in register' + err);
-          //console.log(err);
+          console.log(err);
           return done(err);
         }
       }
@@ -86,10 +82,6 @@ export function iniPassport() {
             return done(new Error('Invalid email for this user'));
           }
           profile.email = emailDetail.email;
-          // const users = await userService.getUsers();
-          // let user;
-          // users.map((u) => u.email == profile.email ?   user = u : '');
-          //const user =  userService.userByIdOrEmail(profile.email);
           const user = await userService.getUserByIdOrEmail(null, profile.email);
           if (!user) {
             let newUser = {
@@ -99,15 +91,15 @@ export function iniPassport() {
               password: 'nopass',
             };
             let userCreated = await userService.addUser(newUser);
-            //console.log('User Registration succesful');
+            console.log('User Registration succesful');
             return done(null, userCreated);
           } else {
-            //console.log('User already exists');
+            console.log('User already exists');
             return done(null, user);
           }
         } catch (err) {
           console.log('Fail login with github');
-          //console.log(err);
+          console.log(err);
           return done(err);
         }
       }

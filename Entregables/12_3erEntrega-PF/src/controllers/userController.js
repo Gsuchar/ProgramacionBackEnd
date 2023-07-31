@@ -15,17 +15,6 @@ class UsersController {
         if (!req.user) {
             return res.json({ error: 'No existe usuario' });
         };
-        // req.session.user = {
-        //     _id: req.user._id,
-        //     email: req.user.email,
-        //     firstName: req.user.firstName,
-        //     lastName: req.user.lastName,
-        //     age: req.user.age,
-        //     role: req.user.role,
-        //     isAdmin: req.user.isAdmin,
-        //     idCart: req.user.idCart
-        // };
-        //return userService.redirectPerfil(res);
         return userService.dashboard(req, res);
     };
     // LOGIN
@@ -37,19 +26,6 @@ class UsersController {
         if (!req.user) {
             return res.json({ error: 'Error en Credenciales' });
         };
-        // req.session.user = {
-        //     _id: req.user._id,
-        //     email: req.user.email,
-        //     firstName: req.user.firstName,
-        //     lastName: req.user.lastName,
-        //     age: req.user.age,
-        //     role: req.user.role,
-        //     isAdmin: req.user.isAdmin,
-        //     idCart: req.user.idCart
-        // };
-        //return userService.redirectPerfil(res);
-        //return userService.dashboard(res);
-        //return res.render('dashboard', {user : req.session.user})
         return userService.dashboard(req, res);
     };
     // LOGIN FAIL
@@ -65,25 +41,7 @@ class UsersController {
             return res.redirect('/auth/login');
         });
     };
-    // dashboard(req, res) {
-    //     const user = req.session.user;
-    //     //return userService.dashboard(res,user);
-    //     return res.render('dashboard', { user: user });
-    // };
-    //  dashboard(req, res) {   
-    //     //const user = req.session.user;
-    //     req.session.user = {
-    //         _id: req.user._id,
-    //         email: req.user.email,
-    //         firstName: req.user.firstName,
-    //         lastName: req.user.lastName,
-    //         age: req.user.age,
-    //         role: req.user.role,
-    //         isAdmin: req.user.isAdmin,
-    //         idCart: req.user.idCart
-    //     };     
-    //     return res.render('dashboard', {user : req.session.user});     
-    //   };
+
     dashboard(req, res) {
         const user = req.session.user;
         return res.render('dashboard', { user: user });
@@ -114,17 +72,7 @@ class UsersController {
             return res.status(500).json({ error: 'Error al obtener los usuarios.' });
         }
     }
-    // async getUserById(req, res) {
-    //     const uid = req.params.uid;
-    //     try {          
-    //       const user = await userService.getUserById(uid/*{ _id: uid }*/);
-    //       user ? user :  (() => { throw new Error (`El Usuario de id ${uid} no se encontró.`) })();
-    //       //return user;
-    //       return res.json(user)
-    //     } catch (err) {
-    //         return res.status(500).json({ error: `Error al buscar Usuario id ${uid}` });            
-    //     }
-    //   };
+
     async getUserById(req, res) {
         const uid = req.params.uid;
         try {         

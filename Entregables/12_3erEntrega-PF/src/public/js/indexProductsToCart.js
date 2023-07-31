@@ -5,19 +5,42 @@ socket.on("updatedProducts", (listProducts) => {
  
   const tableBody = document.getElementById("dinamic-product-list");
   const tableRows = listProducts.docs.map((product) => `
-    <tr>
-      <th scope="row">${product.code}</th>          
-      <td>${product.title}</td>
-      <td>${product.description}</td>
-      <td>${product.price}</td>
-      <td>${product.stock}</td>
-      <td>${product.category}</td>
-      <td>${product.thumbnail}</td>
-      <td>
-        <input type="submit" value="Agregar" class="btn btn-success" onclick="addToCart('${product._id}')"/>
-      </td>
-    </tr>
+ 
+  
+ 
+    
+    <div class="card cardsBorder-dashboard col-5 " style=" margin-top: 10px; ">
+    <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
+    <div class="card-header backgroundTable  ">
+      <h5 class="card-title">${product.title}</h5>
+    </div>
+    <ul class="list-group list-group-flush card-body-style">
+      <li class="list-group-item card-subtitle" style="border-top: 3px solid darkorange;"> ${product.description}</li>
+      <li class="list-group-item">Codigo: ${product.code}</li>
+      <li class="list-group-item">Precio: ${product.price}</li>
+      <li class="list-group-item">Stock: ${product.stock}</li>
+      <li class="list-group-item">Categoria: ${product.category}</li>
+      <li class="list-group-item backgroundTable"style="border-top: 5px solid darkorange;">
+        <a href="#" class="card-link btn btn-sm btn-outline-danger" onclick="removeFromCart('${product._id}', sessionUser.idCart)">Quitar</a>
+        <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('${product._id}', sessionUser.idCart)">Agregar</a>
+      </li>
+    </ul>
+  </div>     
   `);
+  // const tableRows = listProducts.docs.map((product) => `
+  //   <tr>
+  //     <td scope="row">${product.code}</td>          
+  //     <td>${product.title}</td>
+  //     <td>${product.description}</td>
+  //     <td>${product.price}</td>
+  //     <td>${product.stock}</td>
+  //     <td>${product.category}</td>
+  //     <td>${product.thumbnail}</td>
+  //     <td>
+  //       <input type="submit" value="Agregar" class="btn btn-success" onclick="addToCart('${product._id}')"/>
+  //     </td>
+  //   </tr>
+  // `);
   tableBody.innerHTML = tableRows.join("");
   const pagination = document.querySelector('.pagination');
   
@@ -40,8 +63,6 @@ socket.on("updatedProducts", (listProducts) => {
 
   pagination.innerHTML = paginationHTML;
 });
-
-
 
 
 socket.on("dinamic-list-cart", (cartUpdt) => {

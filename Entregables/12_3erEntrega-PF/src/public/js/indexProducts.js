@@ -9,24 +9,6 @@ const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
 const thumbnail = document.getElementById("formThumbnail");
 
-//REDUCE GRACIAS A AFTER --- ARREGLO POR ENTREGABLE 5
-// socket.on("products", (productsList) => {
-//   document.getElementById("dinamic-product-list").innerHTML = productsList.reduce((acc, item) => {
-//     return acc + "<tr>" +
-//      "<td scope='row'>"+ item.code + "</td>" +
-//      "<td>" + item.title + "</td>" +
-//      "<td>" + item.description + "</td>" +
-//      "<td>" + item.price + "</td>" +
-//      "<td>" + item.stock + "</td>" +
-//      "<td>" + item.category + "</td>" +
-//      "<td>" + item.thumbnail + "</td>" +
-//      '<td>'+'<input type="submit" value="Borrar"  class="btn btn-danger " onclick="deleteProduct('+ item._id +')"/>' +
-//       '</td>'+
-//      "</tr>";
-//   }, "");
-  
-// });
-
 socket.on("products", (productsList) => {
  
   const tableBody = document.getElementById("dinamic-product-list");

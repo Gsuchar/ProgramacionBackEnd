@@ -19,9 +19,6 @@ export class UserService {
   redirectPerfil(res){
     return res.redirect('/auth/perfil') 
   };
-  // async redirectDashboard(res){
-  //   return res.render('/dashboard') 
-  // };
 
   loginFail(res){
     return res.json({ error: 'fail to login' });
@@ -38,19 +35,8 @@ export class UserService {
       isAdmin: req.user.isAdmin,
       idCart: req.user.idCart
   }; 
-    //let user = req.session.user;    
-    //return res.render('dashboard', {user : req.session.user}); 
     return res.redirect('/dashboard')  
   };
-  
-  // POR AHORA NO LO USO YA QUE LO MANDABA AL MISMO LUGAR, UNIFIQUE EN redirectPerfil
-  // registerPassport(res){
-  //   return res.redirect('/auth/perfil') 
-  // };
-
-  // login(res){
-  //   return res.redirect('/auth/perfil') 
-  // };
   
 
   //------ AUTH USER FIN ----------------
@@ -101,24 +87,24 @@ export class UserService {
       // Recorre los posibles campos, asigna los campos enviados si cumplen la validacion, si no manda mensaje con error
       for (const field in fieldsToUpdate) {
           switch (field) {
-              case "email":
-                userToUpdate.email = fieldsToUpdate.email !== "" ? fieldsToUpdate.email : (() => { throw ("Debe ingresar un email.") })();
-                break;
-              case "firstName":
-                userToUpdate.firstName = fieldsToUpdate.firstName !== "" ? fieldsToUpdate.firstName : (() => { throw ("Debe ingresar Nombre.") })();
-                break;
-              case "lastName":
-                userToUpdate.lastName = fieldsToUpdate.lastName !== "" ? fieldsToUpdate.lastName : (() => { throw ("Debe ingresar Apellido.") })();
-                break;
-              case "age":
-                userToUpdate.age = fieldsToUpdate.age !== "" ? fieldsToUpdate.age : (() => { throw ("Debe ingresar su Edad(Cantidad de años).") })();
-                break;
-              case "role":
-                userToUpdate.role = fieldsToUpdate.role !== "" ? fieldsToUpdate.role : "";
-                break;
-              default:
-                break;
-            }
+            case "email":
+              userToUpdate.email = fieldsToUpdate.email !== "" ? fieldsToUpdate.email : (() => { throw ("Debe ingresar un email.") })();
+            break;
+            case "firstName":
+              userToUpdate.firstName = fieldsToUpdate.firstName !== "" ? fieldsToUpdate.firstName : (() => { throw ("Debe ingresar Nombre.") })();
+            break;
+            case "lastName":
+              userToUpdate.lastName = fieldsToUpdate.lastName !== "" ? fieldsToUpdate.lastName : (() => { throw ("Debe ingresar Apellido.") })();
+            break;
+            case "age":
+              userToUpdate.age = fieldsToUpdate.age !== "" ? fieldsToUpdate.age : (() => { throw ("Debe ingresar su Edad(Cantidad de años).") })();
+            break;
+            case "role":
+              userToUpdate.role = fieldsToUpdate.role !== "" ? fieldsToUpdate.role : "";
+            break;
+            default:
+            break;
+          }
         };            
       const userUpdated = await userModel_2.updateUser( { _id: id }, userToUpdate );
       return userUpdated;

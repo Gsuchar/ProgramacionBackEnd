@@ -15,6 +15,7 @@ import { iniPassport } from './config/passport.config.js';
 import passport from 'passport';
 import dotenv from "dotenv";
 import sessionRoutes from './routes/sessionsRoutes.js';
+import routerTicket from './routes/ticketRoutes.js';
 //-----
 
 
@@ -67,6 +68,7 @@ app.use('/', cartRoutes);
 app.use('/', chatRoutes);
 app.use('/', authRoutes);
 app.use('/', sessionRoutes);
+app.use('/', routerTicket);
 
 // Epic link Fail - 404 Not Found
 app.get("*", (req, res) => {
