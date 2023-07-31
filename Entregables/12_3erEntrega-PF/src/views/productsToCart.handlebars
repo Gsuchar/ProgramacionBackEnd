@@ -45,24 +45,24 @@
                   <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
                 </ul> 
               </div>
-              <thead>
+              {{!-- <thead>
                 <tr>
-                  {{!-- <th scope="col">Codigo</th>
+                  <th scope="col">Codigo</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Descripcion</th>
                   <th scope="col">Precio</th>                  
                   <th scope="col">Stock</th>
                   <th scope="col">Categoria</th>
                   <th scope="col">Thumbnail</th>
-                  <th scope="col">Acciones</th> --}}
+                  <th scope="col">Acciones</th>
                 </tr>
-              </thead>
+              </thead> --}}
               <tbody  >
                 <tr>
                   <td >
                     <div id="dinamic-product-list" class="dinamic-product-list">              
                     {{#each products.docs}}
-                      <div class="card cardsBorder-dashboard col-5 " style=" margin-top: 10px; ">
+                      <div class="card cardsBorder-dashboard " style=" margin-top: 10px; width: 18rem; ">
                         <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
                         <div class="card-header backgroundTable  ">
                           <h5 class="card-title">{{this.title}}</h5>
@@ -75,8 +75,9 @@
                           <li class="list-group-item">Stock: {{this.stock}}</li>
                           <li class="list-group-item">Categoria: {{this.category}}</li>
                           <li class="list-group-item backgroundTable"style="border-top: 5px solid darkorange;">
-                            <a href="#" class="card-link btn btn-sm btn-outline-danger"  onclick="removeFromCart('{{this._id}}', sessionUser.idCart)">Quitar</a>
-                            <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}', sessionUser.idCart)">Agregar</a>
+                            <a href="#" class="card-link btn btn-sm btn-outline-danger"  onclick="removeFromCart('{{this._id}}')">Quitar</a>
+                            <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}')">Agregar</a>
+                            {{!-- <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}', sessionUser.idCart)">Agregar</a> --}}
                           </li>
                         </ul>
                       </div>

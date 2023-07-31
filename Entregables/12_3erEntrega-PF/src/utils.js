@@ -92,6 +92,18 @@ export function socketServerHandler(httpServer) {
       } catch (err) {
           console.log({ Error: `${err}` });
       }
+    });
+
+    socket.on("removeFromCart", async (productId, cartId) => {
+      try {        
+        //console.log("UTILSS----- PROD>>"+ productId+" CART>>"+cartId)
+        await cartService.deleteProductFromCart(cartId, productId)        
+        const cartUpdt = await cartService.getProductsByCartId(cartId);
+        //console.log("UTILS----- CARRITO_CON_PRODAGREGADO>>  "+JSON.stringify(cartUpdt));
+        socketServer.emit("dinamic-list-cart", cartUpdt);
+      } catch (err) {
+          console.log({ Error: `${err}` });
+      }
     });  
 
     
