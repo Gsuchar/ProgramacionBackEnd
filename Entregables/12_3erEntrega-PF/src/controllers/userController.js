@@ -1,5 +1,6 @@
 import { userService } from '../services/userService.js';
 import { sessionsController } from '../controllers/sessionController.js';
+//--
 
 class UsersController {
     // REGISTER
@@ -41,11 +42,10 @@ class UsersController {
             return res.redirect('/auth/login');
         });
     };
-
+    // LOG OUT
     dashboard(req, res) {
         const user = req.session.user;
-        return res.render('dashboard', { user: user });
-        
+        return res.render('dashboard', { user: user });        
     };
     
     // PERFIL USUARIO
@@ -53,16 +53,12 @@ class UsersController {
         const user = req.session.user;
         return res.render('perfil', { user: user });
     };
-    // PERFIL ADMINISTRADOR
-    adminPanel(req, res) {
-        return res.send('Si ves esto es que sos ADMIN, PROXIMAMENTE PANEL DE ADMIN.');
-    };
+    // // PERFIL ADMINISTRADOR
+    // adminPanel(req, res) {
+    //     return res.send('Si ves esto es que sos ADMIN, PROXIMAMENTE PANEL DE ADMIN.');
+    // };
 
-    //---- TESTING
-
-    // getUsers(){
-    //     return userService.getUsers();
-    // }
+    // Ya adelante algo...
     async getUsers(req, res) {
         try {
             const limit = parseInt(req.query.limit) || 10;
@@ -80,11 +76,9 @@ class UsersController {
           const user =  await userService.getUserByIdOrEmail(uid, null);
           //Si user es null(falsy), dispara mensaje de error que complementa el del catch
           user ? user :  (() => { throw (`El Usuario de id ${uid} no existe en la base de datos.`) })();
-          //return user;
           console.log("CON_CONTROLL>  " + user)
           return res.json(user)
         } catch (err) {
-            //return res.status(500).json({ Error: `Error al buscar Usuario id ${uid}. ${err}` });
             return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
         }
       };
@@ -96,7 +90,6 @@ class UsersController {
           console.log("CON_TROLL>  " + user)
           return res.json(user)
         } catch (err) {
-            //return res.status(500).json({ Error: `Error al buscar Usuario id ${uid}. ${err}` });
             return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
         }
       };

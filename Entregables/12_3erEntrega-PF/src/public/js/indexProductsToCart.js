@@ -5,9 +5,6 @@ socket.on("updatedProducts", (listProducts) => {
  
   const tableBody = document.getElementById("dinamic-product-list");
   const tableRows = listProducts.docs.map((product) => `
- 
-  
- 
     
     <div class="card cardsBorder-dashboard " style="width: 18rem; margin-top: 10px; ">
     <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
@@ -25,24 +22,10 @@ socket.on("updatedProducts", (listProducts) => {
         <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('${product._id}')">Agregar</a>
       </li>
     </ul>
-  </div>     
+  </div>
+       
   `);
-  // <a href="#" class="card-link btn btn-sm btn-outline-danger" onclick="removeFromCart('${product._id}', sessionUser.idCart)">Quitar</a>
-  //       <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('${product._id}', sessionUser.idCart)">Agregar</a>
-  // const tableRows = listProducts.docs.map((product) => `
-  //   <tr>
-  //     <td scope="row">${product.code}</td>          
-  //     <td>${product.title}</td>
-  //     <td>${product.description}</td>
-  //     <td>${product.price}</td>
-  //     <td>${product.stock}</td>
-  //     <td>${product.category}</td>
-  //     <td>${product.thumbnail}</td>
-  //     <td>
-  //       <input type="submit" value="Agregar" class="btn btn-success" onclick="addToCart('${product._id}')"/>
-  //     </td>
-  //   </tr>
-  // `);
+
   tableBody.innerHTML = tableRows.join("");
   const pagination = document.querySelector('.pagination');
   
@@ -87,10 +70,8 @@ function onFilterChange(page) {
 
 
 function addToCart(productId) { 
-  //console.log("INDEXPRODUCTSTOCART>>> PROD>>"+ productId+" CART>>"+cartId)
   socket.emit("addToCart",  productId, sessionUser.idCart);
 }
 function removeFromCart(productId) { 
-  //console.log("INDEXPRODUCTSTOCART>>> PROD>>"+ productId+" CART>>"+cartId)
   socket.emit("removeFromCart",  productId, sessionUser.idCart);
 }

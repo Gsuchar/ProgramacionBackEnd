@@ -12,11 +12,8 @@ export class TicketService {
             products : ticket            
         };              
         const savedTicket = await ticketModel_2.addTicket(ticketData);
-        console.log("serv TICKET>>>  "+ JSON.stringify(savedTicket))
-        savedTicket.code === "" ? savedTicket.code = savedTicket._id: '' ;
         return savedTicket;
         } catch (error) {
-        //throw error;
         throw (`FALLO EN SERVICIO. ${error}`);
         }
     }

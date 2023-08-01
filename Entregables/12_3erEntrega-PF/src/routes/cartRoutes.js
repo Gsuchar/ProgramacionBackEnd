@@ -1,12 +1,9 @@
 import { Router } from 'express';
 import { cartsController } from '../controllers/cartController.js';
 import { isLoged, isUser } from '../middlewares/auth.js';
-
-//const productService = new ProductService;
+//--
 
 const routerCart = Router();
-//const cartService = new CartService;
-
 
 // TRAIGO TODOS LOS CARRITOS (en caso de tener límite, trae solo la cantidad indicada), no iba pero ya me queda
 routerCart.get("/carts", cartsController.getCarts);
@@ -31,11 +28,6 @@ routerCart.delete('/carts/deleteAll/:cid', cartsController.deleteCart);
 
 
 
-
-
-
-
-//================ TESTING =====================================//
 //--------ROUTER HANDLEBARS Y WEBSOCKET----------//
 // VISTA SIMPLE HTML -NO DINAMICA-
 routerCart.get("/carts/products/:cid", cartsController.getProductsByCartId_Handlebars);
@@ -47,34 +39,7 @@ routerCart.get("/productsToCart",isLoged, isUser, cartsController.getProductsByC
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
+
+
 //-------FIN ROUTER MONGO----------//
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-//FS ESTA ABAJO//////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export default routerCart;

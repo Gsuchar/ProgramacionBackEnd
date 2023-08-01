@@ -58,7 +58,6 @@ import { productService } from "./services/productService.js";
 
 export function socketServerHandler(httpServer) {
   const socketServer = new Server(httpServer);
-  //const productService = new ProductService; 
 
   // Escucha/anuncia conexiones de clientes
   socketServer.on("connection", (socket) => {
@@ -84,10 +83,8 @@ export function socketServerHandler(httpServer) {
 
     socket.on("addToCart", async (productId, cartId) => {
       try {        
-        //console.log("UTILSS----- PROD>>"+ productId+" CART>>"+cartId)
         await cartService.addProductToCart(cartId, productId)        
         const cartUpdt = await cartService.getProductsByCartId(cartId);
-        //console.log("UTILS----- CARRITO_CON_PRODAGREGADO>>  "+JSON.stringify(cartUpdt));
         socketServer.emit("dinamic-list-cart", cartUpdt);
       } catch (err) {
           console.log({ Error: `${err}` });
@@ -96,16 +93,35 @@ export function socketServerHandler(httpServer) {
 
     socket.on("removeFromCart", async (productId, cartId) => {
       try {        
-        //console.log("UTILSS----- PROD>>"+ productId+" CART>>"+cartId)
         await cartService.deleteProductFromCart(cartId, productId)        
         const cartUpdt = await cartService.getProductsByCartId(cartId);
-        //console.log("UTILS----- CARRITO_CON_PRODAGREGADO>>  "+JSON.stringify(cartUpdt));
         socketServer.emit("dinamic-list-cart", cartUpdt);
       } catch (err) {
           console.log({ Error: `${err}` });
       }
-    });  
+    });
 
+    // indexProducts.js parte de socket  
+    socket.on("new-product", async (newProd) => {
+      try {
+        await productService.addProduct({ ...newProd });
+        const productsList = await productService.getProducts();
+        socketServer.emit("products", productsList);
+      } catch (err) {
+        console.log({ Error: `${err}` });
+      }
+    });
+
+    // indexProductsToCart.js parte de socket
+    socket.on("delete-product", async (productId) => {
+      try {
+        await productService.deleteProduct(productId);
+        const productsUpdt = await productService.getProducts();
+        socketServer.emit("products", productsUpdt);
+      } catch (err) {
+        console.log({ Error: `${err}` });
+      }
+    });
     
     /******** FIN SOCKET CARTS **********/
 
@@ -124,31 +140,8 @@ export function socketServerHandler(httpServer) {
       }
     });
     /******* END CHAT ********/
-    /******** FILE SYSTEM PRODUCTS **********/
-    socket.on("new-product", async (newProd) => {
-      try {
-        await productService.addProduct({ ...newProd });
-        const productsList = await productService.getProducts();
-        socketServer.emit("products", productsList);
-      } catch (err) {
-        console.log({ Error: `${err}` });
-      }
-    });
-
-    socket.on("delete-product", async (productId) => {
-      try {
-        //console.log("del socket>>>>>>> "+productId )
-        await productService.deleteProduct(productId);
-        const productsUpdt = await productService.getProducts();
-        //const productsUpdt = await productManager.getProducts();
-        socketServer.emit("products", productsUpdt);
-      } catch (err) {
-        console.log({ Error: `${err}` });
-      }
-    });    
+    
   });
 
-  /****** FILE SYSTEM END PRODUCTS *****/
-
-  
+ // FIN UTILS 
 };

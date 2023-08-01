@@ -5,9 +5,10 @@ class SessionsController {
     }
      dashboard(req, res) {
       req.session.user = req.user;
-      // Successful authentication, redirect perfil.
+      // Logueado va al dashboard.
       return res.redirect('/dashboard');
     }
+    
  //FIN LLAVE CHATSCONTROLLER     
 };
 

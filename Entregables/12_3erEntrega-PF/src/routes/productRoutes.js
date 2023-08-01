@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { uploader } from '../utils.js';
+//import { uploader } from '../utils.js';
 import {ProductService} from "../services/productService.js"
 import { productsController } from '../controllers/productController.js';
 import { isAdmin, isLoged } from '../middlewares/auth.js';
@@ -23,27 +23,14 @@ routerProd.post("/products/new",productsController.addProduct);
 routerProd.put("/products/update/:pid", productsController.updateProduct);
 // DELETE PRODUCTO
 routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
+
 //-------FIN ROUTER MONGO----------//
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
-// VISTA WEBSOCKET -DINAMICA- PROBANDOOOOOOO
-routerProd.get("/realtimeproducts", isAdmin,  async (req, res) => {  
+// VISTA WEBSOCKET -DINAMICA-
+routerProd.get("/realtimeproducts",isLoged, isAdmin,  async (req, res) => {  
   try {
     const products = await productService.getProducts(); 
-    //console.log("realtimeSOCKET>>>>> "+ JSON.stringify(req.session.user))
     res.status(200).render('realtimeproducts',  { products : products, sessionUser : req.session.user });
   } catch (err) {
     res.status(500).alert({ Error: `1${err}` });
@@ -68,14 +55,7 @@ routerProd.get("/html/products", async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //-------FIN ROUTER MONGO----------//
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-
-
 export default routerProd;
-//ABAJO ESTA LO DE FS, NO LO SAQUE POR SI VOLVEMOS A USARLO
 
 
 

@@ -40,7 +40,6 @@ export class CartService {
       //const productToCart = await ProductModel.findById(productId);
       const productToCart = await productService.getProductById(productId);
       productToCart ? productToCart : (() => { throw ("No existe el producto en la base de datos, verifique.") })();
-      //const cart = await CartModel.findById(cartId); 
       const cart = await cartModel_2.getCartById(cartId); 
       cart ?  cart : (() => { throw (`No se encontró carrito con ID ${cartId}.`) })();
       // Busca productId en cart          
@@ -49,8 +48,7 @@ export class CartService {
       productIndex === -1 ? cart.products.push({ idProduct: productId, quantity: quantityP ? quantityP : 1 }) :
       //ELSE => Si existe, actualiza la quantity dependiendo si se envia, si no suma 1 a la existente.
       quantityP ? cart.products[productIndex].quantity = quantityP : cart.products[productIndex].quantity++;  
-      //const updatedCart = await CartModel.findByIdAndUpdate( { _id: cartId }, cart, { new: true } );                  
-      const updatedCart = await cartModel_2.addProductToCart( { _id: cartId }, cart, /*{ new: true }*/ );                  
+      const updatedCart = await cartModel_2.addProductToCart( { _id: cartId }, cart );                  
       return updatedCart;
     } catch (err) {
         throw (`Error al agregar producto al cart. ${err}`);
@@ -83,7 +81,6 @@ export class CartService {
       //const productToCart = await ProductModel.findById(productId);
       const productToCart = await productService.getProductById(productId);
       productToCart ? productToCart : (() => { new Error  ("No existe el producto en la base de datos, verifique.") })();
-      //const cart = await CartModel.findById(cartId);
       const cart = await cartModel_2.getCartById(cartId);  
       cart ?  cart : (() => {   throw Error (`No se encontró carrito con ID ${cartId}.`) })();
       // Busca productId en cart          

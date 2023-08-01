@@ -18,14 +18,14 @@
         </div> --}}
         <div class=>         
           <div class=" cardsBorder-dashboard col-4">
-            {{savedTicket.products}}
+            
             {{#each ticket}}            
               <div class="card-body">  
                 <p class="card-text"> {{idProduct.title}} </p> 
                 <p class="card-text">  Cantidad:  {{quantity}} </p>
               </div>
             {{/each}}
-            <p class="card-text"><b>TOTAL</b>  ${{savedTicket.amount}}</p>
+            <p class="card-text"><b>TOTAL</b>  ${{totalCart}}</p>
           </div>          
         </div>
         {{savedTicket.amount}}

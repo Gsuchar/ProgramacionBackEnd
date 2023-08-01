@@ -45,7 +45,7 @@
 /*HANDLEBARS PRODUCTFROMCART*/
 #cart-product-list{
   border-left: 2px darkorange solid;
-  padding:3px 25px 3px 10px;
+  /* padding:3px 25px 3px 10px; */
   background-color:#19191a
 }
 

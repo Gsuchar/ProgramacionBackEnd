@@ -16,15 +16,14 @@ export class UserService {
   };
 
   //--- POR AHORA REDICCIONO AL PERFIL CUANDO LOGUEA o REGISTRA, SEA POR PASSPORT O LOGIN MIO
-  redirectPerfil(res){
-    return res.redirect('/auth/perfil') 
-  };
+  // redirectPerfil(res){
+  //   return res.redirect('/auth/perfil') 
+  // };
 
   loginFail(res){
     return res.json({ error: 'fail to login' });
   };
   async dashboard(req,res) {        
-    //return res.render('dashboard', user);
     req.session.user = {
       _id: req.user._id,
       email: req.user.email,
@@ -125,7 +124,7 @@ export class UserService {
       } else if (email) {
         // Busco user por email
         _email = users.find((user) => user.email.toString() === email.toString());
-        // Si el id no es falsy y distinto de undefined lo manda, si no manda null para activar throw error en controller
+        // Si el email no es falsy y distinto de undefined lo manda, si no manda null para activar throw error en controller
         _email && _email!=undefined  ? _email :  null;
         return _email
       }      
@@ -135,14 +134,10 @@ export class UserService {
 
   };
   // DELETE USUARIO
-  //async deleteUser(id, cartId) {
   async deleteUser(user) {
       try {
-          console.log("LALA>11>> " + user) 
           const idcartU = await this.getUserByIdOrEmail(user, null) 
-          console.log("LALA>>> " + idcartU)       
-          const deletedUser = await userModel_2.deleteUser( user );
-          
+          const deletedUser = await userModel_2.deleteUser( user );          
           const cartIdUser = await cartService.getCartById( idcartU.idCart);
           await cartService.deleteCart(cartIdUser);
           return deletedUser;      
@@ -150,7 +145,6 @@ export class UserService {
           throw (`Fallo al borrar el Usuario. ${err}`);
       };
   };
-
   
   
   //LLAVE FIN USER SERVICE

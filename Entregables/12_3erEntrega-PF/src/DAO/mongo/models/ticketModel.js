@@ -11,21 +11,27 @@ const schema = new Schema(
     products: [ { idProduct: { type: Object }, _id: false, quantity: { type: Number }, totalPrice: { type: Number } } ]//_id:false saca _id de mongoose
   },{versionKey: false}
 );//{versionKey:false} saca __v: que es para versiones por moongose
+
 export const TicketModel = model('tickets', schema);
+
 
 export class TicketModel_2{
   async addTicket(newTicket) {
-    //console.log("MODEL TICKET>>>  "+ JSON.stringify(newTicket))
-    try {   
-
-    const ticket = await TicketModel.create(newTicket);    
+    try {
+    const ticket = await TicketModel.create(newTicket);
+    // Asigno a code el _id para que code sea unico tambien.
+    ticket.code = ticket._id.toString();
+    // Actualizo el ticket en mongo 
+    await TicketModel.findByIdAndUpdate(ticket._id, { code: ticket.code });
     return ticket;
-    } catch (error) {
+    } catch (err) {
       throw (`FALLO EN MODELO.`);
     }
+  }
+
 }
 
-
+export const ticketModel_2 = new TicketModel_2();
 
 
 
@@ -68,6 +74,3 @@ export class TicketModel_2{
   // };
   
  // FIN LLAVE TicketModel_2  
-}
-
-export const ticketModel_2 = new TicketModel_2();
