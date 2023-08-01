@@ -1,4 +1,4 @@
-import { ProductModel, productModel_2 } from '../DAO/mongo/models/productModel.js';
+import { productModel_2 } from '../DAO/mongo/models/productModel.js';
 //-----
 
 export class ProductService {

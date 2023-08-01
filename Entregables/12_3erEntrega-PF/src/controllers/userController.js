@@ -53,10 +53,7 @@ class UsersController {
         const user = req.session.user;
         return res.render('perfil', { user: user });
     };
-    // // PERFIL ADMINISTRADOR
-    // adminPanel(req, res) {
-    //     return res.send('Si ves esto es que sos ADMIN, PROXIMAMENTE PANEL DE ADMIN.');
-    // };
+
 
     // Ya adelante algo...
     async getUsers(req, res) {
@@ -72,11 +69,11 @@ class UsersController {
     async getUserById(req, res) {
         const uid = req.params.uid;
         try {         
-          console.log(uid)   
+          //console.log(uid)   
           const user =  await userService.getUserByIdOrEmail(uid, null);
           //Si user es null(falsy), dispara mensaje de error que complementa el del catch
           user ? user :  (() => { throw (`El Usuario de id ${uid} no existe en la base de datos.`) })();
-          console.log("CON_CONTROLL>  " + user)
+          //console.log("CON_CONTROLL>  " + user)
           return res.json(user)
         } catch (err) {
             return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
@@ -85,9 +82,9 @@ class UsersController {
     async deleteUser(req, res) {
         const uid = req.params.uid;
         try {         
-          console.log(uid)   
+          //console.log(uid)   
           const user =  await userService.deleteUser(uid);
-          console.log("CON_TROLL>  " + user)
+          //console.log("CON_TROLL>  " + user)
           return res.json(user)
         } catch (err) {
             return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             

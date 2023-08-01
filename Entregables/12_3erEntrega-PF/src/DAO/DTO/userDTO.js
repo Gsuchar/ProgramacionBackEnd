@@ -1,3 +1,4 @@
+// Para entrega no mas por ahora...
 export class UserDTO{
     constructor(user){
         this.firstName = user.firstName;

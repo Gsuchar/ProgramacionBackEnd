@@ -1,28 +1,26 @@
 
-import { UserModel, UserModel_2 } from '../DAO/mongo/models/userModel.js';
+import { UserModel_2 } from '../DAO/mongo/models/userModel.js';
 import {CartService} from '../services/cartService.js';
-import { createHash, isValidPassword } from '../utils.js';
-import express from 'express';
-import passport from 'passport';
+import { createHash } from '../utils.js';
+//--
+
 const cartService = new CartService;
 const userModel_2 = new UserModel_2;
+
 export class UserService {
   //------ AUTH USER
   async register(res) {        
     return res.render('register', {});     
   };
+
   registerFail(res){
     return res.json({ error: 'fail to register' });
   };
 
-  //--- POR AHORA REDICCIONO AL PERFIL CUANDO LOGUEA o REGISTRA, SEA POR PASSPORT O LOGIN MIO
-  // redirectPerfil(res){
-  //   return res.redirect('/auth/perfil') 
-  // };
-
   loginFail(res){
     return res.json({ error: 'fail to login' });
   };
+
   async dashboard(req,res) {        
     req.session.user = {
       _id: req.user._id,
@@ -71,7 +69,6 @@ export class UserService {
               password: createHash( newUser.password),
               idCart: cartId._id
             };
-            //let createdUser = await UserModel.create(userToCreate);
             let createdUser = await userModel_2.addUser(userToCreate);
           return createdUser;
       }catch (err) {
