@@ -45,6 +45,8 @@
                   <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
                 </ul> 
               </div>
+              <a href="/dashboard" class="card-link">Volver</a>
+
               {{!-- <thead>
                 <tr>
                   <th scope="col">Codigo</th>
@@ -75,9 +77,8 @@
                           <li class="list-group-item">Stock: {{this.stock}}</li>
                           <li class="list-group-item">Categoria: {{this.category}}</li>
                           <li class="list-group-item backgroundTable"style="border-top: 5px solid darkorange;">
-                            <a href="#" class="card-link btn btn-sm btn-outline-danger"  onclick="removeFromCart('{{this._id}}')">Quitar</a>
-                            <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}')">Agregar</a>
-                            {{!-- <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}', sessionUser.idCart)">Agregar</a> --}}
+                            <a  class="card-link btn btn-sm btn-outline-danger"  onclick="removeFromCart('{{this._id}}')">Quitar</a>
+                            <a  class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}')">Agregar</a>
                           </li>
                         </ul>
                       </div>
@@ -86,7 +87,6 @@
                 </tr>               
               </tbody>
             </table>
-            <a href="/dashboard" class="card-link">Volver</a>
           </div>
           <div id="cart-product-list" class="col-2 " style="">
             <div class="card cardsBorder-dashboard" style="margin-top: 50px;">

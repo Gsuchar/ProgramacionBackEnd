@@ -1,4 +1,4 @@
-import { ticketModel_2 } from '../DAO/mongo/models/ticketModel.js';
+import { ticketDAO } from '../DAO/ticketDAO.js';
 import { cartService } from './cartService.js';
 
 export class TicketService {
@@ -11,7 +11,7 @@ export class TicketService {
             purchaser: purchaser,
             products : ticket            
         };              
-        const savedTicket = await ticketModel_2.addTicket(ticketData);
+        const savedTicket = await ticketDAO.addTicket(ticketData);
         return savedTicket;
         } catch (error) {
         throw (`FALLO EN SERVICIO. ${error}`);

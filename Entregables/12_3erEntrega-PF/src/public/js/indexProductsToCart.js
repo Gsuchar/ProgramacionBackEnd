@@ -18,8 +18,8 @@ socket.on("updatedProducts", (listProducts) => {
       <li class="list-group-item">Stock: ${product.stock}</li>
       <li class="list-group-item">Categoria: ${product.category}</li>
       <li class="list-group-item backgroundTable"style="border-top: 5px solid darkorange;">
-        <a href="#" class="card-link btn btn-sm btn-outline-danger" onclick="removeFromCart('${product._id}')">Quitar</a>
-        <a href="#" class="card-link btn btn-sm btn-outline-success" onclick="addToCart('${product._id}')">Agregar</a>
+        <a  class="card-link btn btn-sm btn-outline-danger" onclick="removeFromCart('${product._id}')">Quitar</a>
+        <a  class="card-link btn btn-sm btn-outline-success" onclick="addToCart('${product._id}')">Agregar</a>
       </li>
     </ul>
   </div>

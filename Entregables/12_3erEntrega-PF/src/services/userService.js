@@ -1,11 +1,11 @@
 
-import { UserModel_2 } from '../DAO/mongo/models/userModel.js';
+import { userDAO } from '../DAO/userDAO.js';
 import {CartService} from '../services/cartService.js';
 import { createHash } from '../utils.js';
 //--
 
 const cartService = new CartService;
-const userModel_2 = new UserModel_2;
+//const userDAO = new userDAO;
 
 export class UserService {
   //------ AUTH USER
@@ -41,7 +41,7 @@ export class UserService {
   // TRAIGO TODOS LOS USUARIOS
   async getUsers(limit) {          
     try {
-        const users = await userModel_2.getUsers(limit);
+        const users = await userDAO.getUsers(limit);
         return users;
     } catch (err) {           
         throw err;
@@ -69,7 +69,7 @@ export class UserService {
               password: createHash( newUser.password),
               idCart: cartId._id
             };
-            let createdUser = await userModel_2.addUser(userToCreate);
+            let createdUser = await userDAO.addUser(userToCreate);
           return createdUser;
       }catch (err) {
           throw (`Error al agregar Usuario. ${err}`);
@@ -102,7 +102,7 @@ export class UserService {
             break;
           }
         };            
-      const userUpdated = await userModel_2.updateUser( { _id: id }, userToUpdate );
+      const userUpdated = await userDAO.updateUser( { _id: id }, userToUpdate );
       return userUpdated;
     } catch (err) {
       throw (`No se pudo modificar Usuario con ID ${id}. ${err}`);
@@ -110,7 +110,7 @@ export class UserService {
   };
   async getUserByIdOrEmail(id, email) {
     try {
-      const users = await userModel_2.getUsers();
+      const users = await userDAO.getUsers();
       let _id, _email;
       if (id) {
         // Busco user por id
@@ -134,7 +134,7 @@ export class UserService {
   async deleteUser(user) {
       try {
           const idcartU = await this.getUserByIdOrEmail(user, null) 
-          const deletedUser = await userModel_2.deleteUser( user );          
+          const deletedUser = await userDAO.deleteUser( user );          
           const cartIdUser = await cartService.getCartById( idcartU.idCart);
           await cartService.deleteCart(cartIdUser);
           return deletedUser;      

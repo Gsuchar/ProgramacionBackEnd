@@ -1,4 +1,4 @@
-import { productModel_2 } from '../DAO/mongo/models/productModel.js';
+import { productDAO } from '../DAO/productDAO.js';
 //-----
 
 export class ProductService {
@@ -6,7 +6,7 @@ export class ProductService {
     // TRAIGO TODOS LOS PRODUCTOS SIN PAGINATE
     async getProducts(limit) {          
         try {
-            const products = await productModel_2.getProducts(limit); 
+            const products = await productDAO.getProducts(limit); 
             return products;
         } catch (err) {           
             throw (`Error al buscar productos.`);
@@ -17,7 +17,7 @@ export class ProductService {
     async getProductsPaginate(limit, page, filter, sort, attName) {          
         try {
             const sortPrice =  { price: sort } ;            
-            const products = await productModel_2.getProductsPaginate(
+            const products = await productDAO.getProductsPaginate(
                 //PRIMER {} = filtro por atributo/valor, vacio trae todo
                 filter ? { [attName ? attName : "category"]: filter } : {},
                 // SEGUNDO {} = limit, page, sort
@@ -35,7 +35,7 @@ export class ProductService {
     // TRAIGO PRODUCTO SEGÚN EL ID
     async getProductById(id) {
         try {
-          const product = await productModel_2.getProductById({ _id: id });
+          const product = await productDAO.getProductById({ _id: id });
           return product;
         } catch (err) {
             throw (`No se encontró producto de id ${id}.`);
@@ -61,7 +61,7 @@ export class ProductService {
                 category: newProd.category ? newProd.category : (() => { throw ("Debe ingresar la categoria de Producto.") })(),
                 thumbnail: !newProd.thumbnail ? "Sin Definir" :  newProd.thumbnail   
             };            
-            const createdProduct = await productModel_2.addProduct(newProduct);
+            const createdProduct = await productDAO.addProduct(newProduct);
             return createdProduct;
         }catch (err) {
             throw (`Fallo agregar producto. ${err}`);
@@ -97,7 +97,7 @@ export class ProductService {
                         break;
                 }
             };            
-            const prodUpdated = await productModel_2.updateProduct( { _id: id }, productToUpdate );
+            const prodUpdated = await productDAO.updateProduct( { _id: id }, productToUpdate );
             return prodUpdated;
         } catch (err) {
             throw (`No se pudo modificar producto. ${err}`);
@@ -108,7 +108,7 @@ export class ProductService {
     async deleteProduct(id) {
         try {
 
-            const deletedProduct = await productModel_2.deleteProduct({ _id: id });
+            const deletedProduct = await productDAO.deleteProduct({ _id: id });
             return deletedProduct;      
         }catch (err) {
             throw (`Fallo al encontrar producto2.  ${id}`);
