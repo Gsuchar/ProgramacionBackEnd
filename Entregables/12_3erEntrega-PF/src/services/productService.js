@@ -21,9 +21,10 @@ export class ProductService {
                 //PRIMER {} = filtro por atributo/valor, vacio trae todo
                 filter ? { [attName ? attName : "category"]: filter } : {},
                 // SEGUNDO {} = limit, page, sort
-                { limit: limit ? limit : 10 ,  lean: true, 
-                  page: page ? page : 1,                  
-                  sort: sort ?  sortPrice : ""               
+                {
+                    limit: limit ? limit : 10 ,  lean: true, 
+                    page: page ? page : 1,                  
+                    sort: sort ?  sortPrice : ""               
                 }
             )
             return products;
@@ -35,7 +36,7 @@ export class ProductService {
     // TRAIGO PRODUCTO SEGÚN EL ID
     async getProductById(id) {
         try {
-          const product = await productDAO.getProductById({ _id: id });
+          const product = await productDAO.getProductById( { _id: id } );
           return product;
         } catch (err) {
             throw (`No se encontró producto de id ${id}.`);
@@ -53,7 +54,7 @@ export class ProductService {
             let newProduct = {
                 title: newProd.title ? newProd.title : (() => { throw ("Debe ingresar un titulo de Producto.") })(),        
                 description : newProd.description ? newProd.description : (() => { throw ("Debe ingresar una descripción de Producto.") })(),
-                //&& /^\d+$/.test(newProd.param) La expresión regular /^\d+$/ comprueba si el string contiene solo dígitos => .test devuelve FALSE y rompe
+                //&& /^\d+$/.test(newProd.param) La expresión regular /^\d+$/ comprueba si el string contiene solo numeros => .test devuelve FALSE y rompe
                 code: newProd.code && /^\d+$/.test(newProd.code) ? parseInt(newProd.code) : (() => { throw ("Debe ingresar un codigo valido de Producto.") })(),
                 price: newProd.price && /^\d+$/.test(newProd.price) ? parseInt(newProd.price) : (() => { throw ("Debe ingresar un precio valido de Producto.") })(),
                 status: newProd.status,
@@ -108,7 +109,7 @@ export class ProductService {
     async deleteProduct(id) {
         try {
 
-            const deletedProduct = await productDAO.deleteProduct({ _id: id });
+            const deletedProduct = await productDAO.deleteProduct( { _id: id } );
             return deletedProduct;      
         }catch (err) {
             throw (`Fallo al encontrar producto2.  ${id}`);

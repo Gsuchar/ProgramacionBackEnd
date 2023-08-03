@@ -1,4 +1,5 @@
 import { CartModel } from "./mongo/models/cartModel.js";
+//--
 
 export class CartDAO {
 
@@ -15,7 +16,6 @@ export class CartDAO {
     async getCartById(cartId) {
     try {
         const cart = await CartModel.findById(cartId); 
-        //cart ? cart : (() => { throw (`El carrito de id ${id} no se encontró.`) })();
         return cart;
     } catch (err) {
         throw (`El carrito de id ${cartId} no se encontró.`);
@@ -35,7 +35,8 @@ export class CartDAO {
     //AGREGA PRODUCTOS AL CART
     async addProductToCart(cartId, cart) {
         try { 
-            const updatedCart = await CartModel.findByIdAndUpdate( /*{ _id: cartId }*/cartId, cart, { new: true } );                  
+            const updatedCart = await CartModel.findByIdAndUpdate( cartId, cart, { new: true } );
+            // { new: true } => devuelve actualizado                  
             return updatedCart;
         } catch (err) {
             throw (`Error al agregar producto al cart.`);
@@ -74,7 +75,7 @@ export class CartDAO {
     // BORRO PRODUCTO/QUANTITY DEL CARRITO
     async deleteProductFromCart(cartId, cart) {
     try {
-        const updatedCart = await CartModel.findByIdAndUpdate( /*{ _id: cartId }*/cartId, cart, { new: true } );            
+        const updatedCart = await CartModel.findByIdAndUpdate( cartId, cart, { new: true } );            
         return updatedCart;
     } catch (Error) {
         throw (`Error al borrar producto del cart.`);
@@ -85,7 +86,7 @@ export class CartDAO {
     async updateCart(cid, cartUpdate) {
         try {
             //console.log("carMODEL_UPDATE>>>>>  "+ cartUpdate)
-            const updatedCart = await CartModel.findOneAndUpdate(/*{ _id: cartId }*/cid, /*{products:[]}*/cartUpdate, {new:true});      
+            const updatedCart = await CartModel.findOneAndUpdate( cid, cartUpdate, {new:true} );      
             return updatedCart;      
         }catch (err) {
             throw (`Fallo al encontrar cart, no se pudo modificar.`);
@@ -95,7 +96,7 @@ export class CartDAO {
     // VACIO CART SEGUN ID 
     async emptyCart(cid) {
         try {
-            const emptyCart = await CartModel.findOneAndUpdate(/*{ _id: cartId }*/cid, {products:[]}, {new:true});      
+            const emptyCart = await CartModel.findOneAndUpdate( cid, { products:[] }, {new:true} );      
             return emptyCart;      
         }catch (err) {
             throw (`Fallo al encontrar cart vaciar cart.`);
@@ -105,7 +106,7 @@ export class CartDAO {
     //BORRO CART POR ID, no va pero ya me queda tambien x 2.  
     async deleteCart(id) {
     try {
-        const deletedcart = await CartModel.findOneAndDelete(/*{ _id: cartId }*/id,);      
+        const deletedcart = await CartModel.findOneAndDelete( id );      
         return deletedcart;      
     }catch (err) {
         throw (`Fallo al encontrar o borrar cart.`);
