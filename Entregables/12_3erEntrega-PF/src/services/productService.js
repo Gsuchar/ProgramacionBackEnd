@@ -18,7 +18,7 @@ export class ProductService {
         try {
             const sortPrice =  { price: sort } ;            
             const products = await productDAO.getProductsPaginate(
-                //PRIMER {} = filtro por atributo/valor, vacio trae todo
+                //PRIMER {} = filtro por atributo/valor, filtra por defecto categoria, si no vacio trae todo
                 filter ? { [attName ? attName : "category"]: filter } : {},
                 // SEGUNDO {} = limit, page, sort
                 {
