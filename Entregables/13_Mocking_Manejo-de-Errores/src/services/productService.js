@@ -71,7 +71,7 @@ export class ProductService {
 
             // cambio por entrega 13 de manejo errores
             throw CustomError.createError({
-                name: 'Error al crear producto',
+                name: 'Al crear producto',
                 message: err,
                 code: EErros.ADD_PRODUCT_ERR
             });

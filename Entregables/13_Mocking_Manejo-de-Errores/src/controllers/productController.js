@@ -43,8 +43,7 @@ class ProductsController {
           const prodToCreate = await productService.addProduct({ title, description,  code, price, status: true, stock, category, thumbnail });    
           return res.status(201).json({ products: prodToCreate });
         } catch (err) {
-            //res.status(500).json({ Error: `${err}` });
-            res.status(500).json( `${err}` );// cambio por entrega 13 de manejo errores
+            res.status(500).json({ Error: `${err}` });            
         }
     };
 
