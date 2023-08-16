@@ -44,7 +44,7 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 import { addLogger } from "../utils/logger.js";
 //--
 routerProd.use(addLogger);
-routerProd.get("/testing", (req, res) => {
+routerProd.get("/loggerTest", (req, res) => {
   req.logger.info("ingresando a un proceso importante");
 
   req.logger.info(
