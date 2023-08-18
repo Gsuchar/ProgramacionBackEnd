@@ -40,7 +40,7 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 //********************************************************** */
 
-//-- ENTREGA 14 - LOGGER - WINSTON------//
+//-- ENTREGA 14 - LOGGER - WINSTON ------//
 import { addLogger } from "../utils/logger.js";
 //--
 routerProd.use(addLogger);
