@@ -6,7 +6,9 @@ import chatRoutes from './routes/chatRoutes.js';
 import authRoutes  from './routes/authRoutes.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { __dirname } from "./utils/__dirname.js";
+import { __dirname } from "./utils.js";
+//import { __dirname } from "./dirname.js";
+//import { __dirname } from "../src/utils/dirname.js"
 import path from "path";
 import handlebars from "express-handlebars";
 import http from 'http';
@@ -17,7 +19,7 @@ import { iniPassport } from './config/passport.config.js';
 import passport from 'passport';
 import dotenv from "dotenv";
 import sessionRoutes from './routes/sessionsRoutes.js';
-import routerTicket from './routes/ticketRoutes.js';
+import ticketRoutes from './routes/ticketRoutes.js';
 import errorHandler from "./middlewares/error.js";
 //-----
 
@@ -71,7 +73,7 @@ app.use('/', cartRoutes);
 app.use('/', chatRoutes);
 app.use('/', authRoutes);
 app.use('/', sessionRoutes);
-app.use('/', routerTicket);
+app.use('/', ticketRoutes);
 
 // Error handler
 app.use(errorHandler);

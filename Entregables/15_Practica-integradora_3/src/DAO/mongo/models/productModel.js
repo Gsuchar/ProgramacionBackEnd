@@ -10,7 +10,8 @@ const schema = new Schema({
     status: { type: Boolean},
     stock: { type: Number/*, required: true, max: 100*/ },   
     category: { type: String , index: true/*,required: true, max: 100 */},
-    thumbnail: { type: String}  
+    thumbnail: { type: String},  
+    owner: { type: String},  
 },{versionKey:false});//{versionKey:false} saca __v: que es para versiones por moongose
 
 schema.plugin(mongoosePaginate);

@@ -30,7 +30,7 @@ export class UserService {
       lastName: req.user.lastName,
       age: req.user.age,
       role: req.user.role,
-      isAdmin: req.user.isAdmin,
+      isPremium: req.user.isPremium,
       idCart: req.user.idCart
   }; 
     return res.redirect('/dashboard')  
@@ -65,7 +65,7 @@ export class UserService {
               firstName: newUser.firstName ? newUser.firstName : (() => { throw ("Debe ingresar Nombre.") })(), 
               lastName: newUser.lastName ? newUser.lastName : (() => { throw ("Debe ingresar Apellido.") })(), 
               age: newUser.age ? newUser.age : '999', 
-              isAdmin: false,
+              isPremium: false,
               role: 'user',
               password: createHash( newUser.password),
               idCart: cartId._id
@@ -98,6 +98,9 @@ export class UserService {
             break;
             case "role":
               userToUpdate.role = fieldsToUpdate.role !== "" ? fieldsToUpdate.role : "";
+            break;
+            case "isPremium":
+              userToUpdate.isPremium = fieldsToUpdate.isPremium !== "" ? fieldsToUpdate.isPremium : "";
             break;
             default:
             break;
