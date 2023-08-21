@@ -10,3 +10,8 @@ export function isUser(req, res, next) {
 export function isAdmin(req, res, next) {
   req.session?.user?.role == 'admin'  ?  next() : res.status(403).render('error', { error: 'Error de Autorización!, no ADMIN' });;
 }
+
+export function isPremium(req, res, next) {
+  req.session?.user?.isPremium == true || req.session?.user?.role == 'admin'  ?
+    next() : res.status(403).render('error', { error: 'Error de Autorización!, no user Premium' });;
+}

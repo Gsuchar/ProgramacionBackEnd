@@ -62,6 +62,7 @@ export class ProductService {
                 status: newProd.status,
                 stock: newProd.stock && /^\d+$/.test(newProd.stock) ? parseInt(newProd.stock) : (() => { throw ("Debe ingresar el stock valido de Producto.") })(),
                 category: newProd.category ? newProd.category : (() => { throw ("Debe ingresar la categoria de Producto.") })(),
+                owner: newProd.owner,
                 thumbnail: !newProd.thumbnail ? "Sin Definir" :  newProd.thumbnail   
             };            
             const createdProduct = await productDAO.addProduct(newProduct);

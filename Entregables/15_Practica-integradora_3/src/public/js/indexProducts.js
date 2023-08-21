@@ -7,7 +7,9 @@ const price = document.getElementById("formPrice");
 const code = document.getElementById("formCode");
 const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
+//const owner = '';
 const thumbnail = document.getElementById("formThumbnail");
+const owner = sessionUser?.isPremium == true ? owner = sessionUser._id : owner = 'admin'
 
 socket.on("products", (productsList) => {
  
@@ -31,7 +33,8 @@ socket.on("products", (productsList) => {
 
 
 formProducts.addEventListener("submit", (e) => {
-  e.preventDefault();  
+  e.preventDefault();
+
   const newProd = {
     title: title.value,
     description: description.value,
@@ -39,6 +42,7 @@ formProducts.addEventListener("submit", (e) => {
     code: code.value,
     stock: +stock.value,
     category: category.value,
+    owner,
     thumbnail: thumbnail.value,
   };  
   socket.emit("new-product", newProd);

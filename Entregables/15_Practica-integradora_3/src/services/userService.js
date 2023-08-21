@@ -35,6 +35,8 @@ export class UserService {
   }; 
     return res.redirect('/dashboard')  
   };
+
+  
   
 
   //------ AUTH USER FIN ----------------
@@ -68,6 +70,7 @@ export class UserService {
               isPremium: false,
               role: 'user',
               password: createHash( newUser.password),
+              isPremium: false ,
               idCart: cartId._id
             };
             let createdUser = await userDAO.addUser(userToCreate);

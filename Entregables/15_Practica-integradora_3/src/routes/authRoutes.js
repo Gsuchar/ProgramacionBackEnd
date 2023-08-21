@@ -26,6 +26,11 @@ authRouter.get('/auth/perfil', isLoged, usersController.perfil);
 // Dashboard
 authRouter.get('/dashboard', isLoged, usersController.dashboard);
 
+// Entrega 15 - 3er Practica integradora endpoint cambio premium en usuario
+authRouter.get('/api/users/premium/:uid', isLoged, usersController.changingUserPremium);
+
+
+
 //TESTING
 // authRouter.get('/users', usersController.getUsers);
 // authRouter.get('/users/:uid', usersController.getUserById);

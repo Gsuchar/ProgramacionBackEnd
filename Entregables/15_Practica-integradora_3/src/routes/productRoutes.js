@@ -3,7 +3,7 @@ import { Router } from 'express';
 //import { generateProducts } from '../utils.js';
 import { ProductService } from "../services/productService.js"
 import { productsController } from '../controllers/productController.js';
-import { isAdmin, isLoged } from '../middlewares/auth.js';
+import { isAdmin, isLoged, isPremium } from '../middlewares/auth.js';
 
 const routerProd = Router();
 const productService = new ProductService;
@@ -87,10 +87,22 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA-
-routerProd.get("/realtimeproducts",isLoged, isAdmin,  async (req, res) => {  
+routerProd.get("/realtimeproducts",isLoged, isPremium,  async (req, res) => {  
   try {
-    const products = await productService.getProducts(); 
-    res.status(200).render('realtimeproducts',  { products : products, sessionUser : req.session.user });
+    const sessionUser = req.session.user;
+    const products = await productService.getProducts();
+    if (sessionUser?.isPremium == true ) {
+      //si es premium le muestro solos los prod que le pertenecen
+      const userProducts = products.filter((p) => p.owner === sessionUser._id);
+      res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser /*: req.session.user*/ });
+    }else{
+      //si no es premium, es admin y muestra todo
+      res.status(200).render('realtimeproducts',  { products : products, sessionUser /*: req.session.user*/ });      
+    }
+
+    //res.status(200).render('realtimeproducts',  { products : products, sessionUser : req.session.user });
+
+
   } catch (err) {
     res.status(500).alert({ Error: `1${err}` });
   }

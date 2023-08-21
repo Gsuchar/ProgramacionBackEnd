@@ -47,6 +47,19 @@ class UsersController {
         const user = req.session.user;
         return res.render('dashboard', { user: user });        
     };
+
+    async changingUserPremium(req, res) {
+        try {
+            const userId = req.params.uid;
+            const userData = await userService.getUserByIdOrEmail(userId, null);
+            // En caso de que el usuario tenga isPremium = true, lo pasa a false...y viceversa           
+            const userPremiumChanged = userData?.isPremium ? await userService.updateUser(userId, {isPremium: false}) 
+                : await userService.updateUser(userId, {isPremium: true});
+            return res.json(userPremiumChanged)
+        } catch (err) {
+            return res.status(500).json({ error: 'Error modificar usuarios.' });
+        }
+    }
     
     // PERFIL USUARIO
     perfil(req, res) {

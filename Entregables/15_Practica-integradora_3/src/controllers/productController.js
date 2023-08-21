@@ -40,7 +40,18 @@ class ProductsController {
     async addProduct(req, res) {
         try {
           const { title, description, price, code, stock, category, thumbnail } = req.body.products;
-          const prodToCreate = await productService.addProduct({ title, description,  code, price, status: true, stock, category, thumbnail });    
+          const prodToCreate = await productService.addProduct(
+            { title,
+              description,
+              code,
+              price,
+              status: true,
+              stock,
+              category,
+              owner : "admin",
+              thumbnail
+
+            });    
           return res.status(201).json({ products: prodToCreate });
         } catch (err) {
             res.status(500).json({ Error: `${err}` });            
