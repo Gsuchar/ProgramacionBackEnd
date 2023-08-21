@@ -97,8 +97,9 @@
   </div>
 </div>
 <script>
-  // Guardo de forma global sessionUser.idCart con id de cart de la session actual.
-  const sessionUser = {{sessionUser}};
+  // Guardo de forma global sessionUser.isPremium para saber si el usuario es premium.
+  const sessionUser = { isPremium: '{{sessionUser.isPremium}}',_id : '{{sessionUser._id}}' }
+  //console.log(sessionUser.isPremium,sessionUser._id )
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexProducts.js"></script> 

@@ -87,26 +87,24 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA-
-routerProd.get("/realtimeproducts",isLoged, isPremium,  async (req, res) => {  
-  try {
-    const sessionUser = req.session.user;
-    const products = await productService.getProducts();
-    if (sessionUser?.isPremium == true ) {
-      //si es premium le muestro solos los prod que le pertenecen
-      const userProducts = products.filter((p) => p.owner === sessionUser._id);
-      res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser /*: req.session.user*/ });
-    }else{
-      //si no es premium, es admin y muestra todo
-      res.status(200).render('realtimeproducts',  { products : products, sessionUser /*: req.session.user*/ });      
-    }
+routerProd.get("/realtimeproducts",isLoged, isPremium, productsController.realtimeproducts);
+// routerProd.get("/realtimeproducts",isLoged, isPremium,  async (req, res) => {  
+//   try {
+//     const sessionUser = req.session.user;
+//     const products = await productService.getProducts();
+//     if (sessionUser?.isPremium == true ) {
+//       //si es premium le muestro solos los prod que le pertenecen
+//       const userProducts = products.filter((p) => p.owner === sessionUser._id);
+//       res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser /*: req.session.user*/ });
+//     }else{
+//       //si no es premium, es admin y muestra todo
+//       res.status(200).render('realtimeproducts',  { products : products, sessionUser /*: req.session.user*/ });      
+//     }  
+//   } catch (err) {
+//     res.status(500).alert({ Error: `1${err}` });
+//   }
+// });
 
-    //res.status(200).render('realtimeproducts',  { products : products, sessionUser : req.session.user });
-
-
-  } catch (err) {
-    res.status(500).alert({ Error: `1${err}` });
-  }
-});
 // VISTA SIMPLE HTML -NO DINAMICA-
 routerProd.get("/html/products", async (req, res) => {
   const limit = req.query.limit;

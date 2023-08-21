@@ -4,6 +4,7 @@ export class UserDTO{
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.email = user.email;
+        this.isPremium = user.isPremium;
         this.role = user.role;
     }
 

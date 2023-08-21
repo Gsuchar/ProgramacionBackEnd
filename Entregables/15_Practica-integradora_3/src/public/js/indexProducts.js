@@ -9,8 +9,8 @@ const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
 //const owner = '';
 const thumbnail = document.getElementById("formThumbnail");
-const owner = sessionUser?.isPremium == true ? owner = sessionUser._id : owner = 'admin'
-
+//const owner = sessionUser?.isPremium == true ? owner = sessionUser._id : owner = 'admin'
+console.log(sessionUser.isPremium)
 socket.on("products", (productsList) => {
  
   const tableBody = document.getElementById("dinamic-product-list");
@@ -34,7 +34,8 @@ socket.on("products", (productsList) => {
 
 formProducts.addEventListener("submit", (e) => {
   e.preventDefault();
-
+  let owner;
+  sessionUser.isPremium ? owner = sessionUser._id : owner = 'admin';
   const newProd = {
     title: title.value,
     description: description.value,

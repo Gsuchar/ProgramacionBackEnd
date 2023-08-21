@@ -77,7 +77,24 @@ class ProductsController {
         } catch (err) {
             res.status(500).json({ Error: `${err}` });
         }
-    };    
+    }; 
+    
+    async realtimeproducts(req, res) {  
+        try {
+          const sessionUser = req.session.user;
+          const products = await productService.getProducts();
+          if (sessionUser?.isPremium == true ) {
+            //si es premium le muestro solos los prod que le pertenecen
+            const userProducts = products.filter((p) => p.owner === sessionUser._id);
+            res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser /*: req.session.user*/ });
+          }else{
+            //si no es premium, es admin y muestra todo
+            res.status(200).render('realtimeproducts',  { products : products, sessionUser /*: req.session.user*/ });      
+          }  
+        } catch (err) {
+          res.status(500).alert({ Error: `1${err}` });
+        }
+      }
 
  //FIN LLAVE PRODUCTSCONTROLLER     
 };
