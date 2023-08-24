@@ -108,15 +108,44 @@ class CartsController {
             const filter = req.query.filter || '';
             const sort = req.query.sort ? req.query.sort : '';
             const attName = req.query.attName || '';
-            const sessionUser= req.session.user;
-            const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);
+            const sessionUser = req.session.user;
+            let displayedProducts ;
+            const products = await productService.getProductsPaginate(limit, page, filter, sort, attName);
+            const filteredProducts = products.docs.filter(product => product.owner !== sessionUser._id);
+            // Si es usuario premium, muestra los productos que no sea owner, si no muestra todos los productos.
+            sessionUser.isPremium === false ? displayedProducts = products.docs : displayedProducts = filteredProducts;
             // Traigo Productos del carrito si existen
-            const oldCartUnfinished = await cartService.getProductsByCartId(sessionUser.idCart)
-            res.status(200).render('productsToCart', { products, sessionUser, oldCartUnfinished });
+            const oldCartUnfinished = await cartService.getProductsByCartId(sessionUser.idCart);
+            res.status(200).render('productsToCart', {  displayedProducts, sessionUser, oldCartUnfinished });
         } catch (err) {
             res.status(500).json({ Error: `${err}` });
         }
     };
+    // async getProductsByCartId_Paginate(req, res){  
+    //     try {
+    //         const limit = parseInt(req.query.limit) || 10;
+    //         const page = parseInt(req.query.page) ; 
+    //         const filter = req.query.filter || '';
+    //         const sort = req.query.sort ? req.query.sort : '';
+    //         const attName = req.query.attName || '';
+    //         const sessionUser = req.session.user;
+    //         const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);
+    //         //console.log(JSON.stringify(products))
+    //         const filteredProducts = products.docs.filter(product => product.owner !== sessionUser._id);
+    //         // Traigo Productos del carrito si existen
+    //         const oldCartUnfinished = await cartService.getProductsByCartId(sessionUser.idCart)
+    //         if (sessionUser.isPremium == true) {
+    //             products = {...filteredProducts}
+    //             console.log(JSON.stringify(products))
+
+    //             res.status(200).render('productsToCart', { products, sessionUser, oldCartUnfinished });
+    //         }else{
+    //             res.status(200).render('productsToCart', { products, sessionUser, oldCartUnfinished });
+    //         };
+    //     } catch (err) {
+    //         res.status(500).json({ Error: `${err}` });
+    //     }
+    // };
   
   //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
   /////////////////////////////////////////////////////////////////////////////////////////    

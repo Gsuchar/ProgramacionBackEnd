@@ -35,7 +35,8 @@ socket.on("products", (productsList) => {
 formProducts.addEventListener("submit", (e) => {
   e.preventDefault();
   let owner;
-  sessionUser.isPremium ? owner = sessionUser._id : owner = 'admin';
+  //En caso de ser premium asigna en owner el _id, si no asigna admin
+  sessionUser.isPremium === true ? owner = sessionUser._id : owner = 'admin';
   const newProd = {
     title: title.value,
     description: description.value,

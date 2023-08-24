@@ -2,10 +2,13 @@ const socket = io();
 
 
 socket.on("updatedProducts", (listProducts) => {
- 
+  let displayedProducts ;
+  const filteredProducts = listProducts.docs.filter(product => product.owner !== sessionUser._id);
+  // Si es usuario premium, muestra los productos que no sea owner, si no muestra todos los productos.
+  sessionUser.isPremium === false ? displayedProducts = listProducts.docs : displayedProducts = filteredProducts;
+
   const tableBody = document.getElementById("dinamic-product-list");
-  const tableRows = listProducts.docs.map((product) => `
-    
+  const tableRows = displayedProducts.map((product) => `    
     <div class="card cardsBorder-dashboard " style="width: 18rem; margin-top: 10px; ">
     <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
     <div class="card-header backgroundTable  ">

@@ -46,29 +46,16 @@
                 </ul> 
               </div>
               <a href="/dashboard" class="card-link">Volver</a>
-
-              {{!-- <thead>
-                <tr>
-                  <th scope="col">Codigo</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Descripcion</th>
-                  <th scope="col">Precio</th>                  
-                  <th scope="col">Stock</th>
-                  <th scope="col">Categoria</th>
-                  <th scope="col">Thumbnail</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead> --}}
               <tbody  >
                 <tr>
                   <td >
                     <div id="dinamic-product-list" class="dinamic-product-list">              
-                    {{#each products.docs}}
+                    {{!-- {{#each products.docs}} --}}
+                    {{#each displayedProducts}}
                       <div class="card cardsBorder-dashboard " style=" margin-top: 10px; width: 18rem; ">
                         <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
                         <div class="card-header backgroundTable  ">
                           <h5 class="card-title">{{this.title}}</h5>
-                          {{!-- <p class="card-subtitle filterText">{{this.description}}</p> --}}
                         </div>
                         <ul class="list-group list-group-flush card-body-style">
                           <li class="list-group-item card-subtitle" style="border-top: 3px solid darkorange;"> {{this.description}}</li>
@@ -110,5 +97,5 @@
 <script src="/js/indexProductsToCart.js"></script>
 <script>
   // Guardo de forma global sessionUser.idCart con id de cart de la session actual.
-  const sessionUser = { idCart: '{{sessionUser.idCart}}' };
+  const sessionUser = { idCart: '{{sessionUser.idCart}}', isPremium: '{{sessionUser.isPremium}}', _id: '{{sessionUser._id}}' };
 </script>
