@@ -10,7 +10,7 @@ const category = document.getElementById("formCategory");
 //const owner = '';
 const thumbnail = document.getElementById("formThumbnail");
 //const owner = sessionUser?.isPremium == true ? owner = sessionUser._id : owner = 'admin'
-console.log(sessionUser.isPremium)
+//console.log(sessionUser.isPremium)
 socket.on("products", (productsList) => {
  
   const tableBody = document.getElementById("dinamic-product-list");
@@ -36,7 +36,7 @@ formProducts.addEventListener("submit", (e) => {
   e.preventDefault();
   let owner;
   //En caso de ser premium asigna en owner el _id, si no asigna admin
-  sessionUser.isPremium === true ? owner = sessionUser._id : owner = 'admin';
+  sessionUser.isPremium === 'true' ? owner = sessionUser._id : owner = 'admin';
   const newProd = {
     title: title.value,
     description: description.value,
