@@ -15,11 +15,13 @@ export class UserService {
   };
 
   registerFail(res){
-    return res.json({ error: 'fail to register' });
+    //return res.json({ error: 'fail to register' });
+    return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.' });
   };
 
   loginFail(res){
-    return res.json({ error: 'fail to login' });
+    //return res.json({ error: 'fail to login' });
+    return res.render('error', { error: 'Error al ingresar, verifique que los datos sean correctos.' });
   };
 
   async dashboard(req,res) {        
