@@ -236,7 +236,7 @@ export class UserService {
       const newPassword = req.body.password
 
 
-      // -TO DO- >>> Validar que el token y mail sean del usuario antes de guardar el nuevo pass, 
+      // -TO DO- >>> Validar que el token y mail sean del usuario antes de guardar el nuevo pass, y que el password anterior no sea igual al que esta ingresando nuevo!!
 
 
       const user = await this.getUserByIdOrEmail(null, decodedToken?.email?.email)
