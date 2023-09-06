@@ -1,7 +1,7 @@
 
 import { userDAO } from '../DAO/userDAO.js';
 import {CartService} from '../services/cartService.js';
-import { createHash } from '../utils/bcrypt.js';
+import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import { jwtUtils } from "../utils/jwt.js";
 //--
 
@@ -168,7 +168,7 @@ export class UserService {
         if (!existingToken || existingToken.trim() === '') {
           // Generar un nuevo token si no existe o está vacío
           const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-          // Almacena el token en el usuario en la base de datos
+           // Gurdo token en usuario
           user.token = token;
           await user.save();
           return token;
@@ -176,10 +176,9 @@ export class UserService {
           try {
             const decodedToken = jwtUtils.decodeTokens(existingToken);
             if (decodedToken instanceof Error) {
-              // La decodificación del token falló y devolvió un error
-              // Genera un nuevo token
+              // Si falla decodificacion de token, genera uno nuevo
               const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-              // Almacena el token en el usuario en la base de datos
+               // Gurdo token en usuario
               user.token = token;
               await user.save();
               return token;
@@ -187,7 +186,7 @@ export class UserService {
               // Si existe el token, compruebo si expiro, en caso que si, genera un nuevo token.
             } else if (Date.now() >= decodedToken.exp * 1000) {// Hay que pasarlo a milisegundos si o si              
               const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-              // Almacena el token en el usuario en la base de datos
+              // Gurdo token en usuario
               user.token = token;
               await user.save();
               return token;
@@ -196,13 +195,11 @@ export class UserService {
               // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message con el mensaje 
 
 
-              // El token es válido y no ha expirado
-              // Devuelve el token existente
+              // Devuelve el token existente valido
               return existingToken;
             }
           } catch (error) {
-            // Error al decodificar el token
-            // Genera un nuevo token
+            // Si hay error al decodificar el token, genera uno nuevo.
             const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
             // Almacena el token en el usuario en la base de datos
             user.token = token;
@@ -221,9 +218,7 @@ export class UserService {
   async processResetPassword (req, res){
     try {
       const  userToken  = req.params.token
-      const decodedToken = jwtUtils.decodeTokens(userToken)
-        console.log("AA>> "+ JSON.stringify(decodedToken),"BB>> "+ userToken)
-      return res.render('changePassword', {/*decodedToken,*/ userToken});
+      return res.render('changePassword', { userToken });
 
     } catch (error) {
       return error
@@ -234,16 +229,19 @@ export class UserService {
       const userToken  = req.params.token
       const decodedToken = jwtUtils.decodeTokens(userToken)
       const newPassword = req.body.password
-
-
-      // -TO DO- >>> Validar que el token y mail sean del usuario antes de guardar el nuevo pass, y que el password anterior no sea igual al que esta ingresando nuevo!!
-
-
       const user = await this.getUserByIdOrEmail(null, decodedToken?.email?.email)
-      await this.updateUser(user._id, {password: createHash( newPassword ) })
-        console.log("111111111111>> "+ JSON.stringify(decodedToken),"2222222222>> "+ userToken + "           333333333>>> "+ newPassword)
-      //return res.render('changePassword', {decodedToken, userToken});
-      return res.redirect('/auth/login');
+      if (user && user?.token == userToken && user?.email == decodedToken?.email?.email ) {
+
+        const currentPasswordHash = user.password;
+        const isPasswordMatch = isValidPassword(newPassword, currentPasswordHash);  
+        if (isPasswordMatch) {
+          // El nuevo password es igual al anterior, muestra error
+          return res.status(400).render('error', { error: 'El nuevo password debe ser diferente al anterior' });
+        }
+        await this.updateUser(user._id, {password: createHash( newPassword ), token: null })
+        return res.redirect('/auth/login');
+      }
+
     } catch (error) {
       return error
     }
