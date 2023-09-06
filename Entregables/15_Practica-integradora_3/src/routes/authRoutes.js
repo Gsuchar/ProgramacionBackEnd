@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { isAdmin, isLoged } from '../middlewares/auth.js';
+import { tokenValid, isLoged } from '../middlewares/auth.js';
 import { usersController } from '../controllers/userController.js';
 
 const authRouter = express.Router();
@@ -29,11 +29,15 @@ authRouter.get('/dashboard', isLoged, usersController.dashboard);
 // Entrega 15 - 3er Practica integradora endpoint cambio premium en usuario
 authRouter.get('/api/users/premium/:uid', isLoged, usersController.changingUserPremium);
 
+//-----ENTREGA 15 -------------------------------------------------------------------------------
+// Ruta solicitando email donde enviar correo de recuperacion de contraseña
+authRouter.get('/auth/recoveryPassword', usersController.recoveryPassword);
+// Luego de obtener mail, envia correo de recuperacion de contraseña
+authRouter.post('/auth/recoveryPassword', usersController.sendPasswordResetEmail);
 
-
-//TESTING
-// authRouter.get('/users', usersController.getUsers);
-// authRouter.get('/users/:uid', usersController.getUserById);
-// authRouter.delete('/users/:uid', usersController.deleteUser);
+// Ruta donde ingresara la nueva contraseña
+authRouter.get('/auth/changePassword/:token', tokenValid,  usersController.processResetPassword);
+// Luego que rellena el campo contraseña a restablecer
+authRouter.post('/auth/changePassword/:token', tokenValid,  usersController.resetPassword);
 
 export default authRouter;

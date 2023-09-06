@@ -1,8 +1,8 @@
 
 import { userDAO } from '../DAO/userDAO.js';
 import {CartService} from '../services/cartService.js';
-//import { createHash } from '../utils.js';
 import { createHash } from '../utils/bcrypt.js';
+import { jwtUtils } from "../utils/jwt.js";
 //--
 
 const cartService = new CartService;
@@ -105,6 +105,12 @@ export class UserService {
             case "isPremium":
               userToUpdate.isPremium = fieldsToUpdate.isPremium !== "" ? fieldsToUpdate.isPremium : "";
             break;
+            case "token":
+              userToUpdate.token = fieldsToUpdate.token !== "" ? fieldsToUpdate.token : (() => { throw ("Error al actualizar token.") })();
+            break;
+            case "password":
+              userToUpdate.password = fieldsToUpdate.password !== "" ? fieldsToUpdate.password : (() => { throw ("Error al actualizar token.") })();
+            break;
             default:
             break;
           }
@@ -115,6 +121,20 @@ export class UserService {
       throw (`No se pudo modificar Usuario con ID ${id}. ${err}`);
     };
   };
+
+  // DELETE USUARIO
+  async deleteUser(user) {
+    try {
+        const idcartU = await this.getUserByIdOrEmail(user, null) 
+        const deletedUser = await userDAO.deleteUser( user );          
+        const cartIdUser = await cartService.getCartById( idcartU.idCart);
+        await cartService.deleteCart(cartIdUser);
+        return deletedUser;      
+    }catch (err) {
+        throw (`Fallo al borrar el Usuario. ${err}`);
+    };
+  };
+
   async getUserByIdOrEmail(id, email) {
     try {
       const users = await userDAO.getUsers();
@@ -137,20 +157,99 @@ export class UserService {
     }
 
   };
-  // DELETE USUARIO
-  async deleteUser(user) {
-      try {
-          const idcartU = await this.getUserByIdOrEmail(user, null) 
-          const deletedUser = await userDAO.deleteUser( user );          
-          const cartIdUser = await cartService.getCartById( idcartU.idCart);
-          await cartService.deleteCart(cartIdUser);
-          return deletedUser;      
-      }catch (err) {
-          throw (`Fallo al borrar el Usuario. ${err}`);
-      };
-  };
+
+  //---------- ENTREGA 15 ------------------------------
+  async generatePasswordResetToken(email) {
+    try {
+      const user = await this.getUserByIdOrEmail(null, email);
+      if (user) {
+        // Verificar si el usuario ya tiene un token existente y si está vencido
+        const existingToken = user.token;
+        if (!existingToken || existingToken.trim() === '') {
+          // Generar un nuevo token si no existe o está vacío
+          const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
+          // Almacena el token en el usuario en la base de datos
+          user.token = token;
+          await user.save();
+          return token;
+        } else {
+          try {
+            const decodedToken = jwtUtils.decodeTokens(existingToken);
+            if (decodedToken instanceof Error) {
+              // La decodificación del token falló y devolvió un error
+              // Genera un nuevo token
+              const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
+              // Almacena el token en el usuario en la base de datos
+              user.token = token;
+              await user.save();
+              return token;
+
+              // Si existe el token, compruebo si expiro, en caso que si, genera un nuevo token.
+            } else if (Date.now() >= decodedToken.exp * 1000) {// Hay que pasarlo a milisegundos si o si              
+              const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
+              // Almacena el token en el usuario en la base de datos
+              user.token = token;
+              await user.save();
+              return token;
+            } else {
+
+              // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message con el mensaje 
+
+
+              // El token es válido y no ha expirado
+              // Devuelve el token existente
+              return existingToken;
+            }
+          } catch (error) {
+            // Error al decodificar el token
+            // Genera un nuevo token
+            const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
+            // Almacena el token en el usuario en la base de datos
+            user.token = token;
+            await user.save();
+            return token;
+          }
+        }
+      }
+      // Retorno null por retornar algo en try mayor, la respuesta esta dentro del if y si falla algo tambien.
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
   
-  
+  async processResetPassword (req, res){
+    try {
+      const  userToken  = req.params.token
+      const decodedToken = jwtUtils.decodeTokens(userToken)
+        console.log("AA>> "+ JSON.stringify(decodedToken),"BB>> "+ userToken)
+      return res.render('changePassword', {/*decodedToken,*/ userToken});
+
+    } catch (error) {
+      return error
+    }
+  }
+  async resetPassword (req, res){
+    try {
+      const userToken  = req.params.token
+      const decodedToken = jwtUtils.decodeTokens(userToken)
+      const newPassword = req.body.password
+
+
+      // -TO DO- >>> Validar que el token y mail sean del usuario antes de guardar el nuevo pass, 
+
+
+      const user = await this.getUserByIdOrEmail(null, decodedToken?.email?.email)
+      await this.updateUser(user._id, {password: createHash( newPassword ) })
+        console.log("111111111111>> "+ JSON.stringify(decodedToken),"2222222222>> "+ userToken + "           333333333>>> "+ newPassword)
+      //return res.render('changePassword', {decodedToken, userToken});
+      return res.redirect('/auth/login');
+    } catch (error) {
+      return error
+    }
+  }
+  //-----
+
   //LLAVE FIN USER SERVICE
 };
 

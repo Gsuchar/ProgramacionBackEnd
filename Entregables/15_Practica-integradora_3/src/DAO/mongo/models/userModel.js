@@ -10,7 +10,7 @@ const schema = new Schema({
   password: { type: String/*, required: true*/, max: 100 },
   isPremium: { type: Boolean/*, required: true*/, default: false },
   role:{ type: String, default: 'user' },
-
+  token:{ type: String, default: null },
 },{versionKey: false}
 );//{versionKey:false} saca __v: que es para versiones por moongose;
 

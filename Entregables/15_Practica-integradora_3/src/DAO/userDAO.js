@@ -40,6 +40,17 @@ export class UserDAO{
     };
   };
   
+  // // Obtener usuario por correo electrónico
+  // async getUserByEmail(email) {
+  //   try {
+  //     const user = await UserModel.findOne({ email });
+  //     return user;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
+
+
  // FIN LLAVE UserDAO  
 }
 
