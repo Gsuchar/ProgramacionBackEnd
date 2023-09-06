@@ -26,7 +26,7 @@ export function tokenValid(req, res, next) {
 
 
   //console.log("MIDLEWAREEE>>> " + JSON.stringify(decodedToken))
-  decodedToken && decodedToken?.email ? next() : res.status(403).render('error', { error: 'El link expiro, solicite nuevamente el mail de recuperacion.', mainCssUrl: 'http://localhost:8080/main.css' });
+  decodedToken && decodedToken?.email ? next() : res.status(403).render('error', { error: 'El link expiro, solicite nuevamente el mail de recuperacion.' });
   // Si decodedToken existe y es valido, en caso de ser invalido no contine .email, pasa...si no renderiza error
 }
 

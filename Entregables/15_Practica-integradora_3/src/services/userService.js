@@ -220,7 +220,7 @@ export class UserService {
   async processResetPassword (req, res){
     try {
       const  userToken  = req.params.token
-      return res.render('changePassword', { userToken , mainCssUrl: 'http://localhost:8080/main.css' });
+      return res.render('changePassword', { userToken });
 
     } catch (error) {
       return error
@@ -238,7 +238,7 @@ export class UserService {
         const isPasswordMatch = isValidPassword(newPassword, currentPasswordHash);  
         if (isPasswordMatch) {
           // El nuevo password es igual al anterior, muestra error
-          return res.status(400).render('error', { error: 'El nuevo password debe ser diferente al anterior', mainCssUrl: 'http://localhost:8080/main.css'  });
+          return res.status(400).render('error', { error: 'El nuevo password debe ser diferente al anterior'});
         }
         await this.updateUser(user._id, {password: createHash( newPassword ), token: null })
         return res.redirect('/auth/login');
