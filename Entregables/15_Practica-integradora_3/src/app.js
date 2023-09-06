@@ -45,6 +45,11 @@ socketServerHandler(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+// Ruta para obtener la URL absoluta del archivo "http://localhost:8080/main.css"
+app.get('/maincssurl', (req, res) => {
+  const cssUrl = `${req.protocol}://${req.get('host')}/main.css`;
+  res.send(cssUrl);
+});
 
 // Engine Handlebars para views
 app.engine("handlebars", handlebars.engine());

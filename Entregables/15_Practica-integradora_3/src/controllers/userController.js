@@ -127,8 +127,9 @@ class UsersController {
             from: process.env.NODEMAILER_EMAIL,
             to: email,
             subject: 'Recuperación de Contraseña',
-            //html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${link}">${link}</a></p>`,
             html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${link}">Click Aqui</a></p>`,
+            // html: `<p>Haga clic en el siguiente botón para restablecer su contraseña: <form action="${link}" method="GET"><button type="submit">Restablecer Contraseña</button></form></p>`
+
             };
 
               // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message con el mensaje 
