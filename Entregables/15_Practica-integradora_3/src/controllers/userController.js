@@ -130,6 +130,10 @@ class UsersController {
             //html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${link}">${link}</a></p>`,
             html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${link}">Click Aqui</a></p>`,
             };
+
+              // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message con el mensaje 
+
+              
             await transport.sendMail(mailOptions);
             //return res.json({ message: 'Se ha enviado un correo de recuperación de contraseña.' });
             return res.render('message', { title: 'Revisa tu correo :)',  message: 'Se ha enviado un correo de recuperación de contraseña.' });
