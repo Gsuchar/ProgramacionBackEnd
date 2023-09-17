@@ -112,24 +112,20 @@ class UsersController {
     recoveryPassword(req, res) {
         return res.render('recoveryPassword', {});
     }
-
-    // Agregar una función para enviar el correo de recuperación de contraseña
+    
     async sendPasswordResetEmail(req, res) {
         // Deberia pasarlo a service ???? -TO DO-
         try {
         const { email } = req.body;
-        // Generar un token de restablecimiento de contraseña con una duración de 1 hora
+        // Generar un token de restablecimiento de contraseña con una duración de 15 min
         const token = await userService.generatePasswordResetToken(email);
         if (token) {
-            // Enviar el correo con el token y un enlace a la vista changePassRecovery
             const link = `${process.env.APP_URL}/auth/changePassword/${token}`;
             const mailOptions = {
             from: process.env.NODEMAILER_EMAIL,
             to: email,
             subject: 'Recuperación de Contraseña',
             html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${link}">Click Aqui</a></p>`,
-            // html: `<p>Haga clic en el siguiente botón para restablecer su contraseña: <form action="${link}" method="GET"><button type="submit">Restablecer Contraseña</button></form></p>`
-
             };
 
               // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message con el mensaje 
@@ -161,10 +157,7 @@ class UsersController {
         } catch (err) {
             return res.status(500).json({ Error: `AAAA. ${err}` });             
         }
-        //return res.redirect('/auth/login');
     }
-
-
    
 }
 
