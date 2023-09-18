@@ -27,7 +27,7 @@ authRouter.get('/auth/perfil', isLoged, usersController.perfil);
 authRouter.get('/dashboard', isLoged, usersController.dashboard);
 
 // Entrega 15 - 3er Practica integradora endpoint cambio premium en usuario
-authRouter.get('/api/users/premium/:uid', isLoged, usersController.changingUserPremium);
+authRouter.get('/api/users/premium/:uid', /*isLoged,*/ usersController.changingUserPremium);
 
 //-----ENTREGA 15 -------------------------------------------------------------------------------
 // Ruta solicitando email donde enviar correo de recuperacion de contraseña

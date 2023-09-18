@@ -101,7 +101,7 @@ class UsersController {
             // En caso de que el usuario tenga isPremium = true, lo pasa a false...y viceversa           
             const userPremiumChanged = userData?.isPremium ? await userService.updateUser(userId, {isPremium: false}) 
                 : await userService.updateUser(userId, {isPremium: true});
-            return res.json(userPremiumChanged)
+            return res.status(200).json(userPremiumChanged)
         } catch (err) {
             return res.status(500).json({ error: 'Error modificar usuarios.' });
         }
