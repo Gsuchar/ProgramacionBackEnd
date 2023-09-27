@@ -10,19 +10,19 @@ const cartService = new CartService;
 
 export class UserService {
   //------ AUTH USER
-  async register(res) {        
-    return res.render('register', {});     
-  };
+  // async register(res) {        
+  //   return res.render('register', {});     
+  // };
 
-  registerFail(res){
-    //return res.json({ error: 'fail to register' });
-    return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.' });
-  };
+  // registerFail(res){
+  //   //return res.json({ error: 'fail to register' });
+  //   return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.' });
+  // };
 
-  loginFail(res){
-    //return res.json({ error: 'fail to login' });
-    return res.render('error', { error: 'Error al ingresar, verifique que los datos sean correctos.' });
-  };
+  // loginFail(res){
+  //   //return res.json({ error: 'fail to login' });
+  //   return res.render('error', { error: 'Error al ingresar, verifique que los datos sean correctos.' });
+  // };
 
   async dashboard(req,res) {        
     req.session.user = {
@@ -112,6 +112,9 @@ export class UserService {
             break;
             case "password":
               userToUpdate.password = fieldsToUpdate.password !== "" ? fieldsToUpdate.password : (() => { throw ("Error al actualizar token.") })();
+            break;
+            case "documents":
+              userToUpdate.documents = fieldsToUpdate.documents !== "" ? fieldsToUpdate.documents : (() => { throw ("Error al actualizar documents.") })();
             break;
             default:
             break;
@@ -248,6 +251,37 @@ export class UserService {
       return error
     }
   }
+  async uploadUserDocuments(userId, documents) {
+    try {
+      const processedDocuments = [];
+  
+      // Itera sobre documents (identification, addressProof, bankStatement)
+      for (const documentType in documents) {
+        if (documents[documentType].length > 0) {
+          // Utiliza Array.prototype.map para procesar los documentos del tipo actual
+          const processedTypeDocuments = documents[documentType].map((document) => ({
+            name: document.fieldname,
+            reference: document.path,
+          }));
+  
+          
+          processedDocuments.push(...processedTypeDocuments);
+        }
+      }
+  
+      // array de documentos en "processedDocuments"
+      console.log("DOCUMENTS>>> " + processedDocuments);
+  
+     
+  
+      // await this.updateUser(userId, { documents: processedDocuments })
+    } catch (err) {
+      throw err;
+    }
+  }
+  
+  
+
   //-----
 
   //LLAVE FIN USER SERVICE

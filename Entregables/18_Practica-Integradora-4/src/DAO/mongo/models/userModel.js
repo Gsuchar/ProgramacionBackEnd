@@ -13,8 +13,8 @@ const schema = new Schema({
   token: { type: String, default: null },
   documents: [
     {
-      name: String,
-      reference: String,
+      name: { type: String, default: null },
+      reference: { type: String, default: null },
     }
   ], // documents+> array de objetos con propiedades name y reference
   last_connection: { type: Date }, 

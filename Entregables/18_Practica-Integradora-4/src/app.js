@@ -19,7 +19,7 @@ import sessionRoutes from './routes/sessionsRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import errorHandler from "./middlewares/error.js";
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './utils/swagger.js'; // Importa la especificación Swagger
+import swaggerSpec from './utils/swagger.js'; 
 
 //-----
 

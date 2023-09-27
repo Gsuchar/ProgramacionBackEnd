@@ -1,3 +1,4 @@
+import { json } from 'express';
 import { userService } from '../services/userService.js';
 import { transport } from '../utils/nodemailer.js';
 //--
@@ -5,11 +6,13 @@ import { transport } from '../utils/nodemailer.js';
 class UsersController {
     // REGISTER
     register(req, res) {
-        return userService.register(res);
+        //return userService.register(res);
+        return res.render('register', {}); 
     };
     // REGISTER FAIL
-    registerFail(req, res) {
-        return userService.registerFail(res);
+    registerFail(req, res, err) {
+        //return userService.registerFail(res);
+        return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.'  });
     };
     // REGISTER PASSPORT
     registerPassport(req, res) {            
@@ -31,7 +34,8 @@ class UsersController {
     };
     // LOGIN FAIL
     loginFail(req, res) {
-        return userService.loginFail(res);
+        //return userService.loginFail(res);
+        return res.render('error', { error: 'Error al ingresar, verifique que los datos sean correctos.' });
     }
     // LOG OUT
     logOut(req, res) {
@@ -158,6 +162,21 @@ class UsersController {
             return res.status(500).json({ Error: `AAAA. ${err}` });             
         }
     }
+    async uploadUserDocuments(req, res) {
+        //console.log("LALLAALLA " +JSON.stringify(req))
+        try {
+            const documents = req.files
+            //console.log("sasd>> " + JSON.stringify(documents))
+            const userId = req.params.uid; // Obtiene el ID de usuario desde los parámetros 
+            await userService.uploadUserDocuments(userId, documents)
+            res.status(200).json({ message: 'Documentos subidos exitosamente.' });
+          } catch (error) {
+            res.status(500).json({ error: 'Error al subir los documentos.' });
+          }
+    }
+
+
+
    
 }
 

@@ -40,4 +40,16 @@ authRouter.get('/auth/changePassword/:token', tokenValid,  usersController.proce
 // Luego que rellena el campo contraseña a restablecer
 authRouter.post('/auth/changePassword/:token', tokenValid,  usersController.resetPassword);
 
+//-----ENTREGA 18 -------------------------------------------------------------------------------
+//import { uploader } from "../utils/multer.js";
+import  uploader  from "../utils/multer.js";
+// Ruta para subir documentos (o imágenes de perfil/producto) y actualizar el estado del usuario
+//authRouter.post('/api/users/:uid/documents', isLoged, uploader.array('documents', 3), usersController.uploadUserDocuments);
+authRouter.post('/api/users/:uid/documents', isLoged, uploader.fields([
+    { name: 'identification', maxCount: 1 },
+    { name: 'addressProof', maxCount: 1 },
+    { name: 'bankStatement', maxCount: 1 },
+    { name: 'profiles', maxCount: 1 }
+  ]), usersController.uploadUserDocuments);
+
 export default authRouter;

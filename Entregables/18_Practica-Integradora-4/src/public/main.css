@@ -79,12 +79,19 @@
   justify-content: space-between;
   flex-wrap: nowrap;
   flex-direction: row;
-  /* align-items: center; */
-  /* border-bottom: 1px solid slateblue; */
+  align-items: center;
 }
 .card-header-dashboard-style{
   border-bottom: 5px solid darkorange;
   background-color:#212529;
+}
+
+.card-body-dashboard{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: row;
+
 }
 .card-body-style{
   background-color: ghostwhite;
