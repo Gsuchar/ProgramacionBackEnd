@@ -1,7 +1,8 @@
 import express from 'express';
 import passport from 'passport';
-import { tokenValid, isLoged } from '../middlewares/auth.js';
+import { tokenValid, isLoged,checkUserDocuments } from '../middlewares/auth.js';
 import { usersController } from '../controllers/userController.js';
+import  uploader  from "../utils/multer.js";
 
 const authRouter = express.Router();
 
@@ -27,7 +28,7 @@ authRouter.get('/auth/perfil', isLoged, usersController.perfil);
 authRouter.get('/dashboard', isLoged, usersController.dashboard);
 
 // Entrega 15 - 3er Practica integradora endpoint cambio premium en usuario
-authRouter.get('/api/users/premium/:uid', /*isLoged,*/ usersController.changingUserPremium);
+authRouter.get('/api/users/premium/:uid', /*isLoged,*/checkUserDocuments, usersController.changingUserPremium);
 
 //-----ENTREGA 15 -------------------------------------------------------------------------------
 // Ruta solicitando email donde enviar correo de recuperacion de contraseña
@@ -41,10 +42,8 @@ authRouter.get('/auth/changePassword/:token', tokenValid,  usersController.proce
 authRouter.post('/auth/changePassword/:token', tokenValid,  usersController.resetPassword);
 
 //-----ENTREGA 18 -------------------------------------------------------------------------------
-//import { uploader } from "../utils/multer.js";
-import  uploader  from "../utils/multer.js";
-// Ruta para subir documentos (o imágenes de perfil/producto) y actualizar el estado del usuario
-//authRouter.post('/api/users/:uid/documents', isLoged, uploader.array('documents', 3), usersController.uploadUserDocuments);
+
+// Ruta para subir documentos o imágenes 
 authRouter.post('/api/users/:uid/documents', isLoged, uploader.fields([
     { name: 'identification', maxCount: 1 },
     { name: 'addressProof', maxCount: 1 },

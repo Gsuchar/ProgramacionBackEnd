@@ -17,10 +17,8 @@
                 Edad: {{user.age}}<br />
                 isAdmin: {{user.isAdmin}}<br />
                 Rol: {{user.role}}<br />
-                Carrito*: {{user.idCart}}<br />
-
-                <!-- Formulario para cargar archivos -->
-                {{!-- <form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
+                Carrito*: {{user.idCart}}<br />               
+                <form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
                     <label for="identification">Identificación:</label>
                     <input type="file" name="identification" id="identification" accept=".jpg, .jpeg, .png, .pdf"><br />
 
@@ -31,35 +29,8 @@
                     <input type="file" name="bankStatement" id="bankStatement" accept=".jpg, .jpeg, .png, .pdf"><br />
 
                     <button type="submit">Subir Archivos</button>
-                </form> --}}
-<form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
-    <label for="identification">Identificación:</label>
-    <input type="file" name="identification" id="identification" accept=".jpg, .jpeg, .png, .pdf"><br />
-
-    <label for="addressProof">Comprobante de domicilio:</label>
-    <input type="file" name="addressProof" id="addressProof" accept=".jpg, .jpeg, .png, .pdf"><br />
-
-    <label for="bankStatement">Comprobante de estado de cuenta:</label>
-    <input type="file" name="bankStatement" id="bankStatement" accept=".jpg, .jpeg, .png, .pdf"><br />
-
-    <button type="submit">Subir Archivos</button>
-</form>
-
-
-
+                </form>
             </div>
         </div>
     </div>
 </div>
-{{!-- <form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
-    <label for="identification">Identificación:</label>
-    <input type="file" name="identification" id="identification" accept=".jpg, .jpeg, .png, .pdf"><br />
-
-    <label for="addressProof">Comprobante de domicilio:</label>
-    <input type="file" name=" addressProof" id="addressProof" accept=".jpg, .jpeg, .png, .pdf"><br />
-
-    <label for="bankStatement">Comprobante de estado de cuenta:</label>
-    <input type="file" name="bankStatement" id="bankStatement" accept=".jpg, .jpeg, .png, .pdf"><br />
-
-    <button type="submit">Subir Archivos</button>
-</form> --}}

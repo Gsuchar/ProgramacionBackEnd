@@ -19,6 +19,8 @@ class UsersController {
         if (!req.user) {
             return res.json({ error: 'No existe usuario' });
         };
+        // Guarda conexion al crear cuenta porque redirecciona a dashboard
+         userService.updateUser(req.user._id, { last_connection: new Date() });
         return userService.dashboard(req, res);
     };
     // LOGIN
@@ -30,6 +32,8 @@ class UsersController {
         if (!req.user) {
             return res.json({ error: 'Error en Credenciales' });
         };
+        // // Guarda ultima conexion al logear
+        userService.updateUser(req.user._id, { last_connection: new Date() });
         return userService.dashboard(req, res);
     };
     // LOGIN FAIL
@@ -46,9 +50,11 @@ class UsersController {
             return res.redirect('/auth/login');
         });
     };
-    // LOG OUT
+    // DASHBOARD
     dashboard(req, res) {
         const user = req.session.user;
+        // Guarda conexion al crear cuenta y redireccionar a dashboard
+        //userService.updateUser(user._id, { last_connection: new Date() });
         return res.render('dashboard', { user: user });        
     };
 
@@ -147,6 +153,7 @@ class UsersController {
         return res.status(500).render('error', { error: 'Error al enviar el correo de recuperación de contraseña.' });
         }
     }
+    
     async processResetPassword (req, res){
         try {
             return userService.processResetPassword(req, res) 
@@ -161,19 +168,21 @@ class UsersController {
         } catch (err) {
             return res.status(500).json({ Error: `AAAA. ${err}` });             
         }
-    }
+    };
+
+    //-----ENTREGA 18 -------------------------------------------------------------------------------
     async uploadUserDocuments(req, res) {
-        //console.log("LALLAALLA " +JSON.stringify(req))
+        //console.log("LALLAALLA>>>> " +JSON.stringify(req))
         try {
             const documents = req.files
             //console.log("sasd>> " + JSON.stringify(documents))
             const userId = req.params.uid; // Obtiene el ID de usuario desde los parámetros 
             await userService.uploadUserDocuments(userId, documents)
             res.status(200).json({ message: 'Documentos subidos exitosamente.' });
-          } catch (error) {
+        } catch (error) {
             res.status(500).json({ error: 'Error al subir los documentos.' });
-          }
-    }
+        }
+    };
 
 
 

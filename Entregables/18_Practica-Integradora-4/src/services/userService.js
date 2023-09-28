@@ -10,20 +10,7 @@ const cartService = new CartService;
 
 export class UserService {
   //------ AUTH USER
-  // async register(res) {        
-  //   return res.render('register', {});     
-  // };
-
-  // registerFail(res){
-  //   //return res.json({ error: 'fail to register' });
-  //   return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.' });
-  // };
-
-  // loginFail(res){
-  //   //return res.json({ error: 'fail to login' });
-  //   return res.render('error', { error: 'Error al ingresar, verifique que los datos sean correctos.' });
-  // };
-
+  
   async dashboard(req,res) {        
     req.session.user = {
       _id: req.user._id,
@@ -112,6 +99,9 @@ export class UserService {
             break;
             case "password":
               userToUpdate.password = fieldsToUpdate.password !== "" ? fieldsToUpdate.password : (() => { throw ("Error al actualizar token.") })();
+            break;
+            case "last_connection":
+              userToUpdate.last_connection = fieldsToUpdate.last_connection !== "" ? fieldsToUpdate.last_connection : (() => { throw ("Error al actualizar last_connection.") })();
             break;
             case "documents":
               userToUpdate.documents = fieldsToUpdate.documents !== "" ? fieldsToUpdate.documents : (() => { throw ("Error al actualizar documents.") })();
@@ -251,34 +241,38 @@ export class UserService {
       return error
     }
   }
+
+  login(req, res) {        
+    return res.render('login', {});
+  }
+
+  //-----ENTREGA 18 -------------------------------------------------------------------------------
   async uploadUserDocuments(userId, documents) {
     try {
-      const processedDocuments = [];
-  
-      // Itera sobre documents (identification, addressProof, bankStatement)
+      const user = await this.getUserByIdOrEmail(userId, null); 
+      // Si el usuario no tiene documentos existentes, inicializa como un array vacío
+      !user.documents ? user.documents = [] : '' ;  
+      // Itera sobre los documentos proporcionados, agrega o actualiza en el array de documentos del usuario
       for (const documentType in documents) {
         if (documents[documentType].length > 0) {
-          // Utiliza Array.prototype.map para procesar los documentos del tipo actual
-          const processedTypeDocuments = documents[documentType].map((document) => ({
+          const newDocuments = documents[documentType].map((document) => ({
             name: document.fieldname,
             reference: document.path,
-          }));
-  
-          
-          processedDocuments.push(...processedTypeDocuments);
+          }));  
+          // Itera sobre los nuevos documentos y verifica si ya existe un documento con el mismo name
+          for (const newDocument of newDocuments) {
+            const existingIndex = user.documents.findIndex((doc) => doc.name === newDocument.name);
+            // Si existe un documento con el mismo nombre, lo actualizo. Si no, lo agrego.
+            existingIndex !== -1 ? user.documents[existingIndex] = newDocument :   user.documents.push(newDocument);
+          }
         }
-      }
-  
-      // array de documentos en "processedDocuments"
-      console.log("DOCUMENTS>>> " + processedDocuments);
-  
-     
-  
-      // await this.updateUser(userId, { documents: processedDocuments })
+      };  
+      // Actualizo el usuario en la base de datos
+      return await this.updateUser(userId, { documents: user.documents });
     } catch (err) {
       throw err;
     }
-  }
+  };
   
   
 

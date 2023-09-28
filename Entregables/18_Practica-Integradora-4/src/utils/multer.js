@@ -4,6 +4,7 @@ import { __dirname } from "../utils.js";
 import fs from 'fs'; 
 //--
 
+//-----ENTREGA 18 -------------------------------------------------------------------------------
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     let uploadPath = ''; // Inicializar la ruta predeterminada como vacía

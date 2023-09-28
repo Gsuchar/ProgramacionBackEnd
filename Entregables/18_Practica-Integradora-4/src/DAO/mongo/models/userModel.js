@@ -15,9 +15,10 @@ const schema = new Schema({
     {
       name: { type: String, default: null },
       reference: { type: String, default: null },
+      _id: false //_id:false saca _id de mongoose
     }
   ], // documents+> array de objetos con propiedades name y reference
-  last_connection: { type: Date }, 
+  last_connection: { type: Date, default: null }, 
 }, { versionKey: false });
 
 export const UserModel = model('users', schema);
