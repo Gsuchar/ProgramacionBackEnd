@@ -219,6 +219,7 @@ export class UserService {
       return error
     }
   }
+
   async resetPassword (req, res){
     try {
       const userToken  = req.params.token
@@ -230,7 +231,7 @@ export class UserService {
         const currentPasswordHash = user.password;
         const isPasswordMatch = isValidPassword(newPassword, currentPasswordHash);  
         if (isPasswordMatch) {
-          // El nuevo password es igual al anterior, muestra error
+          // El nuevo password es igual al anterior, muestro error
           return res.status(400).render('error', { error: 'El nuevo password debe ser diferente al anterior'});
         }
         await this.updateUser(user._id, {password: createHash( newPassword ), token: null })
