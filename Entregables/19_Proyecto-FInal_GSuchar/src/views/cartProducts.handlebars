@@ -1,0 +1,26 @@
+<div class="container">
+  <h2 class="text-center my-2">PRODUCTOS DEL CARRITO</h2>
+  <br>
+  <div class="card bg-dark" style="padding: 10px;" >
+    <div class="row">
+    {{#each cartProducts}}
+    <div class="col-sm-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">{{idProduct.title}}</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Id: {{idProduct._id}}</p>
+          <p class="card-text">Description: {{idProduct.description}}</p>
+          <p class="card-text">Precio: {{idProduct.price}}</p>
+          <p class="card-text">Codigo: {{idProduct.code}}</p>
+          <p class="card-text">Stock: {{idProduct.stock}}</p>
+          <p class="card-text">Categoría: {{idProduct.category}}</p>
+          <p class="card-text">Thumbnail: {{idProduct.thumbnail}}</p>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  </div>
+</div>

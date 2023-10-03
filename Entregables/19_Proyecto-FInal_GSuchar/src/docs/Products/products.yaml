@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  title: Documentación de la API de Productos
+  version: 1.0.0
+  description: Documentación de los endpoints de productos de la API
+
+paths:
+  /products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      description: Obtiene una lista de todos los productos disponibles.
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/:pid:
+    get:
+      summary: Obtener un producto por ID
+      tags:
+        - Products
+      description: Obtiene un producto específico por su ID.
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a buscar.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto.
+        description:
+          type: string
+          description: Descripción del producto.
+        code:
+          type: number
+          description: Código del producto.
+        price:
+          type: number
+          format: float
+          description: Precio del producto.
+        status:
+          type: boolean
+          description: Estado del producto.
+        stock:
+          type: number
+          description: Stock del producto.
+        category:
+          type: string
+          description: Categoría del producto.
+        thumbnail:
+          type: string
+          description: URL de la imagen del producto.
+        owner:
+          type: string
+          description: Propietario del producto.
