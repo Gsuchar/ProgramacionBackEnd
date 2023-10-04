@@ -29,7 +29,7 @@ class ProductsController {
 
     async getProductById(req, res){        
         try {
-        const pid = req.params.pid;
+          const pid = req.params.pid;
           const product = await productService.getProductById(pid);
           res.status(200).json(product);
         } catch (err) {
@@ -71,9 +71,13 @@ class ProductsController {
 
     async deleteProduct(req, res) {
         try {
-          const { pid } = req.params;
-          const deleted =  await productService.deleteProduct(pid)
-          return res.status(200).json(deleted);
+          //const { pid } = req.params;
+          const pid = req.params.pid;
+          //const sessionUser = req.session.user;
+          //console.log("VINO ALGO? >>> "+pid)
+          const deletedProduct =  await productService.deleteProduct(pid)
+          //sessionUser.isPremium == true ? productService.emailToOwnerProduct(sessionUser.email, sessionUser.firstName, pid) : "" ;
+          return res.status(200).json(deletedProduct);
         } catch (err) {
             res.status(500).json({ Error: `${err}` });
         }

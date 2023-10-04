@@ -1,6 +1,9 @@
 import { productDAO } from '../DAO/productDAO.js';
 import EErros  from "../errors/enums.js";
 import  CustomError  from "../errors/customError.js";
+import { userService } from './userService.js';
+import { transport } from '../utils/nodemailer.js';
+
 //-----
 
 export class ProductService {
@@ -59,7 +62,7 @@ export class ProductService {
                 //&& /^\d+$/.test(newProd.param) La expresión regular /^\d+$/ comprueba si el string contiene solo numeros => .test devuelve FALSE y rompe
                 code: newProd.code && /^\d+$/.test(newProd.code) ? parseInt(newProd.code) : (() => { throw ("Debe ingresar un codigo valido de Producto.") })(),
                 price: newProd.price && /^\d+$/.test(newProd.price) ? parseInt(newProd.price) : (() => { throw ("Debe ingresar un precio valido de Producto.") })(),
-                status: newProd.status,
+                status: true,
                 stock: newProd.stock && /^\d+$/.test(newProd.stock) ? parseInt(newProd.stock) : (() => { throw ("Debe ingresar el stock valido de Producto.") })(),
                 category: newProd.category ? newProd.category : (() => { throw ("Debe ingresar la categoria de Producto.") })(),
                 owner: newProd.owner,
@@ -116,15 +119,52 @@ export class ProductService {
     };
 
     // DELETE PRODUCTO
-    async deleteProduct(id) {
+    async deleteProduct(pid) {
         try {
-
-            const deletedProduct = await productDAO.deleteProduct( { _id: id } );
-            return deletedProduct;      
+            const product = await productDAO.getProductById(pid);
+            const productOwner = product[0].owner; // Siempre sera la posicion 0, es algo fijo.
+            const user = await userService.getUserByIdOrEmail(productOwner, null); // Si no encuentra, devuelve null
+            // Si user = null, es que el producto lo cargo un admin y no tiene userid como owner
+            if (user != null) {
+                const deletedProduct = await productDAO.deleteProduct( { _id: pid } );
+                await this.emailToOwnerProduct(user.email, user.firstName, product[0])
+                return deletedProduct;
+            } else {
+                const deletedProduct = await productDAO.deleteProduct( { _id: pid } );
+                return deletedProduct; 
+            }
+      
         }catch (err) {
-            throw (`Fallo al encontrar producto2.  ${id}`);
+            throw (`Fallo al encontrar producto2.  ${err}`);
         };
-    };
+    };    
+
+    async emailToOwnerProduct(email, name, product) {
+        try {
+          const mailOptions = {
+                from: process.env.NODEMAILER_EMAIL,
+                to: email,
+                subject: 'Tu Producto fue eliminado.',
+                html: `
+                    <p>Hola ${name}, te notificamos que uno de tus productos fue eliminado. </p>            
+                    <div>  
+                        <P class="card-title"><b> Titulo:</b> ${product.title}</p>            
+                        <p class="card-text"><b> Id:</b> ${product._id}</p>
+                        <p class="card-text"><b> Description:</b> ${product.description}</p>
+                        <p class="card-text"><b> Precio:</b> ${product.price}</p>
+                        <p class="card-text"><b> Codigo:</b> ${product.code}</p>
+                        <p class="card-text"><b> Stock:</b> ${product.stock}</p>
+                        <p class="card-text"><b> Categoría:</b> ${product.category}</p>
+                        <p class="card-text"><b> Thumbnail:</b> ${product.thumbnail}</p>        
+                    </div>
+                    <p>Saludos.-</p>
+                `
+            };
+            await transport.sendMail(mailOptions);
+        } catch (err) {
+          throw (`Fallo al enviar mail a usuarios inactivos: ${err}`);
+        }
+    }
 
  //LLAVE FIN PRODUCT SERVICE
 };

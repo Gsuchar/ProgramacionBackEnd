@@ -2,7 +2,12 @@
 import { userDAO } from '../DAO/userDAO.js';
 import {CartService} from '../services/cartService.js';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
+import { transport } from '../utils/nodemailer.js';
 import { jwtUtils } from "../utils/jwt.js";
+//import dotenv from "dotenv";
+//-----
+
+//dotenv.config(); // Carga variables de entorno del .env
 //--
 
 const cartService = new CartService;
@@ -120,9 +125,9 @@ export class UserService {
   // DELETE USUARIO
   async deleteUser(userId) {
     try {
-        const idcartU = await this.getUserByIdOrEmail(userId, null) 
-        const deletedUser = await userDAO.deleteUser( userId );          
-        const cartIdUser = await cartService.getCartById( idcartU.idCart);
+        const idcartU = await this.getUserByIdOrEmail(userId, null);
+        const cartIdUser = await cartService.getCartById( idcartU.idCart); 
+        const deletedUser = await userDAO.deleteUser( userId );        
         await cartService.deleteCart(cartIdUser);
         return deletedUser;      
     }catch (err) {
@@ -130,28 +135,6 @@ export class UserService {
     };
   };
 
-  async deleteInactiveUsers() {
-    try {
-        const cutoffDate = new Date(Date.now() - 30 * 60 * 1000); // 30 minutos de inactividad
-        const inactiveUsers = await UserModel.find({ last_connection: { $lt: cutoffDate } });        
-        const deletedUsers = [];
-        
-        for (const user of inactiveUsers) {
-            // Elimina el usuario
-            await UserModel.findByIdAndDelete(user._id);
-            
-            // Envía un correo electrónico de notificación
-            const userEmail = user.email;
-            await sendNotificationEmail(userEmail);
-            
-            deletedUsers.push(user);
-        }
-        
-        return deletedUsers;
-    } catch (err) {
-        throw (`Fallo al eliminar usuarios inactivos: ${err}`);
-    }
-}
 
   async getUserByIdOrEmail(id, email) {
     try {
@@ -184,7 +167,7 @@ export class UserService {
         // Verificar si el usuario ya tiene un token existente y si está vencido
         const existingToken = user.token;
         if (!existingToken || existingToken.trim() === '') {
-          // Generar un nuevo token si no existe o está vacío
+          // Genera un nuevo token si no existe o está vacío
           const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
            // Gurdo token en usuario
           user.token = token;
@@ -297,8 +280,43 @@ export class UserService {
       throw err;
     }
   };
-  
-  
+
+  // --- PF- Delete de users inactivos
+  async deleteInactiveUsers() {
+    try {
+      const inactiveDate = new Date(Date.now() - 30 * 60 * 1000); // 30 minutos de inactividad
+      const inactiveUsers = await userDAO.findInactiveUsers({ last_connection: { $lt: inactiveDate } });// $lt => Operador de comparación en MongoDB, significa "menor que".
+      const deleteAndNotifyPromises = inactiveUsers.map(async (user) => {
+        // Promise.all => Metodo de JS, permite ejecutar varias promesas al mismo tiempo y esperar hasta que todas se resuelvan antes de continuar.
+        // Elimina el usuario y envia email de notificacion en paralelo
+        await Promise.all([
+          this.deleteUser(user._id),
+          this.sendEmailToDeletedUser(user.email, user.firstName),
+        ]);
+        return user;
+      });
+
+      const deletedUsers = await Promise.all(deleteAndNotifyPromises);
+
+      return deletedUsers;
+    } catch (err) {
+      throw (`Fallo al eliminar usuarios inactivos: ${err}`);
+    }
+  }
+
+  async sendEmailToDeletedUser(email, name) {
+    try {
+      const mailOptions = {
+        from: process.env.NODEMAILER_EMAIL,
+        to: email,
+        subject: 'Usuario Eliminado por Inactividad',
+        html: `<p>Hola ${name}, tu usuario fue eliminado por inactividad. </p>`,
+        };
+        await transport.sendMail(mailOptions);
+    } catch (err) {
+      throw (`Fallo al enviar mail a usuarios inactivos: ${err}`);
+    }
+  }
 
   //-----
 

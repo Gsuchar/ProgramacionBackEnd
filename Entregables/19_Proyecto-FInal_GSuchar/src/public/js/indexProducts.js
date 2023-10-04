@@ -43,6 +43,7 @@ formProducts.addEventListener("submit", (e) => {
     price: +price.value,    
     code: code.value,
     stock: +stock.value,
+    status: true,
     category: category.value,
     owner,
     thumbnail: thumbnail.value,

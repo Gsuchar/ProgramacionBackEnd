@@ -132,14 +132,6 @@ class UsersController {
         }
     };
 
-    async deleteInactiveUsers(req, res) {
-        try {
-            const deletedUsers = await userService.deleteInactiveUsers();
-            return res.json(deletedUsers);
-        } catch (err) {
-            return res.status(500).json({ error: `Error al eliminar usuarios inactivos: ${err}` });
-        }
-    }
 
     // Cambio estado de isPremium segun usuario
     async changingUserPremium(req, res) {
@@ -221,8 +213,28 @@ class UsersController {
             res.status(500).json({ error: 'Error al subir los documentos.' });
         }
     };
-
-
+    
+    // PF
+    async deleteInactiveUsers(req, res) {
+        try {
+            const deletedUsers = await userService.deleteInactiveUsers();
+            return res.json(deletedUsers);
+        } catch (err) {
+            return res.status(500).json({ error: `Error al eliminar usuarios inactivos: ${err}` });
+        }
+    }
+    
+   async  userList(req, res) {
+        try {
+            const user = req.session.user;
+            const usersList = await userService.getUsers();
+            // Guarda conexion al crear cuenta y redireccionar a dashboard
+            //userService.updateUser(user._id, { last_connection: new Date() });
+            return res.status(200).render('userList', { users: usersList, user });            
+        } catch (error) {
+            return res.status(500).render('error', { error: 'Error al listar usuarios.' });         
+        }        
+    };
 
    
 }

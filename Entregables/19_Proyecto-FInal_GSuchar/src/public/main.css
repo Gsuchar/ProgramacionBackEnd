@@ -50,7 +50,8 @@
 }
 
 .backgroundTable{
-  background-color:#212529
+  background-color:#212529;
+  text-align: center
 }
 /* .titleTitle{
   color: #fff;

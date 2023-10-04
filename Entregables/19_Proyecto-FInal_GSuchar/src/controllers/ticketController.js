@@ -16,6 +16,7 @@ class TicketsController {
         const oldProductsCart = ticketPreview.cartWithOutStock;
         // const updateCart = await cartService.updateCart(userCartId, oldProductsCart )
         // const savedTicket = await ticketService.addTicket(purchaser, ticket, totalCart)
+        totalCart <= 0  ? (() => { throw ("Debe tener productos en el carrito para continuar.") })() : "";
         await cartService.updateCart(userCartId, oldProductsCart );
         await ticketService.addTicket(purchaser, ticket, totalCart);
         return res.render('finishticket', { ticket, totalCart, purchaser });      

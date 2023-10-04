@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { tokenValid, isLoged,checkUserDocuments } from '../middlewares/auth.js';
+import { tokenValid, isLoged,checkUserDocuments, isAdmin } from '../middlewares/auth.js';
 import { usersController } from '../controllers/userController.js';
 import  uploader  from "../utils/multer.js";
 
@@ -51,10 +51,12 @@ authRouter.post('/api/users/:uid/documents', isLoged, uploader.fields([
     { name: 'profiles', maxCount: 1 }
   ]), usersController.uploadUserDocuments);
 
-//TESTING
 authRouter.get('/users', usersController.getUsers);
 authRouter.get('/usersDTO', usersController.getUsersWithDTO);
-authRouter.delete('/users/:uid', usersController.deleteInactiveUsers);
+authRouter.delete('/deleteInactiveUsers', usersController.deleteInactiveUsers);
 //authRouter.delete('/users/:uid', usersController.deleteUser);
+
+// Users
+authRouter.get('/userList', isLoged, isAdmin, usersController.userList);
 
 export default authRouter;
