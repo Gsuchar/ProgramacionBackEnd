@@ -132,7 +132,6 @@ class UsersController {
         }
     };
 
-
     // Cambio estado de isPremium segun usuario
     async changingUserPremium(req, res) {
         try {
@@ -144,6 +143,10 @@ class UsersController {
             return res.status(200).json(userPremiumChanged)
         } catch (err) {
             return res.status(500).json({ error: 'Error modificar usuarios.' });
+            //return res.status(401).json({ error: 'El usuario no subió los documentos necesarios para ser premium.' });
+            //return res.status(401).render('error', { error: 'El usuario no subio los documentos necesarios para ser premium.' });
+            //return res.status(401).json({ error: 'El usuario no subió los documentos necesarios para ser premium.' });
+
         }
     }
         

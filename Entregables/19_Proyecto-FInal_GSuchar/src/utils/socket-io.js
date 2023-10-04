@@ -7,6 +7,7 @@ import { MessageModel } from '../DAO/mongo/models/messageModel.js';
 import { cartService } from "../services/cartService.js";
 //import { productService } from "./services/productService.js";
 import { productService } from "../services/productService.js";
+import { userService } from "../services/userService.js";
 //-----
 
 export function socketServerHandler(httpServer) {
@@ -78,7 +79,41 @@ export function socketServerHandler(httpServer) {
     
     /******** FIN SOCKET CARTS **********/
 
+    /******** SOCKET USER **********/
+    // indexUsers.js parte de socket
+    socket.on("delete-user", async (userId) => {
+      try {
+        await userService.deleteUser(userId);
+        const usersUpdt = await userService.getUsers();
+        socketServer.emit("users", usersUpdt);
+      } catch (err) {
+        console.log({ Error: `${err}` });
+      }
+    });
+    
+    socket.on("premium-user", async (userId) => {
+      try {
+        const response = await fetch(`${process.env.APP_URL}/api/users/premium/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        if (response.ok) {
+          // La solicitud se completó con éxito
+          const usersUpdt = await userService.getUsers();
+          socketServer.emit("users", usersUpdt);
+        } else {
+          // Devolvio un error al pasar a premium, faltan docs
+          socket.emit('premium-user-error', 'El usuario no subió los documentos necesarios para ser premium.');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
 
+    /******** FIN SOCKET USERS **********/
 
     /****** CHAT **********/
     socket.on("message", async (msg) => {

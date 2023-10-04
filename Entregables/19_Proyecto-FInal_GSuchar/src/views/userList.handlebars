@@ -5,7 +5,6 @@
         <div class="row" style="padding: 0px 0px 0px 5px;">    
           <div class="col-12 backgroundTable" >
             <h2 class=" my-3" >Listado de Usuarios</h2>
-            {{!-- <table class="table table-dark" style="margin: 5px 0px 20px 5px;"> --}}
             <table class="table table-dark"  >
               <thead>
                 <tr>
@@ -28,17 +27,14 @@
                     <td>{{this.role}}</td>
                     <td>
                       {{#if this.isPremium}}
-                        {{!-- <span class="green">SI</span> --}}
                         <span style="color: green">SI</span>
                       {{else}}
-                        {{!-- <span class="red">NO</span> --}}
                         <span style="color: gray">NO</span>
                       {{/if}}
                     </td>
-                    {{!-- <td><input type="submit" value="Borrar"  class="btn btn-success " onclick="deleteProduct('{{this._id}}')"/></td> --}}
                     <td>
-                      <input type="submit" value="Premium"  class="btn btn-sm btn-outline-success " onclick="deleteProduct('{{this._id}}')"/>
-                      <input type="submit" value="Borrar"  class="btn btn-sm btn-outline-danger " onclick="deleteProduct('{{this._id}}')"/>                      
+                      <input type="submit" value="Premium"  class="btn btn-sm btn-outline-success " onclick="changePremiumUser('{{this._id}}')"/>
+                      <input type="submit" value="Borrar"  class="btn btn-sm btn-outline-danger " onclick="deleteUser('{{this._id}}')"/>                      
                     </td>                     
                   </tr>
                 {{/each}}
@@ -50,10 +46,10 @@
     <a href="/dashboard" class="card-link">Volver</a>
   </div>
 </div>
-<script>
+{{!-- <script>
   // Guardo de forma global sessionUser.isPremium para saber si el usuario es premium.
   const sessionUser = { isPremium: '{{sessionUser.isPremium}}',_id : '{{sessionUser._id}}' }
   //console.log(sessionUser.isPremium,sessionUser._id )
-</script>
+</script> --}}
 <script src="/socket.io/socket.io.js"></script>
-{{!-- <script src="/js/indexProducts.js"></script>  --}}
+<script src="/js/indexUsers.js"></script> 

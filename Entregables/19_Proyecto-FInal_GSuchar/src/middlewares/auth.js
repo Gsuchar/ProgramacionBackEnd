@@ -42,14 +42,14 @@ export async function checkUserDocuments (req, res, next) {
     const hasAllDocuments =
       userData &&
       userData.documents &&
-      userData.documents.length === 3 &&
+      // userData.documents.length === 3 &&
       userData.documents.some((doc) => doc.name === 'identification') &&
       userData.documents.some((doc) => doc.name === 'addressProof') &&
       userData.documents.some((doc) => doc.name === 'bankStatement');
     
     if (!hasAllDocuments) {
-      //return res.status(403).json({ error: 'El usuario debe cargar todos documentos antes de cambiar a Premium.' });
-      return res.status(403).render('error', { error: 'El usuario debe cargar todos documentos antes de cambiar a Premium.' });
+      return res.status(403).json({ error: 'El usuario debe cargar todos documentos antes de cambiar a Premium.' });
+      //return res.status(403).render('error', { error: 'El usuario debe cargar todos documentos antes de cambiar a Premium.' });
     }
     //console.log("MIDLEWAREEE isPremium>>> " + JSON.stringify(userData.documents))
 
