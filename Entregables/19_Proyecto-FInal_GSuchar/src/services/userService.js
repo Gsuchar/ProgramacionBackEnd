@@ -258,7 +258,8 @@ export class UserService {
     try {
       const user = await this.getUserByIdOrEmail(userId, null); 
       // Si el usuario no tiene documentos existentes, inicializa como un array vacío
-      !user.documents ? user.documents = [] : '' ;  
+      !user.documents ? user.documents = [] : '' ;
+      console.log("COMO LLEGAN DOCUMENTS, ESTRUCTURA >>>   " + JSON.stringify(documents))  
       // Itera sobre los documentos proporcionados, agrega o actualiza en el array de documentos del usuario
       for (const documentType in documents) {
         if (documents[documentType].length > 0) {
@@ -274,7 +275,7 @@ export class UserService {
           }
         }
       };  
-      // Actualizo el usuario en la base de datos
+      // Actualizo el usuario 
       return await this.updateUser(userId, { documents: user.documents });
     } catch (err) {
       throw err;

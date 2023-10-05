@@ -209,11 +209,15 @@ class UsersController {
         try {
             const documents = req.files
             //console.log("sasd>> " + JSON.stringify(documents))
-            const userId = req.params.uid; // Obtiene el ID de usuario desde los parámetros 
+            const userId = req.params.uid; // Obtiene el ID de usuario  
             await userService.uploadUserDocuments(userId, documents)
-            res.status(200).json({ message: 'Documentos subidos exitosamente.' });
+            //res.status(200).json({ message: 'Documentos subidos exitosamente.' });
+            return res.render('message', { title: 'Documentos Actualizados :)',  message: 'Se ha actualizado tu documentacion correctamente.' });
+
         } catch (error) {
-            res.status(500).json({ error: 'Error al subir los documentos.' });
+            //res.status(500).json({ error: 'Error al subir los documentos.' });
+            return res.status(500).render('error', { error: 'Error al subir documentos.' });
+
         }
     };
     
