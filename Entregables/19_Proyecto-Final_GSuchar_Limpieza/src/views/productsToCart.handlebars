@@ -1,0 +1,103 @@
+<div class="">
+  <div class="container productTable">
+    <div class="card col-12 overF_Hidden cardsBorder">
+      <div id="productList" class="col-12">
+        <div class="row" style="margin: auto;" >    
+          <div class="col-10 backgroundTable " style="text-align: unset;" >
+            <h2 class="titleTitle my-3">¡¡ LA TIENDITA !!</h2>
+            <table class="">
+              <div class="filterText col-11">
+                <h3>-- Filtros --</h3>
+                <label for="filterLimit">Cantidad Productos:</label>
+                <select id="filterLimit" onchange="onFilterChange()">
+                  <option value="10">Seleccionar</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+                <label for="filterAttName">Filtrar por:</label>
+                <select id="filterAttName" >
+                  <option>Seleccionar</option>
+                  <option value="title">Nombre</option>
+                  <option value="description">Descripcion</option>            
+                  <option value="price">Precio</option>
+                  <option value="code">Codigo</option>
+                  <option value="stock">Stock</option>
+                  <option value="category">Categoria</option>            
+                </select>
+                <label for="filterText">  y Buscar: </label>
+                <input type="text" id="filterText" onchange="onFilterChange()" />
+                <label for="filterSort">Ordenar por:</label>
+                <select id="filterSort" onchange="onFilterChange()">
+                  <option value="">Seleccionar</option>
+                  <option value="asc">Menor Precio</option>
+                  <option value="desc">Mayor Precio</option>                        
+                </select>
+                <ul class="pagination pagination-sm justify-content-end ">
+                  <li class="page-item"><a class="page-link">{{products.page}} de {{products.totalPages}} paginas</a></li>
+                  <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
+                </ul> 
+              </div>
+              <a href="/dashboard" class="card-link">Volver</a>
+              <tbody  >
+                <tr>
+                  <td >
+                    <div id="dinamic-product-list" class="dinamic-product-list" style="width: 920px; margin-bottom: 2.5%;">              
+                    {{!-- {{#each products.docs}} --}}
+                    {{#each displayedProducts}}
+                      <div class="card cardsBorder-dashboard " style=" margin-top: 10px; width: 18rem; ">
+                        {{!-- TO DO --}}
+                        {{!-- <img src="documents/64f67742108036a7562cb413/1695693249395-224-2240443_homer-simpson-heavy-metal.jpg " class="card-img-top card-header-dashboard-style" alt="..."> --}}
+                        <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
+                        <div class="card-header backgroundTable  ">
+                          <h5 class="card-title">{{this.title}}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush card-body-style">
+                          <li class="list-group-item card-subtitle" style="border-top: 3px solid darkorange;"> {{this.description}}</li>
+                          <li class="list-group-item">Codigo: {{this.code}}</li>
+                          <li class="list-group-item">Precio: {{this.price}}</li>
+                          <li class="list-group-item">Stock: {{this.stock}}</li>
+                          <li class="list-group-item">Categoria: {{this.category}}</li>
+                          <li class="list-group-item backgroundTable"style="border-top: 5px solid darkorange;">
+                            <a  class="card-link btn btn-sm btn-outline-danger"  onclick="removeFromCart('{{this._id}}')">Quitar</a>
+                            <a  class="card-link btn btn-sm btn-outline-success" onclick="addToCart('{{this._id}}')">Agregar</a>
+                          </li>
+                        </ul>
+                      </div>
+                    {{/each}}
+                  </td>
+                </tr>               
+              </tbody>
+            </table>
+          </div>
+          <div id="cart-product-list" class="col-2 " style="">
+            <div class="card cardsBorder-dashboard" style="max-width: min-content;box-sizing: content-box;margin-top: 50px;position: fixed;max-width: 11.7rem;min-width: 11.7rem;">
+              <div class="card-header">
+                <h3 class="card-title titleColor">CART</h3>
+              </div>
+              <div id="dinamic-list-cart" class="card-body ">
+                {{#each oldCartUnfinished.cartProducts}}
+                  <p class="card-text">{{this.idProduct.title}} x {{this.quantity}}</p>
+                {{/each}}
+              </div>
+              <a href="/checkout" class="card-link btn-sm btn btn-outline-warning">CONTINUAR</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/indexProductsToCart.js"></script>
+<script>
+  // Guardo de forma global sessionUser.idCart con id de cart de la session actual.
+  const sessionUser = { idCart: '{{sessionUser.idCart}}', isPremium: '{{sessionUser.isPremium}}', _id: '{{sessionUser._id}}' };
+</script>

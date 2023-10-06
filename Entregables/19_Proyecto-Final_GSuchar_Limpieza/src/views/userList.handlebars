@@ -1,0 +1,55 @@
+<div class="">
+  <div class="container productTable">
+    <div class="card col-12 overF_Hidden cardsBorder">
+      <div id="productList">  
+        <div class="row" style="padding: 0px 0px 0px 5px;">    
+          <div class="col-12 backgroundTable" >
+            <h2 class=" my-3" >Listado de Usuarios</h2>
+            <table class="table table-dark"  >
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">E-mail</th>
+                  <th scope="col">Rol</th>
+                  <th scope="col">Premium</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="dinamic-product-list">
+                {{#each users}}
+                  <tr>
+                    <td scope="row">{{this._id}}</td>
+                    <td>{{this.firstName}}</td>
+                    <td>{{this.lastName}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.role}}</td>
+                    <td>
+                      {{#if this.isPremium}}
+                        <span style="color: green">SI</span>
+                      {{else}}
+                        <span style="color: gray">NO</span>
+                      {{/if}}
+                    </td>
+                    <td>
+                      <input type="submit" value="Premium"  class="btn btn-sm btn-outline-success " onclick="changePremiumUser('{{this._id}}')"/>
+                      <input type="submit" value="Borrar"  class="btn btn-sm btn-outline-danger " onclick="deleteUser('{{this._id}}')"/>                      
+                    </td>                     
+                  </tr>
+                {{/each}}
+              </tbody>             
+            </table>
+          </div>
+       </div>
+    </div>
+    <a href="/dashboard" class="card-link">Volver</a>
+  </div>
+</div>
+{{!-- <script>
+  // Guardo de forma global sessionUser.isPremium para saber si el usuario es premium.
+  const sessionUser = { isPremium: '{{sessionUser.isPremium}}',_id : '{{sessionUser._id}}' }
+  //console.log(sessionUser.isPremium,sessionUser._id )
+</script> --}}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/indexUsers.js"></script> 
