@@ -167,7 +167,7 @@ export class UserService {
         // Verificar si el usuario ya tiene un token existente y si está vencido
         const existingToken = user.token;
         if (!existingToken || existingToken.trim() === '') {
-          // Genera un nuevo token si no existe o está vacío
+          // Genera un nuevo token si no existe o está vacio
           const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
            // Gurdo token en usuario
           user.token = token;
@@ -193,7 +193,7 @@ export class UserService {
               return token;
             } else {
 
-              // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message con el mensaje 
+              // - TO DO - -> Si el token es valido, no mandar mail nuevamente y renderizar message. 
 
 
               // Devuelve el token existente valido
@@ -257,9 +257,9 @@ export class UserService {
   async uploadUserDocuments(userId, documents) {
     try {
       const user = await this.getUserByIdOrEmail(userId, null); 
-      // Si el usuario no tiene documentos existentes, inicializa como un array vacío
+      // Si el usuario no tiene documentos, inicializa como un array vacío
       !user.documents ? user.documents = [] : '' ;
-      console.log("COMO LLEGAN DOCUMENTS, ESTRUCTURA >>>   " + JSON.stringify(documents))  
+      //console.log("COMO LLEGAN DOCUMENTS, ESTRUCTURA >>>   " + JSON.stringify(documents))  
       // Itera sobre los documentos proporcionados, agrega o actualiza en el array de documentos del usuario
       for (const documentType in documents) {
         if (documents[documentType].length > 0) {
@@ -267,10 +267,10 @@ export class UserService {
             name: document.fieldname,
             reference: document.path,
           }));  
-          // Itera sobre los nuevos documentos y verifica si ya existe un documento con el mismo name
+          // Itera sobre los nuevos documentos y verifica si ya existe un documento con el mismo nombre
           for (const newDocument of newDocuments) {
             const existingIndex = user.documents.findIndex((doc) => doc.name === newDocument.name);
-            // Si existe un documento con el mismo nombre, lo actualizo. Si no, lo agrego.
+            // Si existe un documento con el mismo nombre, lo actualiza. Si no, lo agrega.
             existingIndex !== -1 ? user.documents[existingIndex] = newDocument :   user.documents.push(newDocument);
           }
         }
@@ -286,7 +286,7 @@ export class UserService {
   async deleteInactiveUsers() {
     try {
       const inactiveDate = new Date(Date.now() - 30 * 60 * 1000); // 30 minutos de inactividad
-      const inactiveUsers = await userDAO.findInactiveUsers({ last_connection: { $lt: inactiveDate } });// $lt => Operador de comparación en MongoDB, significa "menor que".
+      const inactiveUsers = await userDAO.findInactiveUsers({ last_connection: { $lt: inactiveDate } });// $lt => Operador de comparacion en MongoDB, significa "menor que".
       const deleteAndNotifyPromises = inactiveUsers.map(async (user) => {
         // Promise.all => Metodo de JS, permite ejecutar varias promesas al mismo tiempo y esperar hasta que todas se resuelvan antes de continuar.
         // Elimina el usuario y envia email de notificacion en paralelo
