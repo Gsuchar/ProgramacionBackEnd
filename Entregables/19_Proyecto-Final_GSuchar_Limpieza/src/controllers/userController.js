@@ -1,21 +1,19 @@
-import { json } from 'express';
 import { userService } from '../services/userService.js';
 import { transport } from '../utils/nodemailer.js';
 import { UserDTO } from "../DAO/DTO/userDTO.js";
-
 //--
 
 class UsersController {
     // REGISTER
     register(req, res) {
-        //return userService.register(res);
         return res.render('register', {}); 
     };
+
     // REGISTER FAIL
     registerFail(req, res, err) {
-        //return userService.registerFail(res);
         return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.'  });
     };
+
     // REGISTER PASSPORT
     registerPassport(req, res) {            
         if (!req.user) {
@@ -25,24 +23,27 @@ class UsersController {
          userService.updateUser(req.user._id, { last_connection: new Date() });
         return userService.dashboard(req, res);
     };
+
     // LOGIN
     login(req, res) {
         return res.render('login', {});
-    }
+    };
+
     // LOGIN PASSPORT
     loginPassport(req, res) {
         if (!req.user) {
             return res.json({ error: 'Error en Credenciales' });
         };
-        // // Guarda ultima conexion al logear
+        // Guarda ultima conexion al logear
         userService.updateUser(req.user._id, { last_connection: new Date() });
         return userService.dashboard(req, res);
     };
+
     // LOGIN FAIL
     loginFail(req, res) {
-        //return userService.loginFail(res);
         return res.render('error', { error: 'Error al ingresar, verifique que los datos sean correctos.' });
-    }
+    };
+
     // LOG OUT
     logOut(req, res) {
         req.session.destroy((err) => {
@@ -52,11 +53,10 @@ class UsersController {
             return res.redirect('/auth/login');
         });
     };
+
     // DASHBOARD
     dashboard(req, res) {
         const user = req.session.user;
-        // Guarda conexion al crear cuenta y redireccionar a dashboard
-        //userService.updateUser(user._id, { last_connection: new Date() });
         return res.render('dashboard', { user: user });        
     };
 
@@ -77,43 +77,27 @@ class UsersController {
         } catch (err) {
             return res.status(500).json({ error: 'Error al obtener los usuarios.' });
         }
-    }
-    //---- Entrega 19 - Proyecto Final - EXTRA
-    // async getUsersWithDTO(req, res) {
-    //     try {
-    //         const limit = parseInt(req.query.limit) || 10;
-    //         const users = await userService.getUsers(limit);
-    //         const userDTO = new UserDTO(users)
-    //         console.log(userDTO)
-    //         return res.json(userDTO);
-    //         //return res.json(users);
-    //     } catch (err) {
-    //         return res.status(500).json({ error: 'Error al obtener los usuarios.' });
-    //     }
-    // }
+    };
+    // DEJO OPCION DEL GET CON DTO DE USERS
     async getUsersWithDTO(req, res) {
         try {
             const limit = parseInt(req.query.limit) || 10;
-            const users = await userService.getUsers(limit);
-    
-            // Aplicar el DTO a cada usuario en la lista
-            const usersDTO = users.map(user => new UserDTO(user));
-    
+            const users = await userService.getUsers(limit);    
+            // Aplica el DTO a cada usuario
+            const usersDTO = users.map(user => new UserDTO(user));    
             return res.json(usersDTO);
         } catch (err) {
             return res.status(500).json({ error: 'Error al obtener los usuarios.' });
         }
-    }    
+    };    
 
     // Extra
     async getUserById(req, res) {
         const uid = req.params.uid;
         try {         
-          //console.log(uid)   
           const user =  await userService.getUserByIdOrEmail(uid, null);
           //Si user es null(falsy), dispara mensaje de error que complementa el del catch
           user ? user :  (() => { throw (`El Usuario de id ${uid} no existe en la base de datos.`) })();
-          //console.log("CON_CONTROLL>  " + user)
           return res.json(user)
         } catch (err) {
             return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
@@ -123,9 +107,7 @@ class UsersController {
     async deleteUser(req, res) {
         const uid = req.params.uid;
         try {         
-          //console.log(uid)   
           const user =  await userService.deleteUser(uid);
-          //console.log("CON_TROLL>  " + user)
           return res.json(user)
         } catch (err) {
             return res.status(500).json({ Error: `No se encontró Usuario. ${err}` });             
@@ -143,15 +125,11 @@ class UsersController {
             return res.status(200).json(userPremiumChanged)
         } catch (err) {
             return res.status(500).json({ error: 'Error modificar usuarios.' });
-            //return res.status(401).json({ error: 'El usuario no subió los documentos necesarios para ser premium.' });
-            //return res.status(401).render('error', { error: 'El usuario no subio los documentos necesarios para ser premium.' });
-            //return res.status(401).json({ error: 'El usuario no subió los documentos necesarios para ser premium.' });
-
         }
-    }
+    };
         
 //---ENTREGA 15 ------------------------------
-    // Mostrar vista de solicitud de restablecimiento de contraseña
+    // Vista de solicitud de restablecimiento de contraseña
     recoveryPassword(req, res) {
         return res.render('recoveryPassword', {});
     }
@@ -175,15 +153,12 @@ class UsersController {
 
               
             await transport.sendMail(mailOptions);
-            //return res.json({ message: 'Se ha enviado un correo de recuperación de contraseña.' });
             return res.render('message', { title: 'Revisa tu correo :)',  message: 'Se ha enviado un correo de recuperación de contraseña.' });
         } else {
-            //return res.json({ error: 'No se pudo generar el token de recuperación de contraseña.' });
             return res.status(401).render('error', { error: 'Email ingresado no es valido o no existe en la base de datos.' });
         }
         } catch (err) {
-        //return res.status(500).json({ error: 'Error al enviar el correo de recuperación de contraseña.' });
-        return res.status(500).render('error', { error: 'Error al enviar el correo de recuperación de contraseña.' });
+            return res.status(500).render('error', { error: 'Error al enviar el correo de recuperación de contraseña.' });
         }
     }
     
@@ -205,17 +180,13 @@ class UsersController {
 
     //-----ENTREGA 18 -------------------------------------------------------------------------------
     async uploadUserDocuments(req, res) {
-        //console.log("LALLAALLA>>>> " +JSON.stringify(req))
         try {
             const documents = req.files
-            //console.log("sasd>> " + JSON.stringify(documents))
             const userId = req.params.uid; // Obtiene el ID de usuario  
             await userService.uploadUserDocuments(userId, documents)
-            //res.status(200).json({ message: 'Documentos subidos exitosamente.' });
             return res.render('message', { title: 'Documentos Actualizados :)',  message: 'Se ha actualizado tu documentacion correctamente.' });
 
         } catch (error) {
-            //res.status(500).json({ error: 'Error al subir los documentos.' });
             return res.status(500).render('error', { error: 'Error al subir documentos.' });
 
         }
@@ -235,15 +206,13 @@ class UsersController {
         try {
             const user = req.session.user;
             const usersList = await userService.getUsers();
-            // Guarda conexion al crear cuenta y redireccionar a dashboard
-            //userService.updateUser(user._id, { last_connection: new Date() });
             return res.status(200).render('userList', { users: usersList, user });            
         } catch (error) {
             return res.status(500).render('error', { error: 'Error al listar usuarios.' });         
         }        
     };
 
-   
+ //FIN LLAVE USERCONTROLLER   
 }
 
 export const usersController = new UsersController();

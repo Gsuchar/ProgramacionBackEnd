@@ -1,6 +1,6 @@
 import { cartService } from '../services/cartService.js';
 import { productService } from '../services/productService.js';
-
+//--
 
 class CartsController {
 
@@ -121,31 +121,6 @@ class CartsController {
             res.status(500).json({ Error: `${err}` });
         }
     };
-    // async getProductsByCartId_Paginate(req, res){  
-    //     try {
-    //         const limit = parseInt(req.query.limit) || 10;
-    //         const page = parseInt(req.query.page) ; 
-    //         const filter = req.query.filter || '';
-    //         const sort = req.query.sort ? req.query.sort : '';
-    //         const attName = req.query.attName || '';
-    //         const sessionUser = req.session.user;
-    //         const products = await productService.getProductsPaginate(limit, page, filter,sort, attName);
-    //         //console.log(JSON.stringify(products))
-    //         const filteredProducts = products.docs.filter(product => product.owner !== sessionUser._id);
-    //         // Traigo Productos del carrito si existen
-    //         const oldCartUnfinished = await cartService.getProductsByCartId(sessionUser.idCart)
-    //         if (sessionUser.isPremium == true) {
-    //             products = {...filteredProducts}
-    //             console.log(JSON.stringify(products))
-
-    //             res.status(200).render('productsToCart', { products, sessionUser, oldCartUnfinished });
-    //         }else{
-    //             res.status(200).render('productsToCart', { products, sessionUser, oldCartUnfinished });
-    //         };
-    //     } catch (err) {
-    //         res.status(500).json({ Error: `${err}` });
-    //     }
-    // };
   
   //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
   /////////////////////////////////////////////////////////////////////////////////////////    

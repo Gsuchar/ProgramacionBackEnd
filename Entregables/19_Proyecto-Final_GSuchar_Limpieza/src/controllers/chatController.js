@@ -1,4 +1,3 @@
-//@ts-check
 class ChatsController {
     async chats(req, res) {  
         try {      

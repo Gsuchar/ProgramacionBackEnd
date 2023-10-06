@@ -1,6 +1,5 @@
-//@ts-check
 import { UserModel } from "./mongo/models/userModel.js";
-
+//--
 
 export class UserDAO{
   // TRAIGO TODOS LOS USUARIOS
@@ -41,7 +40,6 @@ export class UserDAO{
   };
   async findInactiveUsers({ last_connection: { $lt: inactiveDate } }) {
     try {        
-        //const deletedUser = await UserModel.findByIdAndDelete( id );
         const inactiveUsers = await UserModel.find({ last_connection: { $lt: inactiveDate } });// $lt => Operador de comparación en MongoDB, significa "menor que".
 
         return inactiveUsers;      
@@ -50,17 +48,6 @@ export class UserDAO{
     };
   };
   
-  // // Obtener usuario por correo electrónico
-  // async getUserByEmail(email) {
-  //   try {
-  //     const user = await UserModel.findOne({ email });
-  //     return user;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
-
-
  // FIN LLAVE UserDAO  
 }
 

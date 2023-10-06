@@ -1,9 +1,7 @@
 import { Router } from 'express';
-//import { uploader } from '../utils.js';
-//import { generateProducts } from '../utils.js';
 import { ProductService } from "../services/productService.js"
 import { productsController } from '../controllers/productController.js';
-import { isAdmin, isLoged, isPremium } from '../middlewares/auth.js';
+import { isLoged, isPremium } from '../middlewares/auth.js';
 
 const routerProd = Router();
 const productService = new ProductService;
@@ -26,86 +24,12 @@ routerProd.put("/products/update/:pid", productsController.updateProduct);
 routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 
-//-- ENTREGA 13 - MOCKING DE PRODUCTOS CON FAKER.JS------//
-
-// routerProd.get("/mockingproducts", async (req, res) => {
-//   const products = [];
-
-//   for (let i = 0; i < 100; i++) {
-//     products.push(generateProducts());
-//   }
-
-//   res.send({ status: "success", payload: products });
-// });
-
-//********************************************************** */
-
-//-- ENTREGA 14 - LOGGER - WINSTON------//
-// import { addLogger } from "../utils/logger.js";
-// //--
-// routerProd.use(addLogger);
-// routerProd.get("/loggerTest", (req, res) => {
-//   req.logger.info("ingresando a un proceso importante");
-
-//   req.logger.info(
-//     "PASO 1: " +
-//       new Date().toLocaleTimeString() +
-//       new Date().getUTCMilliseconds()
-//   );
-//   try {
-//     gdfshjsdjgsjdfgjsdgfjhdsgfgjhsgjhsgdf();
-//   } catch (error) {
-//     req.logger.warn({
-//       message: error.message,
-//     });
-//   }
-
-//   req.logger.info(
-//     "PASO 2: " +
-//       new Date().toLocaleTimeString() +
-//       new Date().getUTCMilliseconds()
-//   );
-
-//   try {
-//     sdfsdgsfd();
-//   } catch (error) {
-//     req.logger.error({
-//       message: error.message,
-//       stack: JSON.stringify(error.stack, null, 2),
-//     });
-//     return res
-//       .status(400)
-//       .json({ msg: "something important went wrong no continue" });
-//   }
-
-//   res.send({ message: "fin del proceso heavy exito!!!" });
-// });
-
-//********************************************************** */
-
-
 
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA-
 routerProd.get("/realtimeproducts",isLoged, isPremium, productsController.realtimeproducts);
-// routerProd.get("/realtimeproducts",isLoged, isPremium,  async (req, res) => {  
-//   try {
-//     const sessionUser = req.session.user;
-//     const products = await productService.getProducts();
-//     if (sessionUser?.isPremium == true ) {
-//       //si es premium le muestro solos los prod que le pertenecen
-//       const userProducts = products.filter((p) => p.owner === sessionUser._id);
-//       res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser /*: req.session.user*/ });
-//     }else{
-//       //si no es premium, es admin y muestra todo
-//       res.status(200).render('realtimeproducts',  { products : products, sessionUser /*: req.session.user*/ });      
-//     }  
-//   } catch (err) {
-//     res.status(500).alert({ Error: `1${err}` });
-//   }
-// });
 
-// VISTA SIMPLE HTML -NO DINAMICA-
+// VISTA SIMPLE HTML -NO DINAMICA- NO IBA PERO LO DEJO POR ENTREGAS ANTERIORES
 routerProd.get("/html/products", async (req, res) => {
   const limit = req.query.limit;
   try {
@@ -120,11 +44,9 @@ routerProd.get("/html/products", async (req, res) => {
     res.status(500).json({ Error: `${err}` });
   }
 });
+
 //-------FIN ROUTER HANDLEBARS Y WEBSOCKET----------//
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 //-------FIN ROUTER MONGO----------//
 export default routerProd;

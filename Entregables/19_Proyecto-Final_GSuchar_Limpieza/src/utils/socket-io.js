@@ -1,11 +1,8 @@
 /***************************************************************************/
 //----------------SOCKET SERVER HANDLER-------------------------------------
 import { Server } from "socket.io";
-//import { MessageModel } from './DAO/mongo/models/messageModel.js';
 import { MessageModel } from '../DAO/mongo/models/messageModel.js';
-//import { cartService } from "./services/cartService.js";
 import { cartService } from "../services/cartService.js";
-//import { productService } from "./services/productService.js";
 import { productService } from "../services/productService.js";
 import { userService } from "../services/userService.js";
 //-----

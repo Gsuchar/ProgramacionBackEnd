@@ -67,7 +67,6 @@ export class CartDAO {
     // UPDATE CART   
     async updateCart(cid, cartUpdate) {
         try {
-            //console.log("carMODEL_UPDATE>>>>>  "+ cartUpdate)
             const updatedCart = await CartModel.findOneAndUpdate( cid, cartUpdate, {new:true} );      
             return updatedCart;      
         }catch (err) {
@@ -97,6 +96,6 @@ export class CartDAO {
     
 
 
-    //LAVE FIN CART SERVICE  
+    //LAVE FIN CARTDAO  
 }
 export const cartDAO = new CartDAO();

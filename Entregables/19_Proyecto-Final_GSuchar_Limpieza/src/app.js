@@ -1,4 +1,3 @@
-//@ts-check
 import express from 'express';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
@@ -6,7 +5,7 @@ import chatRoutes from './routes/chatRoutes.js';
 import authRoutes  from './routes/authRoutes.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { __dirname } from "./utils.js";
+import { __dirname } from "./dirname.js";
 import path from "path";
 import handlebars from "express-handlebars";
 import http from 'http';
@@ -20,7 +19,6 @@ import ticketRoutes from './routes/ticketRoutes.js';
 import errorHandler from "./middlewares/error.js";
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './utils/swagger.js'; 
-
 //-----
 
 
@@ -88,5 +86,3 @@ app.use(errorHandler);
 app.get("*", (req, res) => {
   return res.status(404).json({status: "Epic error", msg: "Not found :( ", data: {} });
 });
-
-// export default app;

@@ -25,10 +25,8 @@ export function tokenValid(req, res, next) {
   
   //- TO DO - -> Validar que el token sea del usuario, lo engancho por el mail. Tambien que el user.token no sea null o vacio
 
-
-  //console.log("MIDLEWAREEE>>> " + JSON.stringify(decodedToken))
-  decodedToken && decodedToken?.email ? next() : res.status(403).render('error', { error: 'El link expiro, solicite nuevamente el mail de recuperacion.' });
   // Si decodedToken existe y es valido, en caso de ser invalido no contine .email, pasa...si no renderiza error
+  decodedToken && decodedToken?.email ? next() : res.status(403).render('error', { error: 'El link expiro, solicite nuevamente el mail de recuperacion.' });
 }
 
 //-----ENTREGA 18 -------------------------------------------------------------------------------
@@ -42,17 +40,13 @@ export async function checkUserDocuments (req, res, next) {
     const hasAllDocuments =
       userData &&
       userData.documents &&
-      // userData.documents.length === 3 &&
       userData.documents.some((doc) => doc.name === 'identification') &&
       userData.documents.some((doc) => doc.name === 'addressProof') &&
       userData.documents.some((doc) => doc.name === 'bankStatement');
     
     if (!hasAllDocuments) {
       return res.status(403).json({ error: 'El usuario debe cargar todos documentos antes de cambiar a Premium.' });
-      //return res.status(403).render('error', { error: 'El usuario debe cargar todos documentos antes de cambiar a Premium.' });
     }
-    //console.log("MIDLEWAREEE isPremium>>> " + JSON.stringify(userData.documents))
-
     // Si cargo todos los documentos, permite continuar 
     next();
   } catch (err) {

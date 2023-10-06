@@ -13,7 +13,7 @@ export class ProductDAO{
         }
     };
 
-    async getProductsPaginate(filter, limit, lean, page, sort/*, attName*/) {          
+    async getProductsPaginate(filter, limit, lean, page, sort ) {          
         try {
             const products = await ProductModel.paginate( filter , limit ,  lean, page, sort  ) 
             return products;
@@ -64,7 +64,7 @@ export class ProductDAO{
             throw (`Fallo al encontrar producto1.`);
         };
     };    
- // FIN LLAVE USERMODEL_2  
+ // FIN LLAVE PRODUCTDAO
 }
 
 export const productDAO = new ProductDAO();

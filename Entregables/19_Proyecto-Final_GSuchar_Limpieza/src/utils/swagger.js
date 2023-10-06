@@ -1,8 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-//import { __dirname } from "../utils.js";
 import { __dirname } from "./dirname.js";
-
 //--
+
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -20,7 +19,6 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  //apis: ['./routes/*.js'], // Ruta donde están tus archivos de rutas
   apis: [`${__dirname}/docs/**/*.yaml`],
 };
 

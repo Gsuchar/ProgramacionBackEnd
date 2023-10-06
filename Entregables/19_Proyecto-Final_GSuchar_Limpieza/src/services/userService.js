@@ -4,14 +4,9 @@ import {CartService} from '../services/cartService.js';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import { transport } from '../utils/nodemailer.js';
 import { jwtUtils } from "../utils/jwt.js";
-//import dotenv from "dotenv";
-//-----
-
-//dotenv.config(); // Carga variables de entorno del .env
 //--
 
 const cartService = new CartService;
-//const userDAO = new userDAO;
 
 export class UserService {
   //------ AUTH USER
@@ -29,8 +24,6 @@ export class UserService {
   }; 
     return res.redirect('/dashboard')  
   };
-
-  
   
 
   //------ AUTH USER FIN ----------------
@@ -259,7 +252,6 @@ export class UserService {
       const user = await this.getUserByIdOrEmail(userId, null); 
       // Si el usuario no tiene documentos, inicializa como un array vacío
       !user.documents ? user.documents = [] : '' ;
-      //console.log("COMO LLEGAN DOCUMENTS, ESTRUCTURA >>>   " + JSON.stringify(documents))  
       // Itera sobre los documentos proporcionados, agrega o actualiza en el array de documentos del usuario
       for (const documentType in documents) {
         if (documents[documentType].length > 0) {

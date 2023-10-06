@@ -1,12 +1,12 @@
 import passport from 'passport';
 import local from 'passport-local';
-//import { isValidPassword } from '../utils.js';
 import { isValidPassword } from '../utils/bcrypt.js';
 import { UserModel } from '../DAO/mongo/models/userModel.js';
 import { UserService } from "../services/userService.js";
 import GitHubStrategy from 'passport-github2';
 import dotenv from "dotenv";
 //---
+
 const userService = new UserService;
 const LocalStrategy = local.Strategy;
 
@@ -59,7 +59,9 @@ export function iniPassport() {
       }
     )
   );
+
   dotenv.config(); // Carga variables de entorno del .env
+
   passport.use(
     'github',
     new GitHubStrategy(      
@@ -95,7 +97,7 @@ export function iniPassport() {
             console.log('User Registration succesful');
             return done(null, userCreated);
           } else {
-            console.log('User already exists');
+            //console.log('User already exists');
             return done(null, user);
           }
         } catch (err) {

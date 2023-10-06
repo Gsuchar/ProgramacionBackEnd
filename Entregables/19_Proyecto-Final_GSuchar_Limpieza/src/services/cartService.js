@@ -78,7 +78,6 @@ export class CartService {
   // BORRO PRODUCTO/QUANTITY DEL CARRITO
   async deleteProductFromCart(cartId, productId, quantityP) {
     try {
-      //const productToCart = await ProductModel.findById(productId);
       const productToCart = await productService.getProductById(productId);
       productToCart ? productToCart : (() => { new Error  ("No existe el producto en la base de datos, verifique.") })();
       const cart = await cartDAO.getCartById(cartId);  

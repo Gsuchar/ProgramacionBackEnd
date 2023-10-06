@@ -1,4 +1,3 @@
-//@ts-check
 import { UserDTO } from "../DAO/DTO/userDTO.js";
 import { userService } from '../services/userService.js';
 //--

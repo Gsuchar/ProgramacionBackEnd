@@ -71,8 +71,7 @@ export class ProductService {
             const createdProduct = await productDAO.addProduct(newProduct);
             return createdProduct;
         }catch (err) {
-            //throw (`Fallo agregar producto. ${err}`); 
-
+            //throw (`Fallo agregar producto. ${err}`);
             // cambio por entrega 13 de manejo errores
             throw CustomError.createError({
                 name: 'Al crear producto',

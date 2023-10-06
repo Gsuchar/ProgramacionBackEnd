@@ -1,5 +1,5 @@
-//@ts-check
 import { productService } from '../services/productService.js';
+//--
 
 class ProductsController {
 
@@ -71,12 +71,8 @@ class ProductsController {
 
     async deleteProduct(req, res) {
         try {
-          //const { pid } = req.params;
           const pid = req.params.pid;
-          //const sessionUser = req.session.user;
-          //console.log("VINO ALGO? >>> "+pid)
           const deletedProduct =  await productService.deleteProduct(pid)
-          //sessionUser.isPremium == true ? productService.emailToOwnerProduct(sessionUser.email, sessionUser.firstName, pid) : "" ;
           return res.status(200).json(deletedProduct);
         } catch (err) {
             res.status(500).json({ Error: `${err}` });
@@ -90,10 +86,10 @@ class ProductsController {
           if (sessionUser?.isPremium == true ) {
             //si es premium le muestro solos los prod que le pertenecen
             const userProducts = products.filter((p) => p.owner === sessionUser._id);
-            res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser /*: req.session.user*/ });
+            res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser });
           }else{
             //si no es premium, es admin y muestra todo
-            res.status(200).render('realtimeproducts',  { products : products, sessionUser /*: req.session.user*/ });      
+            res.status(200).render('realtimeproducts',  { products : products, sessionUser });      
           }  
         } catch (err) {
           res.status(500).alert({ Error: `1${err}` });

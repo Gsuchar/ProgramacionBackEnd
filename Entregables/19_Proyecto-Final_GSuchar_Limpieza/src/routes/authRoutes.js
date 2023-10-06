@@ -1,10 +1,11 @@
-import express from 'express';
+import { Router } from 'express';
 import passport from 'passport';
 import { tokenValid, isLoged,checkUserDocuments, isAdmin } from '../middlewares/auth.js';
 import { usersController } from '../controllers/userController.js';
 import  uploader  from "../utils/multer.js";
+//--
 
-const authRouter = express.Router();
+const authRouter = Router();
 
 // Register
 authRouter.get('/auth/register', usersController.register);
@@ -53,8 +54,8 @@ authRouter.post('/api/users/:uid/documents', isLoged, uploader.fields([
 
 authRouter.get('/users', usersController.getUsers);
 authRouter.get('/usersDTO', usersController.getUsersWithDTO);
+// Borra usuarios sin conexion en 30 minutos(30 min por test deje no mas.)
 authRouter.delete('/deleteInactiveUsers', usersController.deleteInactiveUsers);
-//authRouter.delete('/users/:uid', usersController.deleteUser);
 
 // Users
 authRouter.get('/userList', isLoged, isAdmin, usersController.userList);

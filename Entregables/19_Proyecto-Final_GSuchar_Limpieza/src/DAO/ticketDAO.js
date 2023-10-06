@@ -1,4 +1,3 @@
-//@ts-check
 import { TicketModel } from "./mongo/models/ticketModel.js";
 //--
 
@@ -16,7 +15,7 @@ export class TicketDAO{
       throw (`FALLO EN MODELO.`);
     }
   }
-
+ //FIN LLAVE TICKETDAO 
 }
 
 export const ticketDAO = new TicketDAO();
