@@ -69,7 +69,6 @@ class CartsController {
     async emptyCart(req, res) {  
         try {
             const cid = req.params.cid;
-            console.log(cid)
             const cart = await cartService.emptyCart(cid);
             res.status(200).json(cart);
         } catch (err) {

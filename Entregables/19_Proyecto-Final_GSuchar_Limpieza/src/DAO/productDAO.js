@@ -38,7 +38,7 @@ export class ProductDAO{
             const createdProduct = await ProductModel.create(newProd);
             return createdProduct;
         }catch (err) {
-            throw (`Fallo agregar producto`);
+            throw (`Error al ingresar producto.`);
         };    
     };
 

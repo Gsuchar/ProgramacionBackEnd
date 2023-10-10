@@ -10,7 +10,7 @@ socket.on("updatedProducts", (listProducts) => {
   const tableBody = document.getElementById("dinamic-product-list");
   const tableRows = displayedProducts.map((product) => `    
     <div class="card cardsBorder-dashboard " style="width: 18rem; margin-top: 10px; ">
-    <img src="img.png " class="card-img-top card-header-dashboard-style" alt="...">
+    <img src="img/Products/${product.thumbnail}" class="card-img-top card-header-dashboard-style" alt="...">
     <div class="card-header backgroundTable  ">
       <h5 class="card-title">${product.title}</h5>
     </div>

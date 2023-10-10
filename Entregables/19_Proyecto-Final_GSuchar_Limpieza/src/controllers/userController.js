@@ -137,7 +137,7 @@ class UsersController {
     async sendPasswordResetEmail(req, res) {
         // Deberia pasarlo a service ???? -TO DO-
         try {
-        const { email } = req.body;
+        const email = req.body?.email;
         // Generar un token de restablecimiento de contraseña con una duración de 15 min
         const token = await userService.generatePasswordResetToken(email);
         if (token) {
@@ -158,7 +158,8 @@ class UsersController {
             return res.status(401).render('error', { error: 'Email ingresado no es valido o no existe en la base de datos.' });
         }
         } catch (err) {
-            return res.status(500).render('error', { error: 'Error al enviar el correo de recuperación de contraseña.' });
+            return res.status(500).json(err);
+            //return res.status(500).render('error', { error: 'Error al enviar el correo de recuperación de contraseña.' });
         }
     }
     

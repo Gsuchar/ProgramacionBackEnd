@@ -39,16 +39,16 @@ class ProductsController {
 
     async addProduct(req, res) {
         try {
-          const { title, description, price, code, stock, category, thumbnail } = req.body.products;
+          const { title, description, code, price,  stock, category, thumbnail } = req.body.products;
           const prodToCreate = await productService.addProduct(
             { title,
               description,
               code,
               price,
-              status: "true",
+              //status: "true",
               stock,
               category,
-              owner : "admin",
+              //owner : "admin",
               thumbnail
 
             });    

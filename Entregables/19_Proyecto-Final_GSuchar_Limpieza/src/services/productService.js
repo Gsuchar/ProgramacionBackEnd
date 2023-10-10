@@ -62,10 +62,10 @@ export class ProductService {
                 //&& /^\d+$/.test(newProd.param) La expresión regular /^\d+$/ comprueba si el string contiene solo numeros => .test devuelve FALSE y rompe
                 code: newProd.code && /^\d+$/.test(newProd.code) ? parseInt(newProd.code) : (() => { throw ("Debe ingresar un codigo valido de Producto.") })(),
                 price: newProd.price && /^\d+$/.test(newProd.price) ? parseInt(newProd.price) : (() => { throw ("Debe ingresar un precio valido de Producto.") })(),
-                status: true,
+                status: !newProd.status ? true :  newProd.status,
                 stock: newProd.stock && /^\d+$/.test(newProd.stock) ? parseInt(newProd.stock) : (() => { throw ("Debe ingresar el stock valido de Producto.") })(),
                 category: newProd.category ? newProd.category : (() => { throw ("Debe ingresar la categoria de Producto.") })(),
-                owner: newProd.owner,
+                owner: !newProd.owner ? "admin" :  newProd.owner,
                 thumbnail: !newProd.thumbnail ? "Sin Definir" :  newProd.thumbnail   
             };            
             const createdProduct = await productDAO.addProduct(newProduct);

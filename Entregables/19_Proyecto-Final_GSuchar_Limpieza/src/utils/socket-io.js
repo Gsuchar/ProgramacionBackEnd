@@ -12,7 +12,7 @@ export function socketServerHandler(httpServer) {
 
   // Escucha/anuncia conexiones de clientes
   socketServer.on("connection", (socket) => {
-    console.log("A client-socket has connected: " + socket.id);
+    //console.log("A client-socket has connected: " + socket.id);
     
 
     /******** SOCKET CARTS **********/

@@ -1,4 +1,3 @@
-
 import { userDAO } from '../DAO/userDAO.js';
 import {CartService} from '../services/cartService.js';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
@@ -162,9 +161,9 @@ export class UserService {
         if (!existingToken || existingToken.trim() === '') {
           // Genera un nuevo token si no existe o está vacio
           const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-           // Gurdo token en usuario
+           // Actualiza token en usuario
           user.token = token;
-          await user.save();
+          await this.updateUser(user._id, { token: token });
           return token;
         } else {
           try {
@@ -172,17 +171,16 @@ export class UserService {
             if (decodedToken instanceof Error) {
               // Si falla decodificacion de token, genera uno nuevo
               const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-               // Gurdo token en usuario
+              // Actualiza token en usuario
               user.token = token;
-              await user.save();
+              await this.updateUser(user._id, { token: token });
               return token;
-
               // Si existe el token, compruebo si expiro, en caso que si, genera un nuevo token.
             } else if (Date.now() >= decodedToken.exp * 1000) {// Hay que pasarlo a milisegundos si o si              
               const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-              // Gurdo token en usuario
+              // Actualiza token en usuario
               user.token = token;
-              await user.save();
+              await this.updateUser(user._id, { token: token });
               return token;
             } else {
 
@@ -195,9 +193,9 @@ export class UserService {
           } catch (error) {
             // Si hay error al decodificar el token, genera uno nuevo.
             const token = jwtUtils.generateTokens({ email, type: 'passwordReset' });
-            // Almacena el token en el usuario en la base de datos
+            // Actualiza token en usuario
             user.token = token;
-            await user.save();
+            await this.updateUser(user._id, { token: token });
             return token;
           }
         }

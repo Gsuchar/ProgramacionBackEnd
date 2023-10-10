@@ -7,10 +7,7 @@ const price = document.getElementById("formPrice");
 const code = document.getElementById("formCode");
 const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
-//const owner = '';
 const thumbnail = document.getElementById("formThumbnail");
-//const owner = sessionUser?.isPremium == true ? owner = sessionUser._id : owner = 'admin'
-//console.log(sessionUser.isPremium)
 socket.on("products", (productsList) => {
  
   const tableBody = document.getElementById("dinamic-product-list");
@@ -40,20 +37,19 @@ formProducts.addEventListener("submit", (e) => {
   const newProd = {
     title: title.value,
     description: description.value,
-    price: +price.value,    
+    price: price.value,    
     code: code.value,
-    stock: +stock.value,
+    stock: stock.value,
     status: true,
     category: category.value,
     owner,
     thumbnail: thumbnail.value,
-  };  
+  };
   socket.emit("new-product", newProd);
   formProducts.reset();  
 
 });
 
 function deleteProduct(productId) {
-  //console.log("del indexPRODUCTS>>>>>>> "+productId )
   socket.emit('delete-product', productId);
 };

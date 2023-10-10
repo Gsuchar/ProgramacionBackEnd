@@ -33,7 +33,7 @@
                   </tr>
                 {{/each}}
               </tbody>
-              {{products}}
+              {{!-- {{products}} --}}
             </table>
           </div>
           <div class="col-3" style="border-left: 2px #ffc107 solid;padding:3px 25px 3px 10px;background-color: ghostwhite; ">
@@ -90,7 +90,6 @@
 <script>
   // Guardo de forma global sessionUser.isPremium para saber si el usuario es premium.
   const sessionUser = { isPremium: '{{sessionUser.isPremium}}',_id : '{{sessionUser._id}}' }
-  //console.log(sessionUser.isPremium,sessionUser._id )
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexProducts.js"></script> 
