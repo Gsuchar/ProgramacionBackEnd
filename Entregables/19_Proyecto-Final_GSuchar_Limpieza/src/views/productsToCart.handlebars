@@ -41,8 +41,8 @@
                   <option value="desc">Mayor Precio</option>                        
                 </select>
                 <ul class="pagination pagination-sm justify-content-end ">
-                  <li class="page-item"><a class="page-link">{{products.page}} de {{products.totalPages}} paginas</a></li>
-                  <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{products.nextPage}})"> --></a></li>
+                  <li class="page-item"><a class="page-link">{{displayedProducts.page}} de {{displayedProducts.totalPages}} paginas</a></li>
+                  <li class="page-item"><a class="page-link" href="#" onclick="onFilterChange({{displayedProducts.nextPage}})"> --></a></li>
                 </ul> 
               </div>
               <a href="/dashboard" class="card-link">Volver</a>
@@ -52,10 +52,7 @@
                     <div id="dinamic-product-list" class="dinamic-product-list" style="width: 920px; margin-bottom: 2.5%;">              
                     {{#each displayedProducts}}
                       <div class="card cardsBorder-dashboard " style=" margin-top: 10px; width: 18rem; ">
-                        {{!-- TO DO --}}
-                        {{!-- <img src="documents/64f67742108036a7562cb413/1695693249395-224-2240443_homer-simpson-heavy-metal.jpg " class="card-img-top card-header-dashboard-style" alt="..."> --}}
                         <img src="img/Products/{{this.thumbnail}}" class="card-img-top card-header-dashboard-style" alt="...">
-                        {{!-- <img src="img.png " class="card-img-top card-header-dashboard-style" alt="..."> --}}
                         <div class="card-header backgroundTable  ">
                           <h5 class="card-title">{{this.title}}</h5>
                         </div>

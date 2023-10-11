@@ -45,13 +45,13 @@ export class CartDAO {
         
     //TRAIGO LOS PRODS DEL CART SEGUN CARTID--POPULATE_2da ENTREGA PF
     async getProductsByCartId(cartId) {
-    try {
-        const cart = await CartModel.findById(cartId).populate('products.idProduct').lean();//POPULATE_2da ENTREGA PF
-        const cartProducts = cart.products;      
-        return { cartProducts };
-    } catch (err) {
-        throw (`Falló mostrar los productos del cart.`);
-    }
+        try {
+            const cart = await CartModel.findById(cartId).populate('products.idProduct').lean();//POPULATE_2da ENTREGA PF
+            const cartProducts = cart.products;      
+            return { cartProducts };
+        } catch (err) {
+            throw (`Falló mostrar los productos del cart.`);
+        }
     };
 
     // BORRO PRODUCTO/QUANTITY DEL CARRITO

@@ -7,10 +7,16 @@ info:
 paths:
   /products:
     get:
-      summary: Obtiene todos los productos
+      summary: Obtener todos los productos
       tags:
-        - Products
+        - Products            
       description: Obtiene una lista de todos los productos disponibles.
+      parameters:
+        - name: limit
+          in: query
+          description: Número máximo de productos a obtener (opcional).
+          schema:
+            type: integer
       responses:
         '200':
           description: Respuesta exitosa
@@ -20,11 +26,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-  /products/:pid:
+
+  /products/{pid}:
     get:
       summary: Obtener un producto por ID
       tags:
-        - Products
+        - Products      
       description: Obtiene un producto específico por su ID.
       parameters:
         - name: pid
@@ -43,36 +50,108 @@ paths:
         '404':
           description: Producto no encontrado
 
-components:
-  schemas:
-    Product:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Título del producto.
-        description:
-          type: string
-          description: Descripción del producto.
-        code:
-          type: number
-          description: Código del producto.
-        price:
-          type: number
-          format: float
-          description: Precio del producto.
-        status:
-          type: boolean
-          description: Estado del producto.
-        stock:
-          type: number
-          description: Stock del producto.
-        category:
-          type: string
-          description: Categoría del producto.
-        thumbnail:
-          type: string
-          description: URL de la imagen del producto.
-        owner:
-          type: string
-          description: Propietario del producto.
+  /products/new:
+    post:
+      summary: Crear un nuevo producto
+      tags:
+        - Products        
+      description: Crea un nuevo producto.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Título del producto.
+                    description:
+                      type: string
+                      description: Descripción del producto.
+                    code:
+                      type: string
+                      description: Código del producto.
+                    price:
+                      type: number
+                      description: Precio del producto.
+                    stock:
+                      type: number
+                      description: Stock del producto.
+                    category:
+                      type: string
+                      description: Categoría del producto.
+                    thumbnail:
+                      type: string
+                      description: Imagen del producto.
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /products/update/{pid}:
+    put:
+      summary: Actualizar producto.
+      tags:
+        - Products        
+      description: Actualiza uno o mas campos del producto.
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a actualizar.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Título del producto.
+                description:
+                  type: string
+                  description: Descripción del producto.
+                code:
+                  type: number
+                  description: Código del producto.
+                price:
+                  type: number
+                  format: float
+                  description: Precio del producto.
+                status:
+                  type: boolean
+                  description: Estado del producto.
+                stock:
+                  type: number
+                  description: Stock del producto.
+                category:
+                  type: string
+                  description: Categoría del producto.
+      responses:
+        '200':
+          description: Producto actualizado
+
+  /products/delete/{pid}:
+    delete:
+      summary: Eliminar un producto.
+      tags:
+        - Products        
+      description: Elimina un producto existente.
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado
