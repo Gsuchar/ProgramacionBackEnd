@@ -127,7 +127,7 @@ export class UserService {
     };
   };
 
-
+  // TREA USUARIO POR ID O POR EMAIL(en null debe ir el parametro que no se busque.)
   async getUserByIdOrEmail(id, email) {
     try {
       const users = await userDAO.getUsers();
@@ -152,6 +152,7 @@ export class UserService {
   };
 
   //---------- ENTREGA 15 ------------------------------
+  // GENERA TOKEN EN EL USUARIO PARAM CAMBIO DE CONTRASEÑA
   async generatePasswordResetToken(email) {
     try {
       const user = await this.getUserByIdOrEmail(null, email);
@@ -217,6 +218,7 @@ export class UserService {
     }
   }
 
+  // RESETEA EL PASS DEL USER
   async resetPassword (req, res){
     try {
       const userToken  = req.params.token
@@ -245,6 +247,7 @@ export class UserService {
   }
 
   //-----ENTREGA 18 -------------------------------------------------------------------------------
+  // SUBE LOS DOCUMENTOS DEL USUARIO PARA PREMIUM O PERFIL
   async uploadUserDocuments(userId, documents) {
     try {
       const user = await this.getUserByIdOrEmail(userId, null); 
@@ -272,7 +275,7 @@ export class UserService {
     }
   };
 
-  // --- PF- Delete de users inactivos
+  // --- PF- DELETE USUARIOS INACTIVOS SIN CONEXION CON MAS DE 30 MINUTOS
   async deleteInactiveUsers() {
     try {
       const inactiveDate = new Date(Date.now() - 30 * 60 * 1000); // 30 minutos de inactividad
@@ -294,7 +297,7 @@ export class UserService {
       throw (`Fallo al eliminar usuarios inactivos: ${err}`);
     }
   }
-
+  // ENVIA MAIL NOTIFICANDO QUE SE ELIMINO EL USUARIO POR INACTIVIDAD
   async sendEmailToDeletedUser(email, name) {
     try {
       const mailOptions = {

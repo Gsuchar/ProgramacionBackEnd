@@ -137,7 +137,8 @@ export class ProductService {
             throw (`Fallo al encontrar producto2.  ${err}`);
         };
     };    
-
+    
+    // ENVIA MAIL NOTIFICANDO QUE BORRARON UN PRODUCTO CON OWNER
     async emailToOwnerProduct(email, name, product) {
         try {
           const mailOptions = {

@@ -3,6 +3,7 @@ import { cartService } from './cartService.js';
 //--
 
 export class TicketService {
+    // AGREGA TICKET
     async addTicket(purchaser, ticket, totalCart) {
         try {
           const ticketData = {
@@ -18,7 +19,7 @@ export class TicketService {
         throw (`FALLO EN SERVICIO. ${error}`);
         }
     }
-
+    // STOCK DEL CART, EN CASO DE NO TENER STOCK LUEGO DE HACER EL TICKET LO DEVUELVE AL CART DEL USER SI NO TENIA STOCK
     async  stockCartProductsForTicket(cartId) {
         try {
             const cartProductsTicket = await cartService.getProductsByCartId(cartId);
