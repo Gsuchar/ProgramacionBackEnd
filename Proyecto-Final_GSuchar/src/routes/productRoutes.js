@@ -28,7 +28,7 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 
 //-------- ROUTER HANDLEBARS Y WEBSOCKET PRODUCTS ----------//
 // VISTA WEBSOCKET -DINAMICA-
-routerProd.get("/realtimeproducts"/*,isLoged, isPremium*/, productsController.realtimeproducts);
+routerProd.get("/realTimeProducts"/*,isLoged, isPremium*/, productsController.realtimeproducts);
 
 
 
