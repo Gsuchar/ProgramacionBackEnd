@@ -93,7 +93,7 @@ class ProductsController {
             res.status(200).render('realTimeProducts',  { products : userProducts, sessionUser });
           }else{
             //si no es premium, es admin y muestra todo
-            res.status(200).render('realtimeproducts',  { products : products, sessionUser });      
+            res.status(200).render('realTimeProducts',  { products : products, sessionUser });      
           }  
         } catch (err) {
           res.status(500).json({ Error: `1${err}` });
