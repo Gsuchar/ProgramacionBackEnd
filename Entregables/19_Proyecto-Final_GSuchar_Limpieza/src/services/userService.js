@@ -224,6 +224,8 @@ export class UserService {
       const userToken  = req.params.token
       const decodedToken = jwtUtils.decodeTokens(userToken)
       const newPassword = req.body.password
+      newPassword != '' ? newPassword : (() => { return res.render('error', { error: 'El password no puede ser vacio ni espacios.' });
+    })()
       const user = await this.getUserByIdOrEmail(null, decodedToken?.email?.email)
       if (user && user?.token == userToken && user?.email == decodedToken?.email?.email ) {
 
@@ -231,7 +233,7 @@ export class UserService {
         const isPasswordMatch = isValidPassword(newPassword, currentPasswordHash);  
         if (isPasswordMatch) {
           // El nuevo password es igual al anterior, muestro error
-          return res.status(400).render('error', { error: 'El nuevo password debe ser diferente al anterior'});
+          return res.status(400).render('error', { error: 'El nuevo password debe ser diferente al anterior.'});
         }
         await this.updateUser(user._id, {password: createHash( newPassword ), token: null })
         return res.redirect('/auth/login');
@@ -239,6 +241,7 @@ export class UserService {
 
     } catch (error) {
       return error
+      //return res.render('error', { error: 'Error al cambiar la contraseña.' });
     }
   }
 

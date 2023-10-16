@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ProductService } from "../services/productService.js"
 import { productsController } from '../controllers/productController.js';
 import { isLoged, isPremium } from '../middlewares/auth.js';
+//--
 
 const routerProd = Router();
 const productService = new ProductService;
@@ -29,7 +30,9 @@ routerProd.delete("/products/delete/:pid", productsController.deleteProduct);
 // VISTA WEBSOCKET -DINAMICA-
 routerProd.get("/realtimeproducts",isLoged, isPremium, productsController.realtimeproducts);
 
-// VISTA SIMPLE HTML -NO DINAMICA- NO IBA PERO LO DEJO POR ENTREGAS ANTERIORES
+
+
+// VISTA SIMPLE HTML -NO DINAMICA-...EXTRA DE ENTREGAS ANTERIORES
 routerProd.get("/html/products", async (req, res) => {
   const limit = req.query.limit;
   try {

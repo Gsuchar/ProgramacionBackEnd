@@ -175,7 +175,8 @@ class UsersController {
         try {
             return userService.resetPassword(req, res) 
         } catch (err) {
-            return res.status(500).json({ Error: `AAAA. ${err}` });             
+            //return res.status(500).json({ Error: `AAAA. ${err}` });             
+            return res.status(500).render('error', { error: 'Error al cambiar la contraseña.' });             
         }
     };
 
