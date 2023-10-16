@@ -96,7 +96,7 @@ class ProductsController {
             res.status(200).render('realtimeproducts',  { products : products, sessionUser });      
           }  
         } catch (err) {
-          res.status(500).alert({ Error: `1${err}` });
+          res.status(500).json({ Error: `1${err}` });
         }
       }
 
