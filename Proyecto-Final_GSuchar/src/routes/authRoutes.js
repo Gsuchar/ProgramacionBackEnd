@@ -50,10 +50,12 @@ authRouter.post('/api/users/:uid/documents', isLoged, uploader.fields([
     { name: 'profiles', maxCount: 1 }
 ]), usersController.uploadUserDocuments);
 
+
+// POR ENTREGA FINAL, CON DTO
+authRouter.get('/api/users', usersController.getUsersWithDTO);
 // POR ENTREGA FINAL, SIN DTO
 authRouter.get('/users', usersController.getUsers);
-// POR ENTREGA FINAL, CON DTO
-authRouter.get('/usersDTO', usersController.getUsersWithDTO);
+
 // Users - ADMIN OPTIONS
 authRouter.get('/userList', isLoged, isAdmin, usersController.userList);
 
