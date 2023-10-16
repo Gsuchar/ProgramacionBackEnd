@@ -7,7 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="${process.env.APP_URL}/main.css">
+    {{!--
+     *****ATENCION **********
+      DEBI PONERLE LA RUTA ENTERA PORQUE TENGO EL MAIN.CSS DE FORMA GLOBAL PORQUE NO TOMABA ESTILOS LA PARTE DE RECUPERAR CONTRASEÑA.
+      Cuando deploye en render no me tomaba los estilos porque cambio el app_url, en caso de ejecutar local, descomentar la linea donde apunta a lolcahost 
+    
+    --}}
+
+    {{!-- <link rel="stylesheet" href="http://localhost:8080/main.css"> --}}
+    <link rel="stylesheet" href="https://pf-backend-gsuchar.onrender.com/main.css">
+
   </head>
   <body class="overF_Hidden">
     {{{ body }}}
