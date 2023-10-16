@@ -52,9 +52,8 @@ export function iniPassport() {
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (err) {
-          console.log('Error in register' + err);
           console.log(err);
-          return done(err);
+          return done(null, false);
         }
       }
     )

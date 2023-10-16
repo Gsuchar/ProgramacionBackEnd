@@ -4,6 +4,7 @@ import { ticketService } from "../services/ticketService.js";
 
 
 class TicketsController {
+  
   async addTicket(req, res) {  
       try {
         const user = req.session.user
@@ -18,7 +19,7 @@ class TicketsController {
         await ticketService.addTicket(purchaser, ticket, totalCart);
         return res.render('finishticket', { ticket, totalCart, purchaser });      
       }catch (err) {
-        res.status(500).json({ Error: `${err}` });
+        res.status(500).render('error', { error: err  });
       };
   };
 

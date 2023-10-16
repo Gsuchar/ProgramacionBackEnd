@@ -12,8 +12,7 @@ export function socketServerHandler(httpServer) {
 
   // Escucha/anuncia conexiones de clientes
   socketServer.on("connection", (socket) => {
-    //console.log("A client-socket has connected: " + socket.id);
-    
+    //console.log("A client-socket has connected: " + socket.id);    
 
     /******** SOCKET CARTS **********/
     socket.on("onFilterChange", async ( filterLimit, filterPage, filterSort, filterAttName, filterText, ) => {
@@ -58,10 +57,13 @@ export function socketServerHandler(httpServer) {
         await productService.addProduct({ ...newProd });
         const productsList = await productService.getProducts();
         socketServer.emit("products", productsList);
+
+        // Emitir un evento personalizado para mostrar un mensaje en el cliente
+        socket.emit("message", "Producto agregado con correctamente.");
       } catch (err) {
-        console.log({ Error: `${err}` });
+        socket.emit("message", JSON.stringify(err));
       }
-    });
+    });    
 
     // indexProductsToCart.js parte de socket
     socket.on("delete-product", async (productId) => {
@@ -69,6 +71,7 @@ export function socketServerHandler(httpServer) {
         await productService.deleteProduct(productId);
         const productsUpdt = await productService.getProducts();
         socketServer.emit("products", productsUpdt);
+        socket.emit("message", "Producto eliminado con correctamente.");
       } catch (err) {
         console.log({ Error: `${err}` });
       }
@@ -83,11 +86,12 @@ export function socketServerHandler(httpServer) {
         await userService.deleteUser(userId);
         const usersUpdt = await userService.getUsers();
         socketServer.emit("users", usersUpdt);
+        socket.emit("message", "Usuario eliminado con correctamente.");
       } catch (err) {
         console.log({ Error: `${err}` });
       }
     });
-    
+
     socket.on("premium-user", async (userId) => {
       try {
         const response = await fetch(`${process.env.APP_URL}/api/users/premium/${userId}`, {
@@ -101,17 +105,18 @@ export function socketServerHandler(httpServer) {
           // La solicitud se completó con éxito
           const usersUpdt = await userService.getUsers();
           socketServer.emit("users", usersUpdt);
+          socket.emit('message', 'Cambio el estado del usuario correctamente.');
         } else {
           // Devolvio un error al pasar a premium, faltan docs
-          socket.emit('premium-user-error', 'El usuario no subió los documentos necesarios para ser premium.');
+          //socket.emit('premium-user-error', 'El usuario no subió los documentos necesarios para ser premium.');
+          socket.emit('message', 'El usuario no subió los documentos necesarios para ser premium.');
+          
         }
       } catch (err) {
         console.error(err);
       }
     });
-
     /******** FIN SOCKET USERS **********/
-
     /****** CHAT **********/
     socket.on("message", async (msg) => {
       try {
@@ -124,8 +129,7 @@ export function socketServerHandler(httpServer) {
         console.log({ Error: `${err}` });
       }
     });
-    /******* END CHAT ********/
-    
+    /******* END CHAT ********/  
   });
 
  // FIN UTILS 

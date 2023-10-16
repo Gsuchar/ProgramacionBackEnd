@@ -10,7 +10,7 @@ class UsersController {
     };
 
     // REGISTER FAIL
-    registerFail(req, res, err) {
+    registerFail(req, res) {
         return res.render('error', { error: 'Error al registrarse, verifique que los datos sean correctos.'  });
     };
 

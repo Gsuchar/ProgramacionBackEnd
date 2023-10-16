@@ -87,8 +87,8 @@ class CartsController {
     };
 
 
-//--------ROUTER HANDLEBARS Y WEBSOCKET----------//
-// VISTA SIMPLE HTML -NO DINAMICA-
+    //--------ROUTER HANDLEBARS Y WEBSOCKET----------//
+    // VISTA SIMPLE HTML -NO DINAMICA-...extra de entrega anterior
     async getProductsByCartId_Handlebars(req, res){
         try {
             const cid = req.params.cid;
@@ -99,7 +99,7 @@ class CartsController {
         }
     };
   
-  // VISTA WEBSOCKET -DINAMICA-
+    // VISTA WEBSOCKET -DINAMICA-
     async getProductsByCartId_Paginate(req, res){  
         try {
             const limit = parseInt(req.query.limit) || 10;

@@ -5,29 +5,31 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Datos del Usuario.</h5>
-            <form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
-              <label for="profiles">Subir foto de perfil:</label>
-              <input type="file" name="profiles" id="profiles" accept=".jpg, .jpeg, .png, .pdf"><br />
-              <button type="submit">Subir Foto</button>
-            </form>
             <div class="col-12">
                 Nombre: {{user.firstName}}<br />
                 Apellido: {{user.lastName}}<br />
                 Email: {{user.email}}<br />
                 Edad: {{user.age}}<br />
-                isAdmin: {{user.isAdmin}}<br />
                 Rol: {{user.role}}<br />
-                Carrito*: {{user.idCart}}<br />               
+                Carrito*: {{user.idCart}}<br />
+                <br />
+                <h6>Cargar archivos</h6>              
                 <form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
+                    <label for="profiles">Subir foto de perfil:</label>
+                    <input type="file" name="profiles" id="profiles" accept=".jpg, .jpeg, .png, .pdf"><br />
+                    <br /> 
+                    <h5>Documentos para pasar a ser Usuario Premium</h5>
+                    <br>               
                     <label for="identification">Identificación:</label>
                     <input type="file" name="identification" id="identification" accept=".jpg, .jpeg, .png, .pdf"><br />
-
+                    <br />
                     <label for="addressProof">Comprobante de domicilio:</label>
                     <input type="file" name="addressProof" id="addressProof" accept=".jpg, .jpeg, .png, .pdf"><br />
-
+                    <br />
                     <label for="bankStatement">Comprobante de estado de cuenta:</label>
                     <input type="file" name="bankStatement" id="bankStatement" accept=".jpg, .jpeg, .png, .pdf"><br />
-
+                    <br />
+                    <br />
                     <button type="submit">Subir Archivos</button>
                 </form>
             </div>

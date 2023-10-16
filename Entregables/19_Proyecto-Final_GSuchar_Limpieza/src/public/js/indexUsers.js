@@ -32,7 +32,7 @@ function changePremiumUser(userId) {
   socket.emit('premium-user', userId);
 };
 
-// Evento para escuchar los errores de cambio de Premium
-socket.on("premium-user-error", (errorMessage) => {
-  alert(errorMessage);
+// Escucha evento "message" para mostrar alert con mensaje
+socket.on("message", (message) => {
+  alert(message); 
 });

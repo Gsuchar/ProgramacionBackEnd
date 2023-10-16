@@ -8,10 +8,20 @@ const code = document.getElementById("formCode");
 const stock = document.getElementById("formStock");
 const category = document.getElementById("formCategory");
 const thumbnail = document.getElementById("formThumbnail");
+
+
 socket.on("products", (productsList) => {
- 
+  let userProducts = productsList;
+  // Si no es premium, muestra todos porque es un admin.
+  if (sessionUser.isPremium === 'false') {
+    userProducts = productsList
+  }else{    
+    // Filtra los productos que tienen el mismo owner que el usuario en sesion
+    userProducts = productsList.filter((product) => product.owner === sessionUser._id );
+  }
+
   const tableBody = document.getElementById("dinamic-product-list");
-  const tableRows = productsList.map((product) => `
+  const tableRows = userProducts.map((product) => `
     <tr>
       <td scope="row">${product.code}</td>          
       <td>${product.title}</td>
@@ -27,6 +37,7 @@ socket.on("products", (productsList) => {
   `);
   tableBody.innerHTML = tableRows.join("");
 });
+
 
 
 formProducts.addEventListener("submit", (e) => {
@@ -53,3 +64,8 @@ formProducts.addEventListener("submit", (e) => {
 function deleteProduct(productId) {
   socket.emit('delete-product', productId);
 };
+
+// Escucha evento "message" para mostrar alert con mensaje
+socket.on("message", (message) => {
+  alert(message); 
+});

@@ -47,7 +47,14 @@ describe('Testing Auth Routes', () => {
   });
 
   it('En endpoint GET /api/users/premium/:uid cambia isPremium en el user de true a false y viceversa', async () => {
-    const userId = '64f67742108036a7562cb413'; // Tiene que existir en la base si no falla
+    /* 
+    **** ATENCION ****
+    -------------------
+    El usuario id debe ya tener cargados los documentos para que cambie el estado, fue por agregado de entrega.
+    En caso que el usuario no tenga los 3 documentos va a dar error.
+    -------------------
+    */
+    const userId = '64f67742108036a7562cb413'; // Tiene que existir en la base y tener los docs cargados.
     const response = await requester.get(`/api/users/premium/${userId}`);
     const { status, ok, body } = response;
     //console.log("RESPUESTA DEL SERVIDOR 3 >>>>  " + JSON.stringify(response));

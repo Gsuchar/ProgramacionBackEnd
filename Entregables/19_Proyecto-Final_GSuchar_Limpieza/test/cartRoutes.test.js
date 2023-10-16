@@ -21,7 +21,7 @@ describe('Testing Cart Routes', () => {
     expect(body).to.be.an('object');
   });
 
-  it('En endpoint GET /carts/:cid debe obtener un producto por su ID', async () => {
+  it('En endpoint GET /carts/:cid debe obtener un cart por su ID', async () => {
     const cartId = '64f690167178ab1d5fca651b'; // Tiene que existir en la base si no falla
     const response = await requester.get(`/carts/${cartId}`);
     const { status, ok, body } = response;

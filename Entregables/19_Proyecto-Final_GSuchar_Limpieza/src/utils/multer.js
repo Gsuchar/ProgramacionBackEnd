@@ -1,6 +1,6 @@
 import multer from 'multer';
 import path from 'path';
-import { __dirname } from "../dirname.js"; // Si no lo dejo en Raiz me guarda en utils/public 
+import { __dirname } from "../dirname.js"; // Si no lo dejo en Raiz me guarda en utils/public :/
 import fs from 'fs'; 
 //--
 
