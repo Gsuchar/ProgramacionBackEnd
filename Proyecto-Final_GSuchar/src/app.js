@@ -83,6 +83,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Error handler
 app.use(errorHandler);
 
+// Redirección a login
+app.get('/', (req, res) => {
+  res.redirect('/auth/login');  
+});
+
 // Epic link Fail - 404 Not Found
 app.get("*", (req, res) => {
   return res.status(404).json({status: "Epic error", msg: "Not found :( ", data: {} });
