@@ -1,6 +1,4 @@
-# ProgramacionBackEnd - Guschar
-
-# Detalle Proyecto Final Programación Backend
+# Detalle Proyecto Final -- ProgramacionBackEnd - Guschar
 
 A continuación hare una breve descripción del proyecto, de las partes a tener en cuenta básicamente porque es la sumatoria de todas las entregas realizadas, en algunos casos saque cosas y en otros agregue…
 
