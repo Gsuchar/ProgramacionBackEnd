@@ -1,4 +1,6 @@
-Detalle Proyecto Final Programación Backend
+# ProgramacionBackEnd - Guschar
+
+# Detalle Proyecto Final Programación Backend
 
 A continuación hare una breve descripción del proyecto, de las partes a tener en cuenta básicamente porque es la sumatoria de todas las entregas realizadas, en algunos casos saque cosas y en otros agregue…
 
@@ -40,4 +42,4 @@ VISTAS Y FLUJO DE COMPRA:
         	Carrito final del usuario donde se muestra el nombre y cantidad de los productos que va a comprar.
 -	Finalizada la compra muestra la pantalla final con la orden ya creada, donde indica nombre y cantidad de los productos.
   
-# ProgramacionBackEnd - Guschar
+
