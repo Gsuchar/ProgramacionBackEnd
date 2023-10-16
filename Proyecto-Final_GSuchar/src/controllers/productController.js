@@ -87,7 +87,7 @@ class ProductsController {
         try {
           const sessionUser = req.session.user;
           const products = await productService.getProducts();
-          if (sessionUser?.isPremium == true ) {
+          if (sessionUser?.isPremium == 'true' ) {
             //si es premium le muestro solos los prod que le pertenecen
             const userProducts = products.filter((p) => p.owner === sessionUser._id);
             res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser });
