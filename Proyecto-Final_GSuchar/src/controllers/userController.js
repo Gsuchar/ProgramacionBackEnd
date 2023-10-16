@@ -183,7 +183,9 @@ class UsersController {
     //-----ENTREGA 18 -------------------------------------------------------------------------------
     async uploadUserDocuments(req, res) {
         try {
-            const documents = req.files
+            const documents = req.files;
+            // Object.keys("OBJETO").length es para controlar que suba al menos 1 archivo, si el objeto viene sin nada tira error
+            Object.keys(documents).length  < 1  ? (() => { throw ("Error al subir documentos.") })() : "";
             const userId = req.params.uid; // Obtiene el ID de usuario  
             await userService.uploadUserDocuments(userId, documents)
             return res.render('message', { title: 'Documentos Actualizados :)',  message: 'Se ha actualizado tu documentacion correctamente.' });
