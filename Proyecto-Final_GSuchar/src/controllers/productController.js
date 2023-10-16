@@ -84,21 +84,22 @@ class ProductsController {
     
     // LISTA DE PRODUCTOS
     async realtimeproducts(req, res) {  
-        try {
-          const sessionUser = req.session.user;
-          const products = await productService.getProducts();
-          if (sessionUser?.isPremium == 'true' ) {
-            //si es premium le muestro solos los prod que le pertenecen
-            const userProducts = products.filter((p) => p.owner === sessionUser._id);
-            res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser });
-          }else{
-            //si no es premium, es admin y muestra todo
-            res.status(200).render('realtimeproducts',  { products : products, sessionUser });      
-          }  
-        } catch (err) {
-          res.status(500).json({ Error: `1${err}` });
-        }
+      try {
+        const sessionUser = req.session.user;
+        const products = await productService.getProducts();
+        // if (sessionUser?.isPremium == 'true' ) {
+        //   //si es premium le muestro solos los prod que le pertenecen
+        //   const userProducts = products.filter((p) => p.owner === sessionUser._id);
+        //   res.status(200).render('realtimeproducts',  { products : userProducts, sessionUser });
+        // }else{
+        //   //si no es premium, es admin y muestra todo
+        //   res.status(200).render('realtimeproducts',  { products : products, sessionUser });      
+        // }
+        res.status(200).render('realtimeproducts',  { products : products, sessionUser });    
+      } catch (err) {
+        res.status(500).json({ Error: `1${err}` });
       }
+    }
 
  //FIN LLAVE PRODUCTSCONTROLLER     
 };
