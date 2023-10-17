@@ -6,14 +6,14 @@ Con respecto a lo que solicitaba la letra de la clase 46:
 
 GET de usuarios:
   -	Ruta con DTO en usuario:
-    -	https://pf-backend-gsuchar.onrender.com/api/users
+    -	/api/users
   -	Ruta sin DTO en usuario(extra):
-    -	https://pf-backend-gsuchar.onrender.com/users
+    -	/users
 
 DELETE de usuarios inactivos:
   -	Se borraran todos los usuarios sin conexión en los últimos 30 minutos(lo deje así para que sea mas fácil), también se borraran los carts asociados a dichos usuarios.  
     Ruta para postman:
-      -	https://pf-backend-gsuchar.onrender.com/deleteInactiveUsers
+      -	/deleteInactiveUsers
 
 VISTA ADMIN > Listado de usuarios, eliminación y cambio de usuario premium:
   -	Una vez logueado con la cuenta admin, ir al panel de USUARIOS. Dentro se mostrará una lista de usuarios con datos básicos y 2 botones, Premium y Borrar.
