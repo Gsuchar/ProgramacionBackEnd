@@ -192,10 +192,9 @@ class UsersController {
 
         } catch (error) {
             return res.status(500).render('error', { error: 'Error al subir documentos.' });
-
         }
     };
-    
+
     // PF - BORRA USUARIOS INACTIVOS
     async deleteInactiveUsers(req, res) {
         try {

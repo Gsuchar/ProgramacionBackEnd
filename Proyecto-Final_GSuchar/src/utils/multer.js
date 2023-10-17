@@ -1,29 +1,40 @@
 import multer from 'multer';
 import path from 'path';
 import { __dirname } from "../dirname.js"; // Si no lo dejo en Raiz me guarda en utils/public :/
-import fs from 'fs'; 
-//--
+import fs from 'fs';
 
-//-----ENTREGA 18 -------------------------------------------------------------------------------
+// Verifica si el tipo de archivo es valido
+const isFileTypeValid = (file) => {
+  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png", "application/pdf"];
+  return allowedFileTypes.includes(file.mimetype);
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    let uploadPath = ''; // Inicializar la ruta predeterminada como vacía
-    const userId = req.params.uid; 
+    let uploadPath = '';
+    const userId = req.params.uid;
+
+    // Valida el tipo de archivo
+    if (!isFileTypeValid(file)) {
+      cb(new Error('Tipo de archivo no válido'));
+      return;
+    }
+
     switch (file.fieldname) {
       case 'identification':
       case 'addressProof':
       case 'bankStatement':
-        uploadPath = path.join(__dirname, `public/documents/${userId}`); // Carpeta para estos campos
+        uploadPath = path.join(__dirname, `public/documents/${userId}`);
         // Utiliza fs.mkdirSync para crear la carpeta si no existe
         if (!fs.existsSync(uploadPath)) {
-          fs.mkdirSync(uploadPath, { recursive: true }); // La opción recursive permite crear carpetas anidadas
+          fs.mkdirSync(uploadPath, { recursive: true });// La opcion recursive permite crear carpetas anidadas
         }
         break;
       case 'profiles':
-        uploadPath = path.join(__dirname, `public/profiles/${userId}`); // Carpeta para estos campos
+        uploadPath = path.join(__dirname, `public/profiles/${userId}`);
         // Utiliza fs.mkdirSync para crear la carpeta si no existe
         if (!fs.existsSync(uploadPath)) {
-          fs.mkdirSync(uploadPath, { recursive: true }); // La opción recursive permite crear carpetas anidadas
+          fs.mkdirSync(uploadPath, { recursive: true });
         }
         break;
       default:
@@ -34,12 +45,23 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
 
-  filename:function(req,file,cb){
-    cb(null,`${Date.now()}-${file.originalname}`)
-}
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
 });
 
-const uploader = multer({storage})
+const fileFilter = (req, file, cb) => {
+  // Valida el tipo de archivo 
+  if (isFileTypeValid(file)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Formato de archivo no válido'), false);
+  }
+};
+
+const uploader = multer({
+  storage,
+  fileFilter,
+});
 
 export default uploader;
-

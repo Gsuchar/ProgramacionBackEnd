@@ -41,22 +41,29 @@ authRouter.get('/auth/changePassword/:token', tokenValid,  usersController.proce
 authRouter.post('/auth/changePassword/:token', tokenValid,  usersController.resetPassword);
 
 //-----ENTREGA 18 -------------------------------------------------------------------------------
-
-// Ruta para subir documentos o imágenes 
-authRouter.post('/api/users/:uid/documents', isLoged, uploader.fields([
+authRouter.post('/api/users/:uid/documents', isLoged, (req, res) => {
+  uploader.fields([
     { name: 'identification', maxCount: 1 },
     { name: 'addressProof', maxCount: 1 },
     { name: 'bankStatement', maxCount: 1 },
     { name: 'profiles', maxCount: 1 }
-]), usersController.uploadUserDocuments);
-
+  ])(req, res, (err) => {
+    if (err) {
+      // Errores de Multer renderiza por formatos de archivos
+      res.status(400).render('error', { error: 'Solo acepta documentos en formato jpg, jpeg, png o pdf.' });
+    } else {
+      // Si no hubo errores de Multer, pasa
+      usersController.uploadUserDocuments(req, res);
+    }
+  });
+});
 
 // POR ENTREGA FINAL, CON DTO
 authRouter.get('/api/users', usersController.getUsersWithDTO);
 // POR ENTREGA FINAL, SIN DTO
 authRouter.get('/users', usersController.getUsers);
 
-// Users - ADMIN OPTIONS
+// Users List - ADMIN OPTIONS
 authRouter.get('/userList', isLoged, isAdmin, usersController.userList);
 
 // Borra usuarios sin conexion en 30 minutos(30 min por test deje no mas.)
