@@ -39,9 +39,10 @@ export class UserDAO{
     };
   };
   async findInactiveUsers({ last_connection: { $lt: inactiveDate } }) {
-    try {        
-        const inactiveUsers = await UserModel.find({ last_connection: { $lt: inactiveDate } });// $lt => Operador de comparación en MongoDB, significa "menor que".
-
+    try {
+        // $lt => Operador de comparación en MongoDB, significa "menor que".
+        // Solo trae rol = 'user'        
+        const inactiveUsers = await UserModel.find({ last_connection: { $lt: inactiveDate }, role: 'user' });
         return inactiveUsers;      
     }catch (err) {
         throw (`Fallo al borrar el Usuario. ${err}`);
