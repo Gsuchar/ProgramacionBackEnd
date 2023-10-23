@@ -284,12 +284,15 @@ export class UserService {
       const inactiveDate = new Date(Date.now() - 30 * 60 * 1000); // 30 minutos de inactividad
       const inactiveUsers = await userDAO.findInactiveUsers({ last_connection: { $lt: inactiveDate } });// $lt => Operador de comparacion en MongoDB, significa "menor que".
       const deleteAndNotifyPromises = inactiveUsers.map(async (user) => {
-        // Promise.all => Metodo de JS, permite ejecutar varias promesas al mismo tiempo y esperar hasta que todas se resuelvan antes de continuar.
-        // Elimina el usuario y envia email de notificacion en paralelo
-        await Promise.all([
-          this.deleteUser(user._id),
-          this.sendEmailToDeletedUser(user.email, user.firstName),
-        ]);
+        if (user.role !== 'admin') {
+          // Solo ejecuta la lógica si el usuario no es un admin
+          // Promise.all => Metodo de JS, permite ejecutar varias promesas al mismo tiempo y esperar hasta que todas se resuelvan antes de continuar.
+          await Promise.all([
+            // Elimina el usuario y envia email de notificacion en paralelo
+            this.deleteUser(user._id),
+            this.sendEmailToDeletedUser(user.email, user.firstName),
+          ]);
+        }
         return user;
       });
 
@@ -300,6 +303,7 @@ export class UserService {
       throw (`Fallo al eliminar usuarios inactivos: ${err}`);
     }
   }
+  
   // ENVIA MAIL NOTIFICANDO QUE SE ELIMINO EL USUARIO POR INACTIVIDAD
   async sendEmailToDeletedUser(email, name) {
     try {
